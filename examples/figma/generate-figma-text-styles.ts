@@ -1,6 +1,6 @@
 import { figmaTypographyExtension } from "./figma-typography-extension.ts";
-import { allTokensSampleData } from "./sample-output-data.ts";
-import * as output from "./output.gen.ts";
+import { allTokensSampleData } from "../sample-output-data.ts";
+import * as output from "../output.gen.ts";
 
 // Maybe more of this logic should be in Rust or in Figma?
 // Hard to say since we also want to support custom combinations in

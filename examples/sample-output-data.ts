@@ -1,4 +1,4 @@
-import { figmaTypographyExtension } from "./figma-typography-extension.ts";
+import { figmaTypographyExtension } from "./figma/figma-typography-extension.ts";
 import * as output from "./output.gen.ts";
 
 // deno-lint-ignore no-explicit-any

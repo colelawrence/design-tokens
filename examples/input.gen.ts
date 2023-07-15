@@ -1,5 +1,194 @@
 type Value = unknown;
-import { FontStyleRule as _FontStyleRule } from "./scalars.js";
+import { FontStyleRule as _FontStyleRule } from "./scalars.ts";
+/**
+ * TODO: adjust API/Configuration to be more accomodating
+ * of other color generation strategies than just Material You.
+ *
+ * `#[codegen(tags = "input,color")]`
+ *
+ * [Source `design-tokens/src/color/input.rs:5`](../../design-tokens/src/color/input.rs)
+ */
+export type ColorPalette = {
+  Primary: InputColor;
+  Extensions: Array<ColorExtension>;
+};
+/**
+ * TODO: adjust API/Configuration to be more accomodating
+ * of other color generation strategies than just Material You.
+ *
+ * `#[codegen(tags = "input,color")]`
+ *
+ * [Source `design-tokens/src/color/input.rs:5`](../../design-tokens/src/color/input.rs)
+ */
+export function ColorPalette(inner: ColorPalette): ColorPalette {
+  return inner;
+}
+/**
+ * `#[codegen(tags = "input,color")]`
+ *
+ * [Source `design-tokens/src/color/input.rs:13`](../../design-tokens/src/color/input.rs)
+ */
+export type ColorExtension = {
+  /** e.g. `"blue"` */
+  Token: string;
+  Source: SourceColor;
+};
+/**
+ * `#[codegen(tags = "input,color")]`
+ *
+ * [Source `design-tokens/src/color/input.rs:13`](../../design-tokens/src/color/input.rs)
+ */
+export function ColorExtension(inner: ColorExtension): ColorExtension {
+  return inner;
+}
+/**
+ * `#[codegen(tags = "input,color")]`
+ *
+ * [Source `design-tokens/src/color/input.rs:22`](../../design-tokens/src/color/input.rs)
+ */
+// deno-lint-ignore no-namespace
+export namespace SourceColor {
+  export type ApplyFns<R> = {
+    // callbacks
+    SimilarTo(inner: SimilarTo["SimilarTo"]): R;
+    Exactly(inner: Exactly["Exactly"]): R;
+  }
+  /** Match helper for {@link SourceColor} */
+  export function apply<R>(
+    to: ApplyFns<R>,
+  ): (input: SourceColor) => R {
+    return function _match(input): R {
+      // if-else strings
+      // if-else objects
+      if (typeof input !== "object" || input == null) throw new TypeError("Unexpected non-object for input");
+      if ("SimilarTo" in input) return to.SimilarTo(input["SimilarTo"]);
+      if ("Exactly" in input) return to.Exactly(input["Exactly"]);
+      const _exhaust: never = input;
+      return _exhaust;
+    }
+  }
+  /** Match helper for {@link SourceColor} */
+  export function match<R>(
+    input: SourceColor,
+    to: ApplyFns<R>,
+  ): R {
+    return apply(to)(input)
+  }
+  export type SimilarTo = {
+    SimilarTo: InputColor
+  };
+  export function SimilarTo(value: InputColor): SimilarTo {
+    return { SimilarTo: value };
+  }
+  export type Exactly = {
+    Exactly: InputColor
+  };
+  export function Exactly(value: InputColor): Exactly {
+    return { Exactly: value };
+  }
+}
+/**
+ * `#[codegen(tags = "input,color")]`
+ *
+ * [Source `design-tokens/src/color/input.rs:22`](../../design-tokens/src/color/input.rs)
+ */
+export type SourceColor =
+  | SourceColor.SimilarTo
+  | SourceColor.Exactly
+/**
+ * `#[codegen(tags = "input,color")]`
+ *
+ * [Source `design-tokens/src/color/input.rs:29`](../../design-tokens/src/color/input.rs)
+ */
+// deno-lint-ignore no-namespace
+export namespace InputColor {
+  export type ApplyFns<R> = {
+    // callbacks
+    Hex(inner: Hex["Hex"]): R;
+  }
+  /** Match helper for {@link InputColor} */
+  export function apply<R>(
+    to: ApplyFns<R>,
+  ): (input: InputColor) => R {
+    return function _match(input): R {
+      // if-else strings
+      // if-else objects
+      if (typeof input !== "object" || input == null) throw new TypeError("Unexpected non-object for input");
+      if ("Hex" in input) return to.Hex(input["Hex"]);
+      const _exhaust: never = input;
+      return _exhaust;
+    }
+  }
+  /** Match helper for {@link InputColor} */
+  export function match<R>(
+    input: InputColor,
+    to: ApplyFns<R>,
+  ): R {
+    return apply(to)(input)
+  }
+  export type Hex = {
+    Hex: string
+  };
+  export function Hex(value: string): Hex {
+    return { Hex: value };
+  }
+}
+/**
+ * `#[codegen(tags = "input,color")]`
+ *
+ * [Source `design-tokens/src/color/input.rs:29`](../../design-tokens/src/color/input.rs)
+ */
+export type InputColor =
+  | InputColor.Hex
+/**
+ * FontStyleRule is whatever your source configuration is using to match the environment's
+ * font styles to the desired weights and such.
+ * Note: Due to the design system not knowing the details of these, the tooling may struggle
+ * to interpolate between two possible options. Perhaps, we should leave interpolation up to
+ * the implementor?
+ * See [figma::]
+ *
+ * `#[serde(transparent)]`
+ *
+ * `#[codegen(scalar, tags = "typography,input,output")]`
+ *
+ * [Source `design-tokens/src/typography.rs:18`](../../design-tokens/src/typography.rs)
+ */
+export type FontStyleRule = _FontStyleRule;
+/**
+ * FontStyleRule is whatever your source configuration is using to match the environment's
+ * font styles to the desired weights and such.
+ * Note: Due to the design system not knowing the details of these, the tooling may struggle
+ * to interpolate between two possible options. Perhaps, we should leave interpolation up to
+ * the implementor?
+ * See [figma::]
+ *
+ * `#[serde(transparent)]`
+ *
+ * `#[codegen(scalar, tags = "typography,input,output")]`
+ *
+ * [Source `design-tokens/src/typography.rs:18`](../../design-tokens/src/typography.rs)
+ */
+export function FontStyleRule(value: FontStyleRule): FontStyleRule {
+  return value;
+}
+/**
+ * `#[codegen(tags = "input")]`
+ *
+ * [Source `design-tokens/src/main.rs:21`](../../design-tokens/src/main.rs)
+ */
+export type SystemInput = {
+  color_palette: ColorPalette;
+  typography: Typography;
+};
+/**
+ * `#[codegen(tags = "input")]`
+ *
+ * [Source `design-tokens/src/main.rs:21`](../../design-tokens/src/main.rs)
+ */
+export function SystemInput(inner: SystemInput): SystemInput {
+  return inner;
+}
 /**
  * `#[codegen(tags = "typography,input")]`
  *
@@ -335,192 +524,3 @@ export namespace FontSizeEquation {
  */
 export type FontSizeEquation =
   | FontSizeEquation.Multiplier
-/**
- * `#[codegen(tags = "input")]`
- *
- * [Source `design-tokens/src/main.rs:21`](../../design-tokens/src/main.rs)
- */
-export type SystemInput = {
-  color_palette: ColorPalette;
-  typography: Typography;
-};
-/**
- * `#[codegen(tags = "input")]`
- *
- * [Source `design-tokens/src/main.rs:21`](../../design-tokens/src/main.rs)
- */
-export function SystemInput(inner: SystemInput): SystemInput {
-  return inner;
-}
-/**
- * FontStyleRule is whatever your source configuration is using to match the environment's
- * font styles to the desired weights and such.
- * Note: Due to the design system not knowing the details of these, the tooling may struggle
- * to interpolate between two possible options. Perhaps, we should leave interpolation up to
- * the implementor?
- * See [figma::]
- *
- * `#[serde(transparent)]`
- *
- * `#[codegen(scalar, tags = "typography,input,output")]`
- *
- * [Source `design-tokens/src/typography.rs:18`](../../design-tokens/src/typography.rs)
- */
-export type FontStyleRule = _FontStyleRule;
-/**
- * FontStyleRule is whatever your source configuration is using to match the environment's
- * font styles to the desired weights and such.
- * Note: Due to the design system not knowing the details of these, the tooling may struggle
- * to interpolate between two possible options. Perhaps, we should leave interpolation up to
- * the implementor?
- * See [figma::]
- *
- * `#[serde(transparent)]`
- *
- * `#[codegen(scalar, tags = "typography,input,output")]`
- *
- * [Source `design-tokens/src/typography.rs:18`](../../design-tokens/src/typography.rs)
- */
-export function FontStyleRule(value: FontStyleRule): FontStyleRule {
-  return value;
-}
-/**
- * TODO: adjust API/Configuration to be more accomodating
- * of other color generation strategies than just Material You.
- *
- * `#[codegen(tags = "input,color")]`
- *
- * [Source `design-tokens/src/color/input.rs:5`](../../design-tokens/src/color/input.rs)
- */
-export type ColorPalette = {
-  Primary: InputColor;
-  Extensions: Array<ColorExtension>;
-};
-/**
- * TODO: adjust API/Configuration to be more accomodating
- * of other color generation strategies than just Material You.
- *
- * `#[codegen(tags = "input,color")]`
- *
- * [Source `design-tokens/src/color/input.rs:5`](../../design-tokens/src/color/input.rs)
- */
-export function ColorPalette(inner: ColorPalette): ColorPalette {
-  return inner;
-}
-/**
- * `#[codegen(tags = "input,color")]`
- *
- * [Source `design-tokens/src/color/input.rs:13`](../../design-tokens/src/color/input.rs)
- */
-export type ColorExtension = {
-  /** e.g. `"blue"` */
-  Token: string;
-  Source: SourceColor;
-};
-/**
- * `#[codegen(tags = "input,color")]`
- *
- * [Source `design-tokens/src/color/input.rs:13`](../../design-tokens/src/color/input.rs)
- */
-export function ColorExtension(inner: ColorExtension): ColorExtension {
-  return inner;
-}
-/**
- * `#[codegen(tags = "input,color")]`
- *
- * [Source `design-tokens/src/color/input.rs:22`](../../design-tokens/src/color/input.rs)
- */
-// deno-lint-ignore no-namespace
-export namespace SourceColor {
-  export type ApplyFns<R> = {
-    // callbacks
-    SimilarTo(inner: SimilarTo["SimilarTo"]): R;
-    Exactly(inner: Exactly["Exactly"]): R;
-  }
-  /** Match helper for {@link SourceColor} */
-  export function apply<R>(
-    to: ApplyFns<R>,
-  ): (input: SourceColor) => R {
-    return function _match(input): R {
-      // if-else strings
-      // if-else objects
-      if (typeof input !== "object" || input == null) throw new TypeError("Unexpected non-object for input");
-      if ("SimilarTo" in input) return to.SimilarTo(input["SimilarTo"]);
-      if ("Exactly" in input) return to.Exactly(input["Exactly"]);
-      const _exhaust: never = input;
-      return _exhaust;
-    }
-  }
-  /** Match helper for {@link SourceColor} */
-  export function match<R>(
-    input: SourceColor,
-    to: ApplyFns<R>,
-  ): R {
-    return apply(to)(input)
-  }
-  export type SimilarTo = {
-    SimilarTo: InputColor
-  };
-  export function SimilarTo(value: InputColor): SimilarTo {
-    return { SimilarTo: value };
-  }
-  export type Exactly = {
-    Exactly: InputColor
-  };
-  export function Exactly(value: InputColor): Exactly {
-    return { Exactly: value };
-  }
-}
-/**
- * `#[codegen(tags = "input,color")]`
- *
- * [Source `design-tokens/src/color/input.rs:22`](../../design-tokens/src/color/input.rs)
- */
-export type SourceColor =
-  | SourceColor.SimilarTo
-  | SourceColor.Exactly
-/**
- * `#[codegen(tags = "input,color")]`
- *
- * [Source `design-tokens/src/color/input.rs:29`](../../design-tokens/src/color/input.rs)
- */
-// deno-lint-ignore no-namespace
-export namespace InputColor {
-  export type ApplyFns<R> = {
-    // callbacks
-    Hex(inner: Hex["Hex"]): R;
-  }
-  /** Match helper for {@link InputColor} */
-  export function apply<R>(
-    to: ApplyFns<R>,
-  ): (input: InputColor) => R {
-    return function _match(input): R {
-      // if-else strings
-      // if-else objects
-      if (typeof input !== "object" || input == null) throw new TypeError("Unexpected non-object for input");
-      if ("Hex" in input) return to.Hex(input["Hex"]);
-      const _exhaust: never = input;
-      return _exhaust;
-    }
-  }
-  /** Match helper for {@link InputColor} */
-  export function match<R>(
-    input: InputColor,
-    to: ApplyFns<R>,
-  ): R {
-    return apply(to)(input)
-  }
-  export type Hex = {
-    Hex: string
-  };
-  export function Hex(value: string): Hex {
-    return { Hex: value };
-  }
-}
-/**
- * `#[codegen(tags = "input,color")]`
- *
- * [Source `design-tokens/src/color/input.rs:29`](../../design-tokens/src/color/input.rs)
- */
-export type InputColor =
-  | InputColor.Hex

@@ -1,4 +1,4 @@
-import { TypographyProperty } from "./output.gen.js";
+import { TypographyProperty } from "../output.gen.ts";
 type Value = unknown;
 /**
  * String that follows the base name of the family.
@@ -8,7 +8,7 @@ type Value = unknown;
  *
  * `#[codegen(tags = "figma,typography")]`
  *
- * [Source `design-tokens/src/typography/figma.rs:14`](../../design-tokens/src/typography/figma.rs)
+ * [Source `design-tokens/src/typography/figma.rs:14`](../../../design-tokens/src/typography/figma.rs)
  */
 // deno-lint-ignore no-namespace
 export namespace FigmaFontStyleRule {
@@ -70,7 +70,7 @@ export namespace FigmaFontStyleRule {
  *
  * `#[codegen(tags = "figma,typography")]`
  *
- * [Source `design-tokens/src/typography/figma.rs:14`](../../design-tokens/src/typography/figma.rs)
+ * [Source `design-tokens/src/typography/figma.rs:14`](../../../design-tokens/src/typography/figma.rs)
  */
 export type FigmaFontStyleRule =
   | FigmaFontStyleRule.FontSuffix
@@ -78,7 +78,41 @@ export type FigmaFontStyleRule =
 /**
  * `#[codegen(tags = "figma,typography")]`
  *
- * [Source `design-tokens/src/typography/figma.rs:45`](../../design-tokens/src/typography/figma.rs)
+ * [Source `design-tokens/src/typography/figma.rs:26`](../../../design-tokens/src/typography/figma.rs)
+ */
+export type TextStyle = {
+  name: string;
+  family_name: string;
+  properties: Array<TypographyProperty>;
+};
+/**
+ * `#[codegen(tags = "figma,typography")]`
+ *
+ * [Source `design-tokens/src/typography/figma.rs:26`](../../../design-tokens/src/typography/figma.rs)
+ */
+export function TextStyle(inner: TextStyle): TextStyle {
+  return inner;
+}
+/**
+ * `#[codegen(tags = "figma,typography")]`
+ *
+ * [Source `design-tokens/src/typography/figma.rs:34`](../../../design-tokens/src/typography/figma.rs)
+ */
+export type FigmaTypography = {
+  core_styles: Array<TextStyle>;
+};
+/**
+ * `#[codegen(tags = "figma,typography")]`
+ *
+ * [Source `design-tokens/src/typography/figma.rs:34`](../../../design-tokens/src/typography/figma.rs)
+ */
+export function FigmaTypography(inner: FigmaTypography): FigmaTypography {
+  return inner;
+}
+/**
+ * `#[codegen(tags = "figma,typography")]`
+ *
+ * [Source `design-tokens/src/typography/figma.rs:45`](../../../design-tokens/src/typography/figma.rs)
  */
 export type FigmaTypographyConfig = {
   /** A sort of matrice of all possible combinations of the variants */
@@ -87,7 +121,7 @@ export type FigmaTypographyConfig = {
 /**
  * `#[codegen(tags = "figma,typography")]`
  *
- * [Source `design-tokens/src/typography/figma.rs:45`](../../design-tokens/src/typography/figma.rs)
+ * [Source `design-tokens/src/typography/figma.rs:45`](../../../design-tokens/src/typography/figma.rs)
  */
 export function FigmaTypographyConfig(inner: FigmaTypographyConfig): FigmaTypographyConfig {
   return inner;
@@ -95,7 +129,7 @@ export function FigmaTypographyConfig(inner: FigmaTypographyConfig): FigmaTypogr
 /**
  * `#[codegen(tags = "figma,typography")]`
  *
- * [Source `design-tokens/src/typography/figma.rs:55`](../../design-tokens/src/typography/figma.rs)
+ * [Source `design-tokens/src/typography/figma.rs:55`](../../../design-tokens/src/typography/figma.rs)
  */
 export type FigmaTextStyle = {
   BaseName: string;
@@ -106,7 +140,7 @@ export type FigmaTextStyle = {
 /**
  * `#[codegen(tags = "figma,typography")]`
  *
- * [Source `design-tokens/src/typography/figma.rs:55`](../../design-tokens/src/typography/figma.rs)
+ * [Source `design-tokens/src/typography/figma.rs:55`](../../../design-tokens/src/typography/figma.rs)
  */
 export function FigmaTextStyle(inner: FigmaTextStyle): FigmaTextStyle {
   return inner;
@@ -114,7 +148,7 @@ export function FigmaTextStyle(inner: FigmaTextStyle): FigmaTextStyle {
 /**
  * `#[codegen(tags = "figma,typography")]`
  *
- * [Source `design-tokens/src/typography/figma.rs:65`](../../design-tokens/src/typography/figma.rs)
+ * [Source `design-tokens/src/typography/figma.rs:65`](../../../design-tokens/src/typography/figma.rs)
  */
 export type FigmaTextStyleMatrixGroup = {
   Description?: string | undefined | null | null | undefined;
@@ -123,7 +157,7 @@ export type FigmaTextStyleMatrixGroup = {
 /**
  * `#[codegen(tags = "figma,typography")]`
  *
- * [Source `design-tokens/src/typography/figma.rs:65`](../../design-tokens/src/typography/figma.rs)
+ * [Source `design-tokens/src/typography/figma.rs:65`](../../../design-tokens/src/typography/figma.rs)
  */
 export function FigmaTextStyleMatrixGroup(inner: FigmaTextStyleMatrixGroup): FigmaTextStyleMatrixGroup {
   return inner;
@@ -131,7 +165,7 @@ export function FigmaTextStyleMatrixGroup(inner: FigmaTextStyleMatrixGroup): Fig
 /**
  * `#[codegen(tags = "figma,typography")]`
  *
- * [Source `design-tokens/src/typography/figma.rs:73`](../../design-tokens/src/typography/figma.rs)
+ * [Source `design-tokens/src/typography/figma.rs:73`](../../../design-tokens/src/typography/figma.rs)
  */
 export type FigmaTextStyleMatrixOption = {
   Name: string;
@@ -141,42 +175,8 @@ export type FigmaTextStyleMatrixOption = {
 /**
  * `#[codegen(tags = "figma,typography")]`
  *
- * [Source `design-tokens/src/typography/figma.rs:73`](../../design-tokens/src/typography/figma.rs)
+ * [Source `design-tokens/src/typography/figma.rs:73`](../../../design-tokens/src/typography/figma.rs)
  */
 export function FigmaTextStyleMatrixOption(inner: FigmaTextStyleMatrixOption): FigmaTextStyleMatrixOption {
-  return inner;
-}
-/**
- * `#[codegen(tags = "figma,typography")]`
- *
- * [Source `design-tokens/src/typography/figma.rs:26`](../../design-tokens/src/typography/figma.rs)
- */
-export type TextStyle = {
-  name: string;
-  family_name: string;
-  properties: Array<TypographyProperty>;
-};
-/**
- * `#[codegen(tags = "figma,typography")]`
- *
- * [Source `design-tokens/src/typography/figma.rs:26`](../../design-tokens/src/typography/figma.rs)
- */
-export function TextStyle(inner: TextStyle): TextStyle {
-  return inner;
-}
-/**
- * `#[codegen(tags = "figma,typography")]`
- *
- * [Source `design-tokens/src/typography/figma.rs:34`](../../design-tokens/src/typography/figma.rs)
- */
-export type FigmaTypography = {
-  core_styles: Array<TextStyle>;
-};
-/**
- * `#[codegen(tags = "figma,typography")]`
- *
- * [Source `design-tokens/src/typography/figma.rs:34`](../../design-tokens/src/typography/figma.rs)
- */
-export function FigmaTypography(inner: FigmaTypography): FigmaTypography {
   return inner;
 }

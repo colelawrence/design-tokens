@@ -1,37 +1,5 @@
 type Value = unknown;
-import { FontStyleRule as _FontStyleRule } from "./scalars.js";
-/**
- * FontStyleRule is whatever your source configuration is using to match the environment's
- * font styles to the desired weights and such.
- * Note: Due to the design system not knowing the details of these, the tooling may struggle
- * to interpolate between two possible options. Perhaps, we should leave interpolation up to
- * the implementor?
- * See [figma::]
- *
- * `#[serde(transparent)]`
- *
- * `#[codegen(scalar, tags = "typography,input,output")]`
- *
- * [Source `design-tokens/src/typography.rs:18`](../../design-tokens/src/typography.rs)
- */
-export type FontStyleRule = _FontStyleRule;
-/**
- * FontStyleRule is whatever your source configuration is using to match the environment's
- * font styles to the desired weights and such.
- * Note: Due to the design system not knowing the details of these, the tooling may struggle
- * to interpolate between two possible options. Perhaps, we should leave interpolation up to
- * the implementor?
- * See [figma::]
- *
- * `#[serde(transparent)]`
- *
- * `#[codegen(scalar, tags = "typography,input,output")]`
- *
- * [Source `design-tokens/src/typography.rs:18`](../../design-tokens/src/typography.rs)
- */
-export function FontStyleRule(value: FontStyleRule): FontStyleRule {
-  return value;
-}
+import { FontStyleRule as _FontStyleRule } from "./scalars.ts";
 /**
  * `#[codegen(tags = "typography,output")]`
  *
@@ -140,3 +108,35 @@ export type TypographyProperty =
   | TypographyProperty.FontSize
   | TypographyProperty.LetterSpacing
   | TypographyProperty.FontStyle
+/**
+ * FontStyleRule is whatever your source configuration is using to match the environment's
+ * font styles to the desired weights and such.
+ * Note: Due to the design system not knowing the details of these, the tooling may struggle
+ * to interpolate between two possible options. Perhaps, we should leave interpolation up to
+ * the implementor?
+ * See [figma::]
+ *
+ * `#[serde(transparent)]`
+ *
+ * `#[codegen(scalar, tags = "typography,input,output")]`
+ *
+ * [Source `design-tokens/src/typography.rs:18`](../../design-tokens/src/typography.rs)
+ */
+export type FontStyleRule = _FontStyleRule;
+/**
+ * FontStyleRule is whatever your source configuration is using to match the environment's
+ * font styles to the desired weights and such.
+ * Note: Due to the design system not knowing the details of these, the tooling may struggle
+ * to interpolate between two possible options. Perhaps, we should leave interpolation up to
+ * the implementor?
+ * See [figma::]
+ *
+ * `#[serde(transparent)]`
+ *
+ * `#[codegen(scalar, tags = "typography,input,output")]`
+ *
+ * [Source `design-tokens/src/typography.rs:18`](../../design-tokens/src/typography.rs)
+ */
+export function FontStyleRule(value: FontStyleRule): FontStyleRule {
+  return value;
+}

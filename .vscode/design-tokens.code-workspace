@@ -1,25 +1,37 @@
 {
   "folders": [
     {
-      "name": "design-tokens",
+      "name": "<Root>",
       "path": ".."
     },
     {
+      "name": "🦀 derive-codegen",
       "path": "../vendor/derive-codegen"
     },
     {
+      "name": "🦀 design-tokens",
       "path": "../design-tokens"
     },
     {
+      "name": "🧪 examples",
+      "path": "../examples"
+    },
+    {
+      "name": "🖌️ Figma-variables-import-and-export",
       "path": "../extensions/Figma-variables-import-and-export"
     },
     {
+      "name": "🖌️ Here Now Figma",
       "path": "../extensions/Here Now Figma"
     }
   ],
   "settings": {
     "files.exclude": {
-      "design-tokens/*": true
+      // ignore from root, so these files don't appear twice
+      // and we can maintain different vscode setting roots (i.e. with deno)
+      "design-tokens/*": true,
+      "examples/*": true,
+      "extensions/*/*": true,
     },
     "tailwindCSS.includeLanguages": {
       "jinja-html": "html"

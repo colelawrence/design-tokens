@@ -1,8 +1,8 @@
 // import workSansMetrics from "@capsizecss/metrics/workSans";
-import * as input from "./input.gen.js";
-import { iBMPlexMonoMetrics } from "./iBMPlexMonoMetrics.js";
-import { interMetrics } from "./interMetrics.js";
-import { figmaTypographyExtension } from "./figma-typography-extension.js";
+import * as input from "./input.gen.ts";
+import { iBMPlexMonoMetrics } from "./iBMPlexMonoMetrics.ts";
+import { interMetrics } from "./interMetrics.ts";
+import { figmaTypographyExtension } from "./figma/figma-typography-extension.ts";
 
 const GOLDEN_RATIO = 1.61803398875;
 // 1.61803 (golden ratio) ^ 0.5
