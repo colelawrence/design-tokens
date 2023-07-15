@@ -1,5 +1,0 @@
-[workspace]
-members = [
-  "./here-now-app-cli",
-  "./here-now-app-cli/server"
-]

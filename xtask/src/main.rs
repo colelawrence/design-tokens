@@ -11,13 +11,9 @@ enum XtaskCommand {
     // hyphen-separated name; e.g. `FooBar` becomes `foo-bar`.
     //
     // Names can be explicitly specified using `#[options(name = "...")]`
-    #[options(help = "build web assets development")]
-    WebBuild(WebBuildOptions),
-    #[options(help = "run server for development")]
-    Dev(DevOptions),
-    #[options(help = "lint fixes")]
+    #[options(name = "fix-code", help = "lint fixes")]
     Fix(FixOptions),
-    #[options(help = "generate and show docs")]
+    #[options(name = "doc-code", help = "generate and show docs")]
     Docs(DocsOptions),
 }
 
@@ -51,8 +47,6 @@ fn main() {
     };
 
     match command {
-        XtaskCommand::WebBuild(opts) => web_build(opts),
-        XtaskCommand::Dev(opts) => dev(opts),
         XtaskCommand::Fix(opts) => fix(opts),
         XtaskCommand::Docs(opts) => docs(opts),
     }
@@ -65,71 +59,6 @@ fn get_project_root_dir() -> PathBuf {
         .next()
         .and_then(|value| PathBuf::from(value).parent().map(PathBuf::from))
         .unwrap_or_else(|| std::env::current_dir().unwrap())
-}
-
-#[derive(Options)]
-struct WebBuildOptions {}
-fn web_build(_: WebBuildOptions) {
-    let root_dir = get_project_root_dir();
-    let status = Command::new("cargo")
-        .args("run --bin hn-design-tools".split(' '))
-        .current_dir(&root_dir)
-        .spawn()
-        .expect("building design tool types")
-        .wait_with_output()
-        .expect("exiting");
-
-    expect_success(&status);
-
-    let watch_figma = Command::new("npm")
-        .args("run watch".split(' '))
-        .current_dir(&root_dir.join("design-tools/Here Now Figma"))
-        .spawn()
-        .expect("building design tool types");
-
-    let status = Command::new("npx")
-        .args("tsc -p ./design-tools/tsconfig.json".split(' '))
-        .current_dir(&root_dir)
-        .spawn()
-        .expect("building design tools")
-        .wait_with_output()
-        .expect("exiting");
-
-    expect_success(&status);
-
-    // hmm watch_figma
-
-    Command::new("npx")
-        .args("tailwindcss -i ./config-html-server.css -o ./src/config_html_server/build/config-html-server.css --watch".split(' '))
-        .current_dir(root_dir.join("./hn-server"))
-        .spawn()
-        .expect("generating")
-        .wait_with_output()
-        .expect("exiting");
-}
-
-#[derive(Options)]
-struct DevOptions {}
-fn dev(_: DevOptions) {
-    let root_dir = get_project_root_dir();
-    let server = Command::new("cargo")
-        .env("RUST_LOG", "debug,!hyper")
-        .args("watch --watch ./src --ignore *.j2 --ignore *.css".split(' '))
-        .arg("--exec")
-        .arg("run ./here-now-config.toml")
-        .current_dir(root_dir.join("./hn-server"))
-        .spawn()
-        .expect("running server with watcher");
-
-    let web_assets = jod_thread::spawn(|| {
-        web_build(WebBuildOptions {});
-    });
-    let server = jod_thread::spawn(|| {
-        server.wait_with_output().expect("exiting");
-    });
-
-    web_assets.join();
-    server.join();
 }
 
 #[derive(Options)]
