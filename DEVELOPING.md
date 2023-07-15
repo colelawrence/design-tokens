@@ -23,4 +23,7 @@ Any automatable action should be configured as part of [our xtasks](./xtask/src/
 cargo xtask --help # List out the available xtask commands
 cargo xtask fix-code # lint fixes
 cargo xtask doc-code # generate and show docs
+# TODO: Make this main xtask clap based and add some calls like `cargo run design-tokens -- test-typography` as xtask stuff up here (or even set up a cargo-watch for reload and testing etc.)
+
+cargo run --bin design-tokens -- --help # list out current commands available for design-tokens binary
 ```
