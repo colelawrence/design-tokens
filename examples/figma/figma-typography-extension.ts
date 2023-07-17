@@ -1,4 +1,4 @@
-import * as figma from "./figma.gen.ts";
+import * as figma from "./figma-config.gen.ts";
 
 const figmaWeightsGroup = figma.FigmaTextStyleMatrixGroup({
   Description: "Font weight",

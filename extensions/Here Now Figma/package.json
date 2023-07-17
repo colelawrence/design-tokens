@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "description": "Your Figma Plugin",
   "main": "plugin.js",
+  "type": "module",
   "scripts": {
     "build": "node ./build.cjs",
     "watch": "npm run build -- --watch"
@@ -10,9 +11,14 @@
   "author": "",
   "license": "",
   "devDependencies": {
+    "@autoplay/utils": "^0.0.25",
+    "@craftamap/esbuild-plugin-html": "^0.6.1",
     "@figma/plugin-typings": "*",
+    "@types/node": "^20.4.2",
     "esbuild": "^0.18.11",
     "eslint": "^8.44.0",
+    "jsx-view": "^0.2.3",
+    "rxjs": "^7.8.1",
     "typescript": "*"
   }
 }

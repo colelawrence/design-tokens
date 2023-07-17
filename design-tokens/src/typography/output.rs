@@ -5,13 +5,19 @@ use crate::prelude::*;
 use super::{input, scalars};
 
 #[derive(Debug, Serialize, Codegen)]
-#[codegen(tags = "typography,output")]
+#[codegen(tags = "typography-export")]
 pub struct TypographyExport {
     properties: Vec<TypographyProperty>,
     tokens: Vec<(BTreeSet<String>, Vec<usize>)>,
     /// For example, `{"figma": FigmaTypographyConfig, "tailwind": TailwindTypographyConfig}`
-    extensions: BTreeMap<String, serde_json::Value>,
+    extensions: TypographyExtension,
 }
+
+#[derive(Debug, Serialize, Codegen)]
+#[codegen(tags = "typography-export")]
+#[codegen(scalar)]
+#[serde(transparent)]
+pub struct TypographyExtension(BTreeMap<String, serde_json::Value>);
 
 #[derive(Default)]
 pub struct TypographyTokensCollector(BTreeMap<BTreeSet<String>, Vec<TypographyProperty>>);
@@ -21,7 +27,7 @@ impl From<TypographyTokensCollector> for TypographyExport {
         let mut result = TypographyExport {
             properties: Vec::new(),
             tokens: Vec::new(),
-            extensions: BTreeMap::new(),
+            extensions: TypographyExtension(BTreeMap::new()),
         };
 
         for (tokens, values) in value.0.into_iter() {
@@ -49,7 +55,7 @@ impl From<TypographyTokensCollector> for TypographyExport {
 }
 
 #[derive(Debug, Serialize, Codegen, PartialEq)]
-#[codegen(tags = "typography,output")]
+#[codegen(tags = "typography-export")]
 pub enum TypographyProperty {
     FontFamily { family_name: Cow<'static, str> },
     LineHeight { px: f64 },

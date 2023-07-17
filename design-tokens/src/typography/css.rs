@@ -2,7 +2,7 @@ use crate::prelude::*;
 
 /// depends on how you load your fonts in the application
 #[derive(Codegen, Clone, Debug, Deserialize, Serialize)]
-#[codegen(tags = "css,typography")]
+#[codegen(tags = "css-typography-input,css-typography-export")]
 #[allow(non_snake_case)]
 pub enum CSSFontStyleRule {
     FontStyleItalics,

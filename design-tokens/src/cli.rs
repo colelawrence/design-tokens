@@ -36,53 +36,15 @@ pub(crate) fn run() {
 
     match cli.command {
         Commands::ExampleCodegen => {
-            derive_codegen::Generation::for_tag("input")
-                .as_arg_of(
-                    Command::new("deno")
-                        .arg("run")
-                        .arg("../vendor/derive-codegen/typescript-generator/generate-typescript.ts")
-                        .arg("--includeLocationsRelativeTo=../../")
-                        .arg("--fileName=input.gen.ts")
-                        .arg("--importScalarsFrom=./scalars.ts")
-                        .arg(r#"--prependText=type Value = unknown;"#)
-                        .current_dir(&current_directory),
-                )
-                .with_output_path("../examples")
-                .write()
-                .print();
-
-            derive_codegen::Generation::for_tag("output")
-                .as_arg_of(
-                    Command::new("deno")
-                        .arg("run")
-                        .arg("../vendor/derive-codegen/typescript-generator/generate-typescript.ts")
-                        .arg("--includeLocationsRelativeTo=../../")
-                        .arg("--fileName=output.gen.ts")
-                        .arg("--importScalarsFrom=./scalars.ts")
-                        .arg(r#"--prependText=type Value = unknown;"#)
-                        .current_dir(&current_directory),
-                )
-                .with_output_path("../examples")
-                .write()
-                .print();
-
-            derive_codegen::Generation::for_tag("figma")
-                .as_arg_of(
-                    Command::new("deno")
-                        .arg("run")
-                        .arg("../vendor/derive-codegen/typescript-generator/generate-typescript.ts")
-                        .arg("--includeLocationsRelativeTo=../../../")
-                        .arg("--fileName=figma.gen.ts")
-                        .arg("--importScalarsFrom=../scalars.ts")
-                        .arg(
-                            r#"--prependText=import { TypographyProperty } from "../output.gen.ts";
-type Value = unknown;"#,
-                        )
-                        .current_dir(&current_directory),
-                )
-                .with_output_path("../examples/figma")
-                .write()
-                .print();
+            let dev = DesignTokensDev {
+                project_root: PathBuf::from(current_directory)
+                    .canonicalize()
+                    .expect("finding cargo manifest directory")
+                    .parent()
+                    .expect("getting project root (parent of cargo manifest directory)")
+                    .to_path_buf(),
+            };
+            dev.generate_helpers_for_sdks();
         }
         Commands::TestTypography { show_settings } => {
             let input_settings = run_deno_or_exit::<input::SystemInput>(
@@ -112,6 +74,63 @@ type Value = unknown;"#,
 
             println!("{output:#?}");
         }
+    }
+}
+
+struct DesignTokensDev {
+    project_root: PathBuf,
+}
+
+impl DesignTokensDev {
+    pub fn generate_helpers_for_sdks(&self) {
+        derive_codegen::Generation::for_tag("typography-input")
+            .as_arg_of(
+                Command::new("deno")
+                    .arg("run")
+                    .arg("./vendor/derive-codegen/typescript-generator/generate-typescript.ts")
+                    .arg("--includeLocationsRelativeTo=../../")
+                    .arg("--fileName=typography-input.gen.ts")
+                    .arg("--importScalarsFrom=./scalars.ts")
+                    .arg(r#"--prependText=type Value = unknown;"#)
+                    .current_dir(&self.project_root),
+            )
+            .with_output_path("./examples")
+            .write()
+            .print();
+
+        derive_codegen::Generation::for_tag("figma-typography-export")
+            .include_tag("typography-export")
+            .as_arg_of(
+                Command::new("deno")
+                    .arg("run")
+                    .arg("./vendor/derive-codegen/typescript-generator/generate-typescript.ts")
+                    .arg("--includeLocationsRelativeTo=../../../")
+                    .arg("--fileName=figma-typography-export.gen.ts")
+                    .arg("--importScalarsFrom=./figma-typography-scalar.gen.js")
+                    .arg(
+                        r#"--prependText=// The data passed to the Figma plugin.
+type Value = unknown;"#,
+                    )
+                    .current_dir(&self.project_root),
+            )
+            .with_output_path("./extensions/Here Now Figma/gen")
+            .write()
+            .print();
+
+        derive_codegen::Generation::for_tag("figma-typography-scalar")
+            .include_tag("figma-typography-input")
+            .as_arg_of(
+                Command::new("deno")
+                    .arg("run")
+                    .arg("./vendor/derive-codegen/typescript-generator/generate-typescript.ts")
+                    .arg("--includeLocationsRelativeTo=../../../")
+                    .arg("--fileName=figma-typography-scalar.gen.ts")
+                    .arg(r#"--prependText=// The typography data specific for the Figma plugin."#)
+                    .current_dir(&self.project_root),
+            )
+            .with_output_path("./extensions/Here Now Figma/gen")
+            .write()
+            .print();
     }
 }
 

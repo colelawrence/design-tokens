@@ -1,0 +1,16 @@
+{
+  "compilerOptions": {
+    "target": "ES2020",
+    "module": "ES2020",
+    "moduleResolution": "Node",
+    "lib": ["ES2020", "DOM"],
+    "jsxImportSource": "jsx-view",
+    "jsx": "react-jsx",
+    "strict": true,
+    "paths": {
+      "~helpers/*": ["../helpers/*"]
+    },
+    "rootDirs": [".", "../helpers"]
+  },
+  "include": ["*.tsx", "../node_modules"]
+}

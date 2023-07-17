@@ -1,28 +1,47 @@
+// The data passed to the Figma plugin.
 type Value = unknown;
-import { FontStyleRule as _FontStyleRule } from "./scalars.ts";
+import { TypographyExtension as _TypographyExtension, FontStyleRule as _FontStyleRule } from "./figma-typography-scalar.gen.js";
 /**
- * `#[codegen(tags = "typography,output")]`
+ * `#[codegen(tags = "typography-export")]`
  *
- * [Source `design-tokens/src/typography/output.rs:7`](../../design-tokens/src/typography/output.rs)
+ * [Source `design-tokens/src/typography/output.rs:7`](../../../design-tokens/src/typography/output.rs)
  */
 export type TypographyExport = {
   properties: Array<TypographyProperty>;
   tokens: Array<[Array<string>, Array<number>]>;
   /** For example, `{"figma": FigmaTypographyConfig, "tailwind": TailwindTypographyConfig}` */
-  extensions: Record<string, Value>;
+  extensions: TypographyExtension;
 };
 /**
- * `#[codegen(tags = "typography,output")]`
+ * `#[codegen(tags = "typography-export")]`
  *
- * [Source `design-tokens/src/typography/output.rs:7`](../../design-tokens/src/typography/output.rs)
+ * [Source `design-tokens/src/typography/output.rs:7`](../../../design-tokens/src/typography/output.rs)
  */
 export function TypographyExport(inner: TypographyExport): TypographyExport {
   return inner;
 }
 /**
- * `#[codegen(tags = "typography,output")]`
+ * `#[serde(transparent)]`
  *
- * [Source `design-tokens/src/typography/output.rs:51`](../../design-tokens/src/typography/output.rs)
+ * `#[codegen(scalar, tags = "typography-export")]`
+ *
+ * [Source `design-tokens/src/typography/output.rs:16`](../../../design-tokens/src/typography/output.rs)
+ */
+export type TypographyExtension = _TypographyExtension;
+/**
+ * `#[serde(transparent)]`
+ *
+ * `#[codegen(scalar, tags = "typography-export")]`
+ *
+ * [Source `design-tokens/src/typography/output.rs:16`](../../../design-tokens/src/typography/output.rs)
+ */
+export function TypographyExtension(value: TypographyExtension): TypographyExtension {
+  return value;
+}
+/**
+ * `#[codegen(tags = "typography-export")]`
+ *
+ * [Source `design-tokens/src/typography/output.rs:57`](../../../design-tokens/src/typography/output.rs)
  */
 // deno-lint-ignore no-namespace
 export namespace TypographyProperty {
@@ -98,9 +117,9 @@ export namespace TypographyProperty {
   }
 }
 /**
- * `#[codegen(tags = "typography,output")]`
+ * `#[codegen(tags = "typography-export")]`
  *
- * [Source `design-tokens/src/typography/output.rs:51`](../../design-tokens/src/typography/output.rs)
+ * [Source `design-tokens/src/typography/output.rs:57`](../../../design-tokens/src/typography/output.rs)
  */
 export type TypographyProperty =
   | TypographyProperty.FontFamily
@@ -114,13 +133,12 @@ export type TypographyProperty =
  * Note: Due to the design system not knowing the details of these, the tooling may struggle
  * to interpolate between two possible options. Perhaps, we should leave interpolation up to
  * the implementor?
- * See [figma::]
  *
  * `#[serde(transparent)]`
  *
- * `#[codegen(scalar, tags = "typography,input,output")]`
+ * `#[codegen(scalar, tags = "typography-export,typography-input")]`
  *
- * [Source `design-tokens/src/typography.rs:18`](../../design-tokens/src/typography.rs)
+ * [Source `design-tokens/src/typography.rs:16`](../../../design-tokens/src/typography.rs)
  */
 export type FontStyleRule = _FontStyleRule;
 /**
@@ -129,14 +147,47 @@ export type FontStyleRule = _FontStyleRule;
  * Note: Due to the design system not knowing the details of these, the tooling may struggle
  * to interpolate between two possible options. Perhaps, we should leave interpolation up to
  * the implementor?
- * See [figma::]
  *
  * `#[serde(transparent)]`
  *
- * `#[codegen(scalar, tags = "typography,input,output")]`
+ * `#[codegen(scalar, tags = "typography-export,typography-input")]`
  *
- * [Source `design-tokens/src/typography.rs:18`](../../design-tokens/src/typography.rs)
+ * [Source `design-tokens/src/typography.rs:16`](../../../design-tokens/src/typography.rs)
  */
 export function FontStyleRule(value: FontStyleRule): FontStyleRule {
   return value;
+}
+/**
+ * `#[codegen(tags = "figma-typography-export")]`
+ *
+ * [Source `design-tokens/src/typography/figma.rs:48`](../../../design-tokens/src/typography/figma.rs)
+ */
+export type TextStyle = {
+  name: string;
+  family_name: string;
+  properties: Array<TypographyProperty>;
+};
+/**
+ * `#[codegen(tags = "figma-typography-export")]`
+ *
+ * [Source `design-tokens/src/typography/figma.rs:48`](../../../design-tokens/src/typography/figma.rs)
+ */
+export function TextStyle(inner: TextStyle): TextStyle {
+  return inner;
+}
+/**
+ * `#[codegen(tags = "figma-typography-export")]`
+ *
+ * [Source `design-tokens/src/typography/figma.rs:56`](../../../design-tokens/src/typography/figma.rs)
+ */
+export type FigmaTypography = {
+  core_styles: Array<TextStyle>;
+};
+/**
+ * `#[codegen(tags = "figma-typography-export")]`
+ *
+ * [Source `design-tokens/src/typography/figma.rs:56`](../../../design-tokens/src/typography/figma.rs)
+ */
+export function FigmaTypography(inner: FigmaTypography): FigmaTypography {
+  return inner;
 }

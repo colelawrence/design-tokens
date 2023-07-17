@@ -6,13 +6,35 @@ use crate::prelude::*;
 pub mod figma_scalars {
     use crate::prelude::*;
 
+    /// Codgen depends on `figma-typography-input` tag
+    #[derive(Debug, Codegen)]
+    #[codegen(tags = "figma-typography-scalar")]
+    #[allow(non_snake_case)]
+    pub struct TypographyExtension {
+        #[serde(alias = "figma")]
+        Figma: super::figma_config::FigmaTypographyConfig,
+    }
+
+    /// This must have the same name as the [crate::typography::scalars::FontStyleRule].
+    /// TODO: Perhaps we can make it so the multiple scalars can be combined somehow
+    /// like if there is another scalar for css::css_scalars.
+    ///
+    /// Another way to think of this is the "Figma-specific" settings.
+    #[derive(Codegen)]
+    #[codegen(tags = "figma-typography-scalar")]
+    #[allow(non_snake_case)]
+    pub struct FontStyleRule {
+        #[serde(alias = "figma")]
+        Figma: FigmaFontStyleRule,
+    }
+
     // should this just be something like file distributable name?
     /// String that follows the base name of the family.
     /// This is used for your design programs like Figma.
     /// e.g. `" Italic"` for italics of Inter or Source Serif
     /// e.g. `" Thin"` for W100, `" Light"` for W300, `" Medium"` for W500, `" Bold"` for W700, etc.
     #[derive(Codegen, Clone, Debug, Serialize)]
-    #[codegen(tags = "figma,typography")]
+    #[codegen(tags = "figma-typography-scalar")]
     #[allow(non_snake_case)]
     pub enum FigmaFontStyleRule {
         /// Suffix plus order number
@@ -24,7 +46,7 @@ pub mod figma_scalars {
 }
 
 #[derive(Debug, Codegen)]
-#[codegen(tags = "figma,typography")]
+#[codegen(tags = "figma-typography-export")]
 pub struct TextStyle {
     pub name: String,
     pub family_name: String,
@@ -32,7 +54,7 @@ pub struct TextStyle {
 }
 
 #[derive(Debug, Codegen)]
-#[codegen(tags = "figma,typography")]
+#[codegen(tags = "figma-typography-export")]
 pub struct FigmaTypography {
     pub core_styles: Vec<TextStyle>,
     // // I think we'd need a documentation thing for each individual token as well, right?
@@ -43,7 +65,7 @@ pub mod figma_config {
     use crate::prelude::*;
 
     #[derive(Codegen, Debug)]
-    #[codegen(tags = "figma,typography")]
+    #[codegen(tags = "figma-typography-input")]
     #[allow(non_snake_case)]
     pub struct FigmaTypographyConfig {
         // TODO: Some kind of narrowing / selections for creating types / lints for the design system
@@ -53,7 +75,7 @@ pub mod figma_config {
     }
 
     #[derive(Codegen, Debug)]
-    #[codegen(tags = "figma,typography")]
+    #[codegen(tags = "figma-typography-input")]
     #[allow(non_snake_case)]
     pub struct FigmaTextStyle {
         pub BaseName: String,
@@ -63,7 +85,7 @@ pub mod figma_config {
     }
 
     #[derive(Codegen, Debug)]
-    #[codegen(tags = "figma,typography")]
+    #[codegen(tags = "figma-typography-input")]
     #[allow(non_snake_case)]
     pub struct FigmaTextStyleMatrixGroup {
         pub Description: Option<String>,
@@ -71,7 +93,7 @@ pub mod figma_config {
     }
 
     #[derive(Codegen, Debug)]
-    #[codegen(tags = "figma,typography")]
+    #[codegen(tags = "figma-typography-input")]
     #[allow(non_snake_case)]
     pub struct FigmaTextStyleMatrixOption {
         pub Name: String,

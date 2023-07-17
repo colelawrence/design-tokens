@@ -1,4 +1,5 @@
-import { gen } from "./gen/define.js";
+// @ts-nocheck
+import { gen } from "~gen";
 import { extend } from "./extend.js";
 
 // const textStyle = figma.getLocalTextStyles()[0]

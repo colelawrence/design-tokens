@@ -1,0 +1,1292 @@
+<!DOCTYPE html><html lang="en"><head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<style>/* ui-src/shared.css */
+:root {
+  --spacing: 0.8rem;
+}
+* {
+  box-sizing: border-box;
+}
+body {
+  background-color: var(--figma-color-bg);
+  color: var(--figma-color-text);
+  margin: 0;
+  padding: var(--spacing);
+}
+html,
+body {
+  height: 100%;
+}
+form {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing);
+  height: 100%;
+}
+button {
+  appearance: none;
+  border-radius: 4px;
+  padding: var(--spacing);
+}
+select,
+input,
+textarea {
+  font-family: Andale Mono, monospace;
+  font-size: 0.9rem;
+  padding: var(--spacing);
+}
+textarea {
+  flex: 1;
+  white-space: pre;
+}
+form > * {
+  display: block;
+  width: 100%;
+}
+button {
+  background-color: var(--figma-color-bg-brand);
+  border: none;
+  color: var(--figma-color-text-onbrand);
+  font-family:
+    system-ui,
+    -apple-system,
+    BlinkMacSystemFont,
+    "Segoe UI",
+    Roboto,
+    Oxygen,
+    Ubuntu,
+    Cantarell,
+    "Open Sans",
+    "Helvetica Neue",
+    sans-serif;
+  font-weight: bold;
+}
+select,
+input,
+textarea {
+  background-color: var(--figma-color-bg-secondary);
+  color: var(--figma-color-text-secondary);
+  border: 2px solid var(--figma-color-border);
+}
+input:focus,
+textarea:focus {
+  border-color: var(--figma-color-border-selected);
+  outline: none;
+}
+select,
+input {
+  flex: 1;
+}
+form .row {
+  display: flex;
+  gap: 0.5rem;
+}
+</style></head>
+<body>
+  <div id="app-root"></div>
+
+<script>"use strict";
+(() => {
+  var __defProp = Object.defineProperty;
+  var __defNormalProp = (obj, key, value) => key in obj ? __defProp(obj, key, { enumerable: true, configurable: true, writable: true, value }) : obj[key] = value;
+  var __publicField = (obj, key, value) => {
+    __defNormalProp(obj, typeof key !== "symbol" ? key + "" : key, value);
+    return value;
+  };
+  var __accessCheck = (obj, member, msg) => {
+    if (!member.has(obj))
+      throw TypeError("Cannot " + msg);
+  };
+  var __privateGet = (obj, member, getter) => {
+    __accessCheck(obj, member, "read from private field");
+    return getter ? getter.call(obj) : member.get(obj);
+  };
+  var __privateAdd = (obj, member, value) => {
+    if (member.has(obj))
+      throw TypeError("Cannot add the same private member more than once");
+    member instanceof WeakSet ? member.add(obj) : member.set(obj, value);
+  };
+  var __privateSet = (obj, member, value, setter) => {
+    __accessCheck(obj, member, "write to private field");
+    setter ? setter.call(obj, value) : member.set(obj, value);
+    return value;
+  };
+
+  // node_modules/tslib/tslib.es6.mjs
+  var extendStatics = function(d, b) {
+    extendStatics = Object.setPrototypeOf || { __proto__: [] } instanceof Array && function(d2, b2) {
+      d2.__proto__ = b2;
+    } || function(d2, b2) {
+      for (var p in b2)
+        if (Object.prototype.hasOwnProperty.call(b2, p))
+          d2[p] = b2[p];
+    };
+    return extendStatics(d, b);
+  };
+  function __extends(d, b) {
+    if (typeof b !== "function" && b !== null)
+      throw new TypeError("Class extends value " + String(b) + " is not a constructor or null");
+    extendStatics(d, b);
+    function __() {
+      this.constructor = d;
+    }
+    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+  }
+  function __values(o) {
+    var s = typeof Symbol === "function" && Symbol.iterator, m = s && o[s], i = 0;
+    if (m)
+      return m.call(o);
+    if (o && typeof o.length === "number")
+      return {
+        next: function() {
+          if (o && i >= o.length)
+            o = void 0;
+          return { value: o && o[i++], done: !o };
+        }
+      };
+    throw new TypeError(s ? "Object is not iterable." : "Symbol.iterator is not defined.");
+  }
+  function __read(o, n) {
+    var m = typeof Symbol === "function" && o[Symbol.iterator];
+    if (!m)
+      return o;
+    var i = m.call(o), r, ar = [], e;
+    try {
+      while ((n === void 0 || n-- > 0) && !(r = i.next()).done)
+        ar.push(r.value);
+    } catch (error) {
+      e = { error };
+    } finally {
+      try {
+        if (r && !r.done && (m = i["return"]))
+          m.call(i);
+      } finally {
+        if (e)
+          throw e.error;
+      }
+    }
+    return ar;
+  }
+  function __spreadArray(to, from, pack) {
+    if (pack || arguments.length === 2)
+      for (var i = 0, l = from.length, ar; i < l; i++) {
+        if (ar || !(i in from)) {
+          if (!ar)
+            ar = Array.prototype.slice.call(from, 0, i);
+          ar[i] = from[i];
+        }
+      }
+    return to.concat(ar || Array.prototype.slice.call(from));
+  }
+
+  // node_modules/rxjs/dist/esm5/internal/util/isFunction.js
+  function isFunction(value) {
+    return typeof value === "function";
+  }
+
+  // node_modules/rxjs/dist/esm5/internal/util/createErrorClass.js
+  function createErrorClass(createImpl) {
+    var _super = function(instance) {
+      Error.call(instance);
+      instance.stack = new Error().stack;
+    };
+    var ctorFunc = createImpl(_super);
+    ctorFunc.prototype = Object.create(Error.prototype);
+    ctorFunc.prototype.constructor = ctorFunc;
+    return ctorFunc;
+  }
+
+  // node_modules/rxjs/dist/esm5/internal/util/UnsubscriptionError.js
+  var UnsubscriptionError = createErrorClass(function(_super) {
+    return function UnsubscriptionErrorImpl(errors) {
+      _super(this);
+      this.message = errors ? errors.length + " errors occurred during unsubscription:\n" + errors.map(function(err, i) {
+        return i + 1 + ") " + err.toString();
+      }).join("\n  ") : "";
+      this.name = "UnsubscriptionError";
+      this.errors = errors;
+    };
+  });
+
+  // node_modules/rxjs/dist/esm5/internal/util/arrRemove.js
+  function arrRemove(arr, item) {
+    if (arr) {
+      var index = arr.indexOf(item);
+      0 <= index && arr.splice(index, 1);
+    }
+  }
+
+  // node_modules/rxjs/dist/esm5/internal/Subscription.js
+  var Subscription = function() {
+    function Subscription2(initialTeardown) {
+      this.initialTeardown = initialTeardown;
+      this.closed = false;
+      this._parentage = null;
+      this._finalizers = null;
+    }
+    Subscription2.prototype.unsubscribe = function() {
+      var e_1, _a2, e_2, _b;
+      var errors;
+      if (!this.closed) {
+        this.closed = true;
+        var _parentage = this._parentage;
+        if (_parentage) {
+          this._parentage = null;
+          if (Array.isArray(_parentage)) {
+            try {
+              for (var _parentage_1 = __values(_parentage), _parentage_1_1 = _parentage_1.next(); !_parentage_1_1.done; _parentage_1_1 = _parentage_1.next()) {
+                var parent_1 = _parentage_1_1.value;
+                parent_1.remove(this);
+              }
+            } catch (e_1_1) {
+              e_1 = { error: e_1_1 };
+            } finally {
+              try {
+                if (_parentage_1_1 && !_parentage_1_1.done && (_a2 = _parentage_1.return))
+                  _a2.call(_parentage_1);
+              } finally {
+                if (e_1)
+                  throw e_1.error;
+              }
+            }
+          } else {
+            _parentage.remove(this);
+          }
+        }
+        var initialFinalizer = this.initialTeardown;
+        if (isFunction(initialFinalizer)) {
+          try {
+            initialFinalizer();
+          } catch (e) {
+            errors = e instanceof UnsubscriptionError ? e.errors : [e];
+          }
+        }
+        var _finalizers = this._finalizers;
+        if (_finalizers) {
+          this._finalizers = null;
+          try {
+            for (var _finalizers_1 = __values(_finalizers), _finalizers_1_1 = _finalizers_1.next(); !_finalizers_1_1.done; _finalizers_1_1 = _finalizers_1.next()) {
+              var finalizer = _finalizers_1_1.value;
+              try {
+                execFinalizer(finalizer);
+              } catch (err) {
+                errors = errors !== null && errors !== void 0 ? errors : [];
+                if (err instanceof UnsubscriptionError) {
+                  errors = __spreadArray(__spreadArray([], __read(errors)), __read(err.errors));
+                } else {
+                  errors.push(err);
+                }
+              }
+            }
+          } catch (e_2_1) {
+            e_2 = { error: e_2_1 };
+          } finally {
+            try {
+              if (_finalizers_1_1 && !_finalizers_1_1.done && (_b = _finalizers_1.return))
+                _b.call(_finalizers_1);
+            } finally {
+              if (e_2)
+                throw e_2.error;
+            }
+          }
+        }
+        if (errors) {
+          throw new UnsubscriptionError(errors);
+        }
+      }
+    };
+    Subscription2.prototype.add = function(teardown) {
+      var _a2;
+      if (teardown && teardown !== this) {
+        if (this.closed) {
+          execFinalizer(teardown);
+        } else {
+          if (teardown instanceof Subscription2) {
+            if (teardown.closed || teardown._hasParent(this)) {
+              return;
+            }
+            teardown._addParent(this);
+          }
+          (this._finalizers = (_a2 = this._finalizers) !== null && _a2 !== void 0 ? _a2 : []).push(teardown);
+        }
+      }
+    };
+    Subscription2.prototype._hasParent = function(parent) {
+      var _parentage = this._parentage;
+      return _parentage === parent || Array.isArray(_parentage) && _parentage.includes(parent);
+    };
+    Subscription2.prototype._addParent = function(parent) {
+      var _parentage = this._parentage;
+      this._parentage = Array.isArray(_parentage) ? (_parentage.push(parent), _parentage) : _parentage ? [_parentage, parent] : parent;
+    };
+    Subscription2.prototype._removeParent = function(parent) {
+      var _parentage = this._parentage;
+      if (_parentage === parent) {
+        this._parentage = null;
+      } else if (Array.isArray(_parentage)) {
+        arrRemove(_parentage, parent);
+      }
+    };
+    Subscription2.prototype.remove = function(teardown) {
+      var _finalizers = this._finalizers;
+      _finalizers && arrRemove(_finalizers, teardown);
+      if (teardown instanceof Subscription2) {
+        teardown._removeParent(this);
+      }
+    };
+    Subscription2.EMPTY = function() {
+      var empty = new Subscription2();
+      empty.closed = true;
+      return empty;
+    }();
+    return Subscription2;
+  }();
+  var EMPTY_SUBSCRIPTION = Subscription.EMPTY;
+  function isSubscription(value) {
+    return value instanceof Subscription || value && "closed" in value && isFunction(value.remove) && isFunction(value.add) && isFunction(value.unsubscribe);
+  }
+  function execFinalizer(finalizer) {
+    if (isFunction(finalizer)) {
+      finalizer();
+    } else {
+      finalizer.unsubscribe();
+    }
+  }
+
+  // node_modules/rxjs/dist/esm5/internal/config.js
+  var config = {
+    onUnhandledError: null,
+    onStoppedNotification: null,
+    Promise: void 0,
+    useDeprecatedSynchronousErrorHandling: false,
+    useDeprecatedNextContext: false
+  };
+
+  // node_modules/rxjs/dist/esm5/internal/scheduler/timeoutProvider.js
+  var timeoutProvider = {
+    setTimeout: function(handler, timeout) {
+      var args = [];
+      for (var _i = 2; _i < arguments.length; _i++) {
+        args[_i - 2] = arguments[_i];
+      }
+      var delegate = timeoutProvider.delegate;
+      if (delegate === null || delegate === void 0 ? void 0 : delegate.setTimeout) {
+        return delegate.setTimeout.apply(delegate, __spreadArray([handler, timeout], __read(args)));
+      }
+      return setTimeout.apply(void 0, __spreadArray([handler, timeout], __read(args)));
+    },
+    clearTimeout: function(handle) {
+      var delegate = timeoutProvider.delegate;
+      return ((delegate === null || delegate === void 0 ? void 0 : delegate.clearTimeout) || clearTimeout)(handle);
+    },
+    delegate: void 0
+  };
+
+  // node_modules/rxjs/dist/esm5/internal/util/reportUnhandledError.js
+  function reportUnhandledError(err) {
+    timeoutProvider.setTimeout(function() {
+      var onUnhandledError = config.onUnhandledError;
+      if (onUnhandledError) {
+        onUnhandledError(err);
+      } else {
+        throw err;
+      }
+    });
+  }
+
+  // node_modules/rxjs/dist/esm5/internal/util/noop.js
+  function noop() {
+  }
+
+  // node_modules/rxjs/dist/esm5/internal/NotificationFactories.js
+  var COMPLETE_NOTIFICATION = function() {
+    return createNotification("C", void 0, void 0);
+  }();
+  function errorNotification(error) {
+    return createNotification("E", void 0, error);
+  }
+  function nextNotification(value) {
+    return createNotification("N", value, void 0);
+  }
+  function createNotification(kind, value, error) {
+    return {
+      kind,
+      value,
+      error
+    };
+  }
+
+  // node_modules/rxjs/dist/esm5/internal/util/errorContext.js
+  var context = null;
+  function errorContext(cb) {
+    if (config.useDeprecatedSynchronousErrorHandling) {
+      var isRoot = !context;
+      if (isRoot) {
+        context = { errorThrown: false, error: null };
+      }
+      cb();
+      if (isRoot) {
+        var _a2 = context, errorThrown = _a2.errorThrown, error = _a2.error;
+        context = null;
+        if (errorThrown) {
+          throw error;
+        }
+      }
+    } else {
+      cb();
+    }
+  }
+  function captureError(err) {
+    if (config.useDeprecatedSynchronousErrorHandling && context) {
+      context.errorThrown = true;
+      context.error = err;
+    }
+  }
+
+  // node_modules/rxjs/dist/esm5/internal/Subscriber.js
+  var Subscriber = function(_super) {
+    __extends(Subscriber2, _super);
+    function Subscriber2(destination) {
+      var _this = _super.call(this) || this;
+      _this.isStopped = false;
+      if (destination) {
+        _this.destination = destination;
+        if (isSubscription(destination)) {
+          destination.add(_this);
+        }
+      } else {
+        _this.destination = EMPTY_OBSERVER;
+      }
+      return _this;
+    }
+    Subscriber2.create = function(next, error, complete) {
+      return new SafeSubscriber(next, error, complete);
+    };
+    Subscriber2.prototype.next = function(value) {
+      if (this.isStopped) {
+        handleStoppedNotification(nextNotification(value), this);
+      } else {
+        this._next(value);
+      }
+    };
+    Subscriber2.prototype.error = function(err) {
+      if (this.isStopped) {
+        handleStoppedNotification(errorNotification(err), this);
+      } else {
+        this.isStopped = true;
+        this._error(err);
+      }
+    };
+    Subscriber2.prototype.complete = function() {
+      if (this.isStopped) {
+        handleStoppedNotification(COMPLETE_NOTIFICATION, this);
+      } else {
+        this.isStopped = true;
+        this._complete();
+      }
+    };
+    Subscriber2.prototype.unsubscribe = function() {
+      if (!this.closed) {
+        this.isStopped = true;
+        _super.prototype.unsubscribe.call(this);
+        this.destination = null;
+      }
+    };
+    Subscriber2.prototype._next = function(value) {
+      this.destination.next(value);
+    };
+    Subscriber2.prototype._error = function(err) {
+      try {
+        this.destination.error(err);
+      } finally {
+        this.unsubscribe();
+      }
+    };
+    Subscriber2.prototype._complete = function() {
+      try {
+        this.destination.complete();
+      } finally {
+        this.unsubscribe();
+      }
+    };
+    return Subscriber2;
+  }(Subscription);
+  var _bind = Function.prototype.bind;
+  function bind(fn, thisArg) {
+    return _bind.call(fn, thisArg);
+  }
+  var ConsumerObserver = function() {
+    function ConsumerObserver2(partialObserver) {
+      this.partialObserver = partialObserver;
+    }
+    ConsumerObserver2.prototype.next = function(value) {
+      var partialObserver = this.partialObserver;
+      if (partialObserver.next) {
+        try {
+          partialObserver.next(value);
+        } catch (error) {
+          handleUnhandledError(error);
+        }
+      }
+    };
+    ConsumerObserver2.prototype.error = function(err) {
+      var partialObserver = this.partialObserver;
+      if (partialObserver.error) {
+        try {
+          partialObserver.error(err);
+        } catch (error) {
+          handleUnhandledError(error);
+        }
+      } else {
+        handleUnhandledError(err);
+      }
+    };
+    ConsumerObserver2.prototype.complete = function() {
+      var partialObserver = this.partialObserver;
+      if (partialObserver.complete) {
+        try {
+          partialObserver.complete();
+        } catch (error) {
+          handleUnhandledError(error);
+        }
+      }
+    };
+    return ConsumerObserver2;
+  }();
+  var SafeSubscriber = function(_super) {
+    __extends(SafeSubscriber2, _super);
+    function SafeSubscriber2(observerOrNext, error, complete) {
+      var _this = _super.call(this) || this;
+      var partialObserver;
+      if (isFunction(observerOrNext) || !observerOrNext) {
+        partialObserver = {
+          next: observerOrNext !== null && observerOrNext !== void 0 ? observerOrNext : void 0,
+          error: error !== null && error !== void 0 ? error : void 0,
+          complete: complete !== null && complete !== void 0 ? complete : void 0
+        };
+      } else {
+        var context_1;
+        if (_this && config.useDeprecatedNextContext) {
+          context_1 = Object.create(observerOrNext);
+          context_1.unsubscribe = function() {
+            return _this.unsubscribe();
+          };
+          partialObserver = {
+            next: observerOrNext.next && bind(observerOrNext.next, context_1),
+            error: observerOrNext.error && bind(observerOrNext.error, context_1),
+            complete: observerOrNext.complete && bind(observerOrNext.complete, context_1)
+          };
+        } else {
+          partialObserver = observerOrNext;
+        }
+      }
+      _this.destination = new ConsumerObserver(partialObserver);
+      return _this;
+    }
+    return SafeSubscriber2;
+  }(Subscriber);
+  function handleUnhandledError(error) {
+    if (config.useDeprecatedSynchronousErrorHandling) {
+      captureError(error);
+    } else {
+      reportUnhandledError(error);
+    }
+  }
+  function defaultErrorHandler(err) {
+    throw err;
+  }
+  function handleStoppedNotification(notification, subscriber) {
+    var onStoppedNotification = config.onStoppedNotification;
+    onStoppedNotification && timeoutProvider.setTimeout(function() {
+      return onStoppedNotification(notification, subscriber);
+    });
+  }
+  var EMPTY_OBSERVER = {
+    closed: true,
+    next: noop,
+    error: defaultErrorHandler,
+    complete: noop
+  };
+
+  // node_modules/rxjs/dist/esm5/internal/symbol/observable.js
+  var observable = function() {
+    return typeof Symbol === "function" && Symbol.observable || "@@observable";
+  }();
+
+  // node_modules/rxjs/dist/esm5/internal/util/identity.js
+  function identity(x) {
+    return x;
+  }
+
+  // node_modules/rxjs/dist/esm5/internal/util/pipe.js
+  function pipeFromArray(fns) {
+    if (fns.length === 0) {
+      return identity;
+    }
+    if (fns.length === 1) {
+      return fns[0];
+    }
+    return function piped(input) {
+      return fns.reduce(function(prev, fn) {
+        return fn(prev);
+      }, input);
+    };
+  }
+
+  // node_modules/rxjs/dist/esm5/internal/Observable.js
+  var Observable = function() {
+    function Observable2(subscribe) {
+      if (subscribe) {
+        this._subscribe = subscribe;
+      }
+    }
+    Observable2.prototype.lift = function(operator) {
+      var observable2 = new Observable2();
+      observable2.source = this;
+      observable2.operator = operator;
+      return observable2;
+    };
+    Observable2.prototype.subscribe = function(observerOrNext, error, complete) {
+      var _this = this;
+      var subscriber = isSubscriber(observerOrNext) ? observerOrNext : new SafeSubscriber(observerOrNext, error, complete);
+      errorContext(function() {
+        var _a2 = _this, operator = _a2.operator, source = _a2.source;
+        subscriber.add(operator ? operator.call(subscriber, source) : source ? _this._subscribe(subscriber) : _this._trySubscribe(subscriber));
+      });
+      return subscriber;
+    };
+    Observable2.prototype._trySubscribe = function(sink) {
+      try {
+        return this._subscribe(sink);
+      } catch (err) {
+        sink.error(err);
+      }
+    };
+    Observable2.prototype.forEach = function(next, promiseCtor) {
+      var _this = this;
+      promiseCtor = getPromiseCtor(promiseCtor);
+      return new promiseCtor(function(resolve, reject) {
+        var subscriber = new SafeSubscriber({
+          next: function(value) {
+            try {
+              next(value);
+            } catch (err) {
+              reject(err);
+              subscriber.unsubscribe();
+            }
+          },
+          error: reject,
+          complete: resolve
+        });
+        _this.subscribe(subscriber);
+      });
+    };
+    Observable2.prototype._subscribe = function(subscriber) {
+      var _a2;
+      return (_a2 = this.source) === null || _a2 === void 0 ? void 0 : _a2.subscribe(subscriber);
+    };
+    Observable2.prototype[observable] = function() {
+      return this;
+    };
+    Observable2.prototype.pipe = function() {
+      var operations = [];
+      for (var _i = 0; _i < arguments.length; _i++) {
+        operations[_i] = arguments[_i];
+      }
+      return pipeFromArray(operations)(this);
+    };
+    Observable2.prototype.toPromise = function(promiseCtor) {
+      var _this = this;
+      promiseCtor = getPromiseCtor(promiseCtor);
+      return new promiseCtor(function(resolve, reject) {
+        var value;
+        _this.subscribe(function(x) {
+          return value = x;
+        }, function(err) {
+          return reject(err);
+        }, function() {
+          return resolve(value);
+        });
+      });
+    };
+    Observable2.create = function(subscribe) {
+      return new Observable2(subscribe);
+    };
+    return Observable2;
+  }();
+  function getPromiseCtor(promiseCtor) {
+    var _a2;
+    return (_a2 = promiseCtor !== null && promiseCtor !== void 0 ? promiseCtor : config.Promise) !== null && _a2 !== void 0 ? _a2 : Promise;
+  }
+  function isObserver(value) {
+    return value && isFunction(value.next) && isFunction(value.error) && isFunction(value.complete);
+  }
+  function isSubscriber(value) {
+    return value && value instanceof Subscriber || isObserver(value) && isSubscription(value);
+  }
+
+  // node_modules/rxjs/dist/esm5/internal/util/lift.js
+  function hasLift(source) {
+    return isFunction(source === null || source === void 0 ? void 0 : source.lift);
+  }
+  function operate(init) {
+    return function(source) {
+      if (hasLift(source)) {
+        return source.lift(function(liftedSource) {
+          try {
+            return init(liftedSource, this);
+          } catch (err) {
+            this.error(err);
+          }
+        });
+      }
+      throw new TypeError("Unable to lift unknown Observable type");
+    };
+  }
+
+  // node_modules/rxjs/dist/esm5/internal/operators/OperatorSubscriber.js
+  function createOperatorSubscriber(destination, onNext, onComplete, onError, onFinalize) {
+    return new OperatorSubscriber(destination, onNext, onComplete, onError, onFinalize);
+  }
+  var OperatorSubscriber = function(_super) {
+    __extends(OperatorSubscriber2, _super);
+    function OperatorSubscriber2(destination, onNext, onComplete, onError, onFinalize, shouldUnsubscribe) {
+      var _this = _super.call(this, destination) || this;
+      _this.onFinalize = onFinalize;
+      _this.shouldUnsubscribe = shouldUnsubscribe;
+      _this._next = onNext ? function(value) {
+        try {
+          onNext(value);
+        } catch (err) {
+          destination.error(err);
+        }
+      } : _super.prototype._next;
+      _this._error = onError ? function(err) {
+        try {
+          onError(err);
+        } catch (err2) {
+          destination.error(err2);
+        } finally {
+          this.unsubscribe();
+        }
+      } : _super.prototype._error;
+      _this._complete = onComplete ? function() {
+        try {
+          onComplete();
+        } catch (err) {
+          destination.error(err);
+        } finally {
+          this.unsubscribe();
+        }
+      } : _super.prototype._complete;
+      return _this;
+    }
+    OperatorSubscriber2.prototype.unsubscribe = function() {
+      var _a2;
+      if (!this.shouldUnsubscribe || this.shouldUnsubscribe()) {
+        var closed_1 = this.closed;
+        _super.prototype.unsubscribe.call(this);
+        !closed_1 && ((_a2 = this.onFinalize) === null || _a2 === void 0 ? void 0 : _a2.call(this));
+      }
+    };
+    return OperatorSubscriber2;
+  }(Subscriber);
+
+  // node_modules/rxjs/dist/esm5/internal/util/isObservable.js
+  function isObservable(obj) {
+    return !!obj && (obj instanceof Observable || isFunction(obj.lift) && isFunction(obj.subscribe));
+  }
+
+  // node_modules/rxjs/dist/esm5/internal/operators/map.js
+  function map(project, thisArg) {
+    return operate(function(source, subscriber) {
+      var index = 0;
+      source.subscribe(createOperatorSubscriber(subscriber, function(value) {
+        subscriber.next(project.call(thisArg, value, index++));
+      }));
+    });
+  }
+
+  // node_modules/rxjs/dist/esm5/internal/operators/distinctUntilChanged.js
+  function distinctUntilChanged(comparator, keySelector) {
+    if (keySelector === void 0) {
+      keySelector = identity;
+    }
+    comparator = comparator !== null && comparator !== void 0 ? comparator : defaultCompare;
+    return operate(function(source, subscriber) {
+      var previousKey;
+      var first = true;
+      source.subscribe(createOperatorSubscriber(subscriber, function(value) {
+        var currentKey = keySelector(value);
+        if (first || !comparator(previousKey, currentKey)) {
+          first = false;
+          previousKey = currentKey;
+          subscriber.next(value);
+        }
+      }));
+    });
+  }
+  function defaultCompare(a, b) {
+    return a === b;
+  }
+
+  // node_modules/jsx-view/lib/isObservableUnchecked.js
+  function isObservableUnchecked(x) {
+    return isObservable(x);
+  }
+
+  // node_modules/jsx-view/lib/jsxSpec.js
+  var DOMSpecElementMarker = Symbol.for("jsx-view/DOMSpecElement");
+  var _a;
+  var DOMSpecElement = class {
+    constructor(spec) {
+      __publicField(this, "spec");
+      __publicField(this, "_dev");
+      __publicField(this, _a, true);
+      this.spec = spec;
+    }
+  };
+  _a = DOMSpecElementMarker;
+  function __isDOMSpecElement(obj) {
+    return !!obj && obj instanceof DOMSpecElement || obj?.[DOMSpecElementMarker] === true;
+  }
+  function jsx(elemName, props) {
+    if (typeof elemName === "string") {
+      if (!props)
+        props = {};
+      const { children, ...givenProps } = props;
+      const fixChildren = flattenChildren(Array.isArray(children) ? children : [children]);
+      return new DOMSpecElement([elemName, givenProps, ...fixChildren]);
+    }
+    return new DOMSpecElement([elemName, props]);
+  }
+  function flattenChildren(children) {
+    return flatMap(children, (a) => {
+      if (a == null)
+        return [];
+      if (a instanceof DOMSpecElement)
+        return a;
+      if (typeof a === "string") {
+        return new DOMSpecElement(a);
+      } else if (Array.isArray(a)) {
+        return flattenChildren(a);
+      } else {
+        return new DOMSpecElement(typeof a === "number" ? String(a) : a);
+      }
+    });
+  }
+  function flatMap(items, lambda) {
+    return Array.prototype.concat.apply([], items.map(lambda));
+  }
+
+  // node_modules/jsx-view/lib/Context.js
+  function createContext(defaultValue) {
+    return { defaultValue };
+  }
+
+  // node_modules/jsx-view/lib/rxjs-helpers.js
+  function map$Class(fn) {
+    return map(fn);
+  }
+
+  // node_modules/jsx-view/lib/subscribeState.js
+  function subscribeState(parentSub, obs, next) {
+    let sub = Subscription.EMPTY;
+    parentSub.add(obs.subscribe({
+      next: (value) => {
+        sub.unsubscribe();
+        sub = new Subscription();
+        next(value, sub);
+      },
+      complete: () => sub.unsubscribe()
+    }));
+    parentSub.add(() => {
+      sub.unsubscribe();
+    });
+  }
+
+  // node_modules/jsx-view/lib/stack.js
+  var _curr, _stack;
+  var St = class {
+    constructor(s) {
+      __publicField(this, "s");
+      __privateAdd(this, _curr, -1);
+      __privateAdd(this, _stack, new Array(64).fill(void 0));
+      this.s = s;
+    }
+    push(add) {
+      __privateSet(this, _curr, __privateGet(this, _curr) + 1);
+      __privateGet(this, _stack)[__privateGet(this, _curr)] = add;
+    }
+    pop() {
+      __privateGet(this, _stack)[__privateGet(this, _curr)] = void 0;
+      __privateSet(this, _curr, __privateGet(this, _curr) - 1);
+    }
+    get() {
+      if (__privateGet(this, _curr) < 0) {
+        throw new Error("Unexpected Stack.get");
+      }
+      return __privateGet(this, _stack)[__privateGet(this, _curr)];
+    }
+  };
+  _curr = new WeakMap();
+  _stack = new WeakMap();
+
+  // node_modules/jsx-view/lib/renderSpec.js
+  function renderSpec(parentSub, structure) {
+    if (isObservable(structure))
+      throw new Error("Cannot render an Observable root");
+    return renderSpecDoc(document, parentSub, structure);
+  }
+  var globalContextStack = new St(0);
+  var booleanProps = /* @__PURE__ */ new Set([
+    "async",
+    "autofocus",
+    "autoplay",
+    "checked",
+    "controls",
+    "default",
+    "defer",
+    "disabled",
+    "draggable",
+    "hidden",
+    "loop",
+    "multiple",
+    "novalidate",
+    "open",
+    "readonly",
+    "required",
+    "reversed",
+    "scoped",
+    "selected",
+    "spellcheck",
+    "wrap"
+  ]);
+  function isDirectAssignProp(prop) {
+    return (
+      // According to the HTML spec, all attributes starting with "on" are event listeners (accepting assignment to functions)
+      prop.startsWith("on") || // boolean brops show up like `<input disabled/>` where there isn't an actual value needed
+      booleanProps.has(prop) || // "value" must be directly assigned to notify HTMLInputElement of change
+      prop === "value"
+    );
+  }
+  function renderSpecDoc(doc, parentSub, structure_, scope = [], xmlNS = null, devRenderInfo = void 0) {
+    let structure = structure_;
+    let _dev;
+    if (__isDOMSpecElement(structure)) {
+      _dev = structure._dev;
+      structure = structure.spec;
+    }
+    let childRenderInfo = {
+      ...devRenderInfo,
+      // clear direct render info for children
+      directParentComponent: void 0,
+      directParentComponentProps: void 0
+    };
+    if (devRenderInfo?.directParentComponent) {
+      childRenderInfo.parentComponent = devRenderInfo.directParentComponent;
+      childRenderInfo.parentComponentProps = devRenderInfo?.directParentComponentProps;
+    }
+    if (typeof structure === "string")
+      return doc.createTextNode(structure);
+    if (structure == null || structure === false)
+      return doc.createTextNode("");
+    if (isObservableUnchecked(structure)) {
+      let obsNode = doc.createElement("jsx-view-observable");
+      subscribeState(parentSub, structure, (spec, whileSpec) => {
+        const oldNode = obsNode;
+        obsNode = renderSpecDoc(doc, whileSpec, spec == null || spec === false ? createEmptyNode(doc) : __isDOMSpecElement(spec) || Array.isArray(spec) ? (
+          // will have a valid Element container
+          spec
+        ) : (
+          // might not have a container
+          ["jsx-view-observable", null, spec]
+        ), scope, xmlNS, devRenderInfo);
+        oldNode.replaceWith(obsNode);
+      });
+      return obsNode;
+    }
+    if (structure["nodeType"] != null)
+      return structure;
+    if (!Array.isArray(structure))
+      return doc.createTextNode(String(structure));
+    let tagName = structure[0];
+    if (typeof tagName === "function") {
+      scope = scope.slice(0);
+      globalContextStack.push(scope);
+      globalContextStack.s = 2;
+      const props = structure[1];
+      structure = tagName(props);
+      if (devRenderInfo) {
+        devRenderInfo.directParentComponent = tagName;
+        devRenderInfo.directParentComponentProps = props;
+      }
+      const res = renderSpecDoc(
+        doc,
+        parentSub,
+        // Hmm: Do we need to check if it has a proper container like with the observable one above?
+        structure,
+        scope,
+        xmlNS,
+        devRenderInfo
+      );
+      globalContextStack.pop();
+      globalContextStack.s = 0;
+      return res;
+    }
+    if (typeof tagName !== "string") {
+      const err = new Error(`Expected string tagName, but found ${tagName}`);
+      console.error(err, { given: structure_ });
+      throw err;
+    }
+    if (tagName.indexOf(" ") > 0) {
+      throw new RangeError(`Unexpected space in tagName ("${tagName}")`);
+    }
+    const attrs = structure[1];
+    if (devRenderInfo)
+      devRenderInfo.intrinsicProps = attrs;
+    let ref = void 0;
+    let classAttrHandled = 0;
+    tagName = attrs?.is ?? tagName;
+    if (tagName === "svg")
+      xmlNS = "http://www.w3.org/2000/svg";
+    const dom = xmlNS ? doc.createElementNS(xmlNS, tagName) : doc.createElement(tagName);
+    if (attrs != null) {
+      for (let name in attrs) {
+        if (name === "is")
+          continue;
+        const attrVal = attrs[name];
+        if (attrVal != null) {
+          if (name === "$class" || name === "class" || name === "tags") {
+            if (classAttrHandled)
+              continue;
+            classAttrHandled = 1;
+            const classNamesList = attrs.class ? [attrs.class] : [];
+            const val$classes = attrs.$class;
+            if (Array.isArray(val$classes)) {
+              classNamesList.push(...val$classes);
+            } else if (val$classes != null) {
+              classNamesList.push(val$classes);
+            }
+            const valClass = attrs.class;
+            if (valClass != null) {
+              classNamesList.push(valClass);
+            }
+            const valTag = attrs.tags;
+            if (valTag != null) {
+              classNamesList.push(isObservableUnchecked(valTag) ? valTag.pipe(map$Class(mapTagsToClassNames)) : mapTagsToClassNames(valTag));
+              if (isObservableUnchecked(valTag)) {
+                parentSub.add(valTag.subscribe((a) => dom.setAttribute("data-tags", a?.join(",") ?? "")));
+              } else {
+                dom.setAttribute("data-tags", valTag.join(","));
+              }
+            }
+            for (let i = 0; i < classNamesList.length; i++) {
+              const classItem = classNamesList[i];
+              if (isObservableUnchecked(classItem)) {
+                let previousClasses = [];
+                parentSub.add(classItem.subscribe((a) => {
+                  dom.classList.remove(...previousClasses);
+                  if (!a) {
+                    previousClasses = [];
+                  } else if (typeof a === "string")
+                    previousClasses = a.split(/\s+/g).filter(Boolean);
+                  else if (Array.isArray(a))
+                    previousClasses = a.filter(Boolean);
+                  else {
+                    previousClasses = [];
+                    for (const className in a) {
+                      if (a[className]) {
+                        previousClasses.push(className);
+                      }
+                    }
+                  }
+                  dom.classList.add(...previousClasses);
+                }));
+              } else {
+                let classesToAdd = [];
+                if (!classItem) {
+                } else if (typeof classItem === "string")
+                  classesToAdd = classItem.split(/\s+/g).filter(Boolean);
+                else {
+                  for (const className in classItem) {
+                    const classVal = classItem[className];
+                    if (classVal) {
+                      if (isObservableUnchecked(classVal)) {
+                        parentSub.add(classVal.pipe(distinctUntilChanged()).subscribe((shouldAdd) => {
+                          dom.classList.toggle(className, !!shouldAdd);
+                        }));
+                      } else {
+                        classesToAdd.push(className);
+                      }
+                    }
+                  }
+                }
+                dom.classList.add(...classesToAdd);
+              }
+            }
+          } else if (isObservable(attrVal)) {
+            if (name === "$style") {
+              if (isObservable(attrs.style))
+                throw new RangeError("Cannot combine $style property with an Observable [style] property.");
+              subAssign$Style(parentSub, attrVal, dom);
+            } else if (isDirectAssignProp(name)) {
+              parentSub.add(attrVal.subscribe((value) => {
+                if (dom[name] !== value)
+                  dom[name] = value;
+              }));
+            } else
+              parentSub.add(attrVal.subscribe((value) => {
+                if (value == null)
+                  dom.removeAttribute(name);
+                else
+                  dom.setAttribute(name, String(value));
+              }));
+          } else {
+            if (isDirectAssignProp(name)) {
+              ;
+              dom[name] = attrVal;
+            } else if (name === "ref") {
+              ref = attrVal;
+            } else if (name === "style") {
+              subAssignStyle(parentSub, attrVal, dom);
+            } else if (name === "$style") {
+              for (const key in attrVal) {
+                ;
+                dom.style[key] = attrVal[key];
+              }
+            } else
+              dom.setAttribute(name, attrVal);
+          }
+        }
+      }
+    }
+    for (let i = 2; i < structure.length; i++) {
+      let child = structure[i];
+      const inner = renderSpecDoc(doc, parentSub, child, scope, xmlNS, childRenderInfo);
+      dom.appendChild(inner);
+    }
+    let foundDevFn = _devctxglobal[0];
+    for (let i = scope.length - 1; i >= 0; i--) {
+      const si = scope[i];
+      if (si.c !== _devctx)
+        continue;
+      foundDevFn = si.v;
+      break;
+    }
+    if (foundDevFn != null) {
+      const options = { ..._dev, ...devRenderInfo };
+      try {
+        foundDevFn(dom, options, parentSub);
+      } catch (err) {
+        console.warn("Error thrown running the configured addJSXDev(fn) function", {
+          error: err,
+          dom,
+          options,
+          fn: foundDevFn
+        });
+      }
+    }
+    if (ref) {
+      globalContextStack.push(scope);
+      globalContextStack.s = 1;
+      if (typeof ref === "function") {
+        ref(dom, parentSub);
+      } else {
+        ref.next({ dom, sub: parentSub });
+      }
+      globalContextStack.pop();
+      globalContextStack.s = 0;
+    }
+    return dom;
+  }
+  function subAssign$Style(parentSub, attrVal, dom) {
+    parentSub.add(attrVal.subscribe((value) => {
+      for (const rule in value) {
+        if (rule.startsWith("--")) {
+          dom.style.setProperty(rule, value[rule] ?? null);
+        } else {
+          dom.style[rule] = value[rule] ?? "";
+        }
+      }
+    }));
+  }
+  function subAssignStyle(parentSub, value, dom) {
+    if (!value)
+      return;
+    if (isObservable(value)) {
+      parentSub.add(value.subscribe((styleStringValue) => {
+        if (styleStringValue) {
+          dom.setAttribute("style", styleStringValue);
+        } else {
+          dom.removeAttribute("style");
+        }
+      }));
+    } else if (typeof value === "object") {
+      for (const rule in value) {
+        const ruleVal = value[rule];
+        if (rule.startsWith("--")) {
+          if (isObservable(ruleVal))
+            parentSub.add(ruleVal.subscribe((a) => dom.style.setProperty(rule, a ?? null)));
+          else
+            dom.style.setProperty(rule, ruleVal ?? null);
+        } else {
+          if (isObservable(ruleVal))
+            parentSub.add(ruleVal.subscribe((a) => dom.style[rule] = a ?? ""));
+          else
+            dom.style[rule] = ruleVal ?? "";
+        }
+      }
+    } else if (typeof value === "string") {
+      if (value) {
+        dom.setAttribute("style", value);
+      } else {
+        dom.removeAttribute("style");
+      }
+    } else {
+      const err = new TypeError("Unexpected type for style=...");
+      console.error(err, { found: value });
+      throw err;
+    }
+  }
+  function createEmptyNode(document2) {
+    return document2.createElement("jsx-view-empty");
+  }
+  function mapTagsToClassNames(tags) {
+    return (tags ?? []).map((tag) => `tag-${tag}`).join(" ");
+  }
+
+  // node_modules/jsx-view/lib/addJSXDev.js
+  var _devctx = createContext(null);
+  var _devctxglobal = [null];
+
+  // ui-src/import.tsx
+  try {
+    const rootSub = new Subscription();
+    const appJsx = /* @__PURE__ */ jsx("form", { children: [
+      /* @__PURE__ */ jsx("div", { class: "row", children: [
+        /* @__PURE__ */ jsx("select", { id: "collectionSelect" }),
+        /* @__PURE__ */ jsx(
+          "input",
+          {
+            placeholder: "Collection Name",
+            required: true,
+            type: "text",
+            id: "collectionInput"
+          }
+        )
+      ] }),
+      /* @__PURE__ */ jsx("div", { class: "row", children: [
+        /* @__PURE__ */ jsx("select", { id: "modeSelect" }),
+        /* @__PURE__ */ jsx("input", { placeholder: "Mode Name", required: true, type: "text", id: "modeInput" })
+      ] }),
+      /* @__PURE__ */ jsx("textarea", { required: true, placeholder: "Tokens JSON" }),
+      /* @__PURE__ */ jsx("button", { type: "submit", children: "Import Variables" })
+    ] });
+    document.getElementById("app-root").appendChild(renderSpec(rootSub, appJsx));
+  } catch (err) {
+    console.error(err);
+  }
+})();
+</script></body></html>

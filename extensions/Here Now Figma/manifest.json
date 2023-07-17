@@ -1,16 +1,17 @@
 {
   "name": "Here Now Figma",
-  "id": "1260340944901815368",
+  "id": "1260340944901815430",
   "api": "1.0.0",
-  "main": "plugin.js",
+  "main": "dist/plugin.js",
+  "menu": [
+    { "command": "import", "name": "Import Text Styles" },
+    { "command": "autocorrect", "name": "Autocorrect Text Styles" }
+  ],
+  "ui": { "import": "dist/import.html", "autocorrect": "dist/autocorrect.html" },
   "capabilities": [],
   "enableProposedApi": false,
-  "editorType": [
-    "figma"
-  ],
+  "editorType": ["figma"],
   "networkAccess": {
-    "allowedDomains": [
-      "none"
-    ]
+    "allowedDomains": ["none"]
   }
 }

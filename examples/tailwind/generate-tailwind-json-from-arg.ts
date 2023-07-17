@@ -1,4 +1,4 @@
-import * as output from "../output.gen.ts";
+import * as output from "../export.gen.ts";
 
 const out = output.TypographyExport(JSON.parse(Deno.args.findLast(Boolean)!));
 

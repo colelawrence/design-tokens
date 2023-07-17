@@ -5,7 +5,7 @@ use crate::prelude::*;
 use super::scalars;
 
 #[derive(Codegen, Debug, Deserialize)]
-#[codegen(tags = "typography,input")]
+#[codegen(tags = "typography-input")]
 #[allow(non_snake_case)]
 pub struct Typography {
     pub Families: Vec<FontFamilyInfo>,
@@ -17,7 +17,7 @@ pub struct Typography {
 }
 
 #[derive(Codegen, Debug, Deserialize)]
-#[codegen(tags = "typography,input")]
+#[codegen(tags = "typography-input")]
 #[allow(non_snake_case)]
 pub struct TextRole {
     /// e.g. `"ui"` or `"content"`
@@ -32,7 +32,7 @@ pub struct TextRole {
 }
 
 #[derive(Codegen, Debug, Deserialize)]
-#[codegen(tags = "typography,input")]
+#[codegen(tags = "typography-input")]
 #[allow(non_snake_case)]
 pub struct FontFamilyInfo {
     /// e.g. `"Inter"` or `"Merriweather"`
@@ -49,7 +49,7 @@ pub struct FontFamilyInfo {
 }
 
 #[derive(Codegen, Debug, Deserialize)]
-#[codegen(tags = "typography,input")]
+#[codegen(tags = "typography-input")]
 #[allow(non_snake_case)]
 pub struct FamilyWeightRule {
     /// Number between 0 and 1000
@@ -69,7 +69,7 @@ pub struct FamilyWeightRule {
 }
 
 #[derive(Codegen, Debug, Deserialize)]
-#[codegen(tags = "typography,input")]
+#[codegen(tags = "typography-input")]
 #[allow(non_snake_case)]
 pub struct FontSizeScale {
     pub FontSizes: Vec<FontSizeRel>,
@@ -81,7 +81,7 @@ pub struct FontSizeScale {
 }
 
 #[derive(Codegen, Debug, Deserialize)]
-#[codegen(tags = "typography,input")]
+#[codegen(tags = "typography-input")]
 #[allow(non_snake_case)]
 pub struct FontSizeRel {
     /// e.g. `"xs"`, `"sm"`, `"base"`, `"lg"`, etc.
@@ -92,7 +92,7 @@ pub struct FontSizeRel {
 
 /// WIP: Based on @capsizecss/metrics
 #[derive(Codegen, Debug, Deserialize)]
-#[codegen(tags = "typography,input")]
+#[codegen(tags = "typography-input")]
 #[allow(non_snake_case)]
 pub struct FontFamilyMetrics {
     pub familyName: String,
@@ -108,7 +108,7 @@ pub struct FontFamilyMetrics {
 
 /// WIP: Based on @capsizecss/metrics
 #[derive(Codegen, Debug, Deserialize)]
-#[codegen(tags = "typography,input")]
+#[codegen(tags = "typography-input")]
 #[allow(non_snake_case)]
 pub enum FontFamilyTrackingRule {
     /// Determine your tracking goals via a page like https://rsms.me/inter/dynmetrics/
@@ -125,7 +125,7 @@ impl FontFamilyTrackingRule {
 }
 
 #[derive(Codegen, Debug, Deserialize)]
-#[codegen(tags = "typography,input")]
+#[codegen(tags = "typography-input")]
 #[allow(non_snake_case)]
 pub enum FontFamilyLineHeightRule {
     /// Determine your tracking goals via a page like https://rsms.me/inter/dynmetrics/
@@ -145,7 +145,7 @@ impl FontFamilyLineHeightRule {
 
 /// WIP: Based on ratioInterval
 #[derive(Codegen, Debug, Deserialize)]
-#[codegen(tags = "typography,input")]
+#[codegen(tags = "typography-input")]
 #[allow(non_snake_case)]
 pub enum FontSizeEquation {
     Multiplier {

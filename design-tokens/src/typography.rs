@@ -13,10 +13,8 @@ pub mod scalars {
     /// Note: Due to the design system not knowing the details of these, the tooling may struggle
     /// to interpolate between two possible options. Perhaps, we should leave interpolation up to
     /// the implementor?
-    ///
-    /// See [figma::]
     #[derive(Codegen, Clone, Debug, Deserialize, Serialize, PartialEq)]
-    #[codegen(tags = "typography,input,output")]
+    #[codegen(tags = "typography-export,typography-input")]
     #[codegen(scalar)]
     #[serde(transparent)]
     pub struct FontStyleRule(serde_json::Value);

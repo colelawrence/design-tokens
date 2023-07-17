@@ -1,7 +1,8 @@
-import { assign, KEEP } from "./assign.js";
-import { fromEntries } from "./fromEntries.js";
-import { gen } from "./gen/define.js";
-import testData from "./test-data.js";
+// @ts-nocheck
+import { gen } from "~gen";
+import { assign, KEEP } from "~helpers/assign.js";
+import { fromEntries } from "~helpers/fromEntries.js";
+// import testData from "../test-data.js";
 const allLocalVariables = figma.variables.getLocalVariables();
 
 function ensureMode(c: VariableCollection, modeName: string) {
