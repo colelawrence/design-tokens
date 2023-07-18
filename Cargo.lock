@@ -608,6 +608,13 @@ dependencies = [
 ]
 
 [[package]]
+name = "protocol-types"
+version = "0.1.0"
+dependencies = [
+ "derive-codegen",
+]
+
+[[package]]
 name = "quote"
 version = "1.0.29"
 source = "registry+https://github.com/rust-lang/crates.io-index"

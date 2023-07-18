@@ -26,10 +26,10 @@ const builds = [
     }),
   },
   {
-    name: "dist/import.html",
+    name: "dist/ui.html",
     ctx: esbuild.context({
       bundle: true,
-      entryPoints: ["ui-src/import.tsx"],
+      entryPoints: ["ui-src/ui.tsx"],
       tsconfig: "ui-src/tsconfig.json",
       target: "ES2020",
       platform: "browser",
@@ -39,32 +39,8 @@ const builds = [
         htmlPlugin({
           files: [
             {
-              entryPoints: ["ui-src/import.tsx"],
-              filename: "import.html",
-              inline: { css: true, js: true },
-              htmlTemplate,
-            },
-          ],
-        }),
-      ],
-    }),
-  },
-  {
-    name: "dist/autocorrect.html",
-    ctx: esbuild.context({
-      bundle: true,
-      entryPoints: ["ui-src/autocorrect.tsx"],
-      tsconfig: "ui-src/tsconfig.json",
-      target: "ES2020",
-      platform: "browser",
-      metafile: true,
-      outdir: "dist/",
-      plugins: [
-        htmlPlugin({
-          files: [
-            {
-              entryPoints: ["ui-src/autocorrect.tsx"],
-              filename: "autocorrect.html",
+              entryPoints: ["ui-src/ui.tsx"],
+              filename: "ui.html",
               inline: { css: true, js: true },
               htmlTemplate,
             },

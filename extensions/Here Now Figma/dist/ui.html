@@ -13,6 +13,18 @@ body {
   color: var(--figma-color-text);
   margin: 0;
   padding: var(--spacing);
+  font-family:
+    system-ui,
+    -apple-system,
+    BlinkMacSystemFont,
+    "Segoe UI",
+    Roboto,
+    Oxygen,
+    Ubuntu,
+    Cantarell,
+    "Open Sans",
+    "Helvetica Neue",
+    sans-serif;
 }
 html,
 body {
@@ -48,18 +60,6 @@ button {
   background-color: var(--figma-color-bg-brand);
   border: none;
   color: var(--figma-color-text-onbrand);
-  font-family:
-    system-ui,
-    -apple-system,
-    BlinkMacSystemFont,
-    "Segoe UI",
-    Roboto,
-    Oxygen,
-    Ubuntu,
-    Cantarell,
-    "Open Sans",
-    "Helvetica Neue",
-    sans-serif;
   font-weight: bold;
 }
 select,
@@ -90,6 +90,10 @@ form .row {
 (() => {
   var __defProp = Object.defineProperty;
   var __defNormalProp = (obj, key, value) => key in obj ? __defProp(obj, key, { enumerable: true, configurable: true, writable: true, value }) : obj[key] = value;
+  var __export = (target, all) => {
+    for (var name in all)
+      __defProp(target, name, { get: all[name], enumerable: true });
+  };
   var __publicField = (obj, key, value) => {
     __defNormalProp(obj, typeof key !== "symbol" ? key + "" : key, value);
     return value;
@@ -219,13 +223,13 @@ form .row {
 
   // node_modules/rxjs/dist/esm5/internal/Subscription.js
   var Subscription = function() {
-    function Subscription2(initialTeardown) {
+    function Subscription3(initialTeardown) {
       this.initialTeardown = initialTeardown;
       this.closed = false;
       this._parentage = null;
       this._finalizers = null;
     }
-    Subscription2.prototype.unsubscribe = function() {
+    Subscription3.prototype.unsubscribe = function() {
       var e_1, _a2, e_2, _b;
       var errors;
       if (!this.closed) {
@@ -296,13 +300,13 @@ form .row {
         }
       }
     };
-    Subscription2.prototype.add = function(teardown) {
+    Subscription3.prototype.add = function(teardown) {
       var _a2;
       if (teardown && teardown !== this) {
         if (this.closed) {
           execFinalizer(teardown);
         } else {
-          if (teardown instanceof Subscription2) {
+          if (teardown instanceof Subscription3) {
             if (teardown.closed || teardown._hasParent(this)) {
               return;
             }
@@ -312,35 +316,35 @@ form .row {
         }
       }
     };
-    Subscription2.prototype._hasParent = function(parent) {
+    Subscription3.prototype._hasParent = function(parent2) {
       var _parentage = this._parentage;
-      return _parentage === parent || Array.isArray(_parentage) && _parentage.includes(parent);
+      return _parentage === parent2 || Array.isArray(_parentage) && _parentage.includes(parent2);
     };
-    Subscription2.prototype._addParent = function(parent) {
+    Subscription3.prototype._addParent = function(parent2) {
       var _parentage = this._parentage;
-      this._parentage = Array.isArray(_parentage) ? (_parentage.push(parent), _parentage) : _parentage ? [_parentage, parent] : parent;
+      this._parentage = Array.isArray(_parentage) ? (_parentage.push(parent2), _parentage) : _parentage ? [_parentage, parent2] : parent2;
     };
-    Subscription2.prototype._removeParent = function(parent) {
+    Subscription3.prototype._removeParent = function(parent2) {
       var _parentage = this._parentage;
-      if (_parentage === parent) {
+      if (_parentage === parent2) {
         this._parentage = null;
       } else if (Array.isArray(_parentage)) {
-        arrRemove(_parentage, parent);
+        arrRemove(_parentage, parent2);
       }
     };
-    Subscription2.prototype.remove = function(teardown) {
+    Subscription3.prototype.remove = function(teardown) {
       var _finalizers = this._finalizers;
       _finalizers && arrRemove(_finalizers, teardown);
-      if (teardown instanceof Subscription2) {
+      if (teardown instanceof Subscription3) {
         teardown._removeParent(this);
       }
     };
-    Subscription2.EMPTY = function() {
-      var empty = new Subscription2();
+    Subscription3.EMPTY = function() {
+      var empty = new Subscription3();
       empty.closed = true;
       return empty;
     }();
-    return Subscription2;
+    return Subscription3;
   }();
   var EMPTY_SUBSCRIPTION = Subscription.EMPTY;
   function isSubscription(value) {
@@ -636,18 +640,18 @@ form .row {
 
   // node_modules/rxjs/dist/esm5/internal/Observable.js
   var Observable = function() {
-    function Observable2(subscribe) {
+    function Observable3(subscribe) {
       if (subscribe) {
         this._subscribe = subscribe;
       }
     }
-    Observable2.prototype.lift = function(operator) {
-      var observable2 = new Observable2();
+    Observable3.prototype.lift = function(operator) {
+      var observable2 = new Observable3();
       observable2.source = this;
       observable2.operator = operator;
       return observable2;
     };
-    Observable2.prototype.subscribe = function(observerOrNext, error, complete) {
+    Observable3.prototype.subscribe = function(observerOrNext, error, complete) {
       var _this = this;
       var subscriber = isSubscriber(observerOrNext) ? observerOrNext : new SafeSubscriber(observerOrNext, error, complete);
       errorContext(function() {
@@ -656,14 +660,14 @@ form .row {
       });
       return subscriber;
     };
-    Observable2.prototype._trySubscribe = function(sink) {
+    Observable3.prototype._trySubscribe = function(sink) {
       try {
         return this._subscribe(sink);
       } catch (err) {
         sink.error(err);
       }
     };
-    Observable2.prototype.forEach = function(next, promiseCtor) {
+    Observable3.prototype.forEach = function(next, promiseCtor) {
       var _this = this;
       promiseCtor = getPromiseCtor(promiseCtor);
       return new promiseCtor(function(resolve, reject) {
@@ -682,21 +686,21 @@ form .row {
         _this.subscribe(subscriber);
       });
     };
-    Observable2.prototype._subscribe = function(subscriber) {
+    Observable3.prototype._subscribe = function(subscriber) {
       var _a2;
       return (_a2 = this.source) === null || _a2 === void 0 ? void 0 : _a2.subscribe(subscriber);
     };
-    Observable2.prototype[observable] = function() {
+    Observable3.prototype[observable] = function() {
       return this;
     };
-    Observable2.prototype.pipe = function() {
+    Observable3.prototype.pipe = function() {
       var operations = [];
       for (var _i = 0; _i < arguments.length; _i++) {
         operations[_i] = arguments[_i];
       }
       return pipeFromArray(operations)(this);
     };
-    Observable2.prototype.toPromise = function(promiseCtor) {
+    Observable3.prototype.toPromise = function(promiseCtor) {
       var _this = this;
       promiseCtor = getPromiseCtor(promiseCtor);
       return new promiseCtor(function(resolve, reject) {
@@ -710,10 +714,10 @@ form .row {
         });
       });
     };
-    Observable2.create = function(subscribe) {
-      return new Observable2(subscribe);
+    Observable3.create = function(subscribe) {
+      return new Observable3(subscribe);
     };
-    return Observable2;
+    return Observable3;
   }();
   function getPromiseCtor(promiseCtor) {
     var _a2;
@@ -792,6 +796,206 @@ form .row {
     };
     return OperatorSubscriber2;
   }(Subscriber);
+
+  // node_modules/rxjs/dist/esm5/internal/util/ObjectUnsubscribedError.js
+  var ObjectUnsubscribedError = createErrorClass(function(_super) {
+    return function ObjectUnsubscribedErrorImpl() {
+      _super(this);
+      this.name = "ObjectUnsubscribedError";
+      this.message = "object unsubscribed";
+    };
+  });
+
+  // node_modules/rxjs/dist/esm5/internal/Subject.js
+  var Subject = function(_super) {
+    __extends(Subject2, _super);
+    function Subject2() {
+      var _this = _super.call(this) || this;
+      _this.closed = false;
+      _this.currentObservers = null;
+      _this.observers = [];
+      _this.isStopped = false;
+      _this.hasError = false;
+      _this.thrownError = null;
+      return _this;
+    }
+    Subject2.prototype.lift = function(operator) {
+      var subject = new AnonymousSubject(this, this);
+      subject.operator = operator;
+      return subject;
+    };
+    Subject2.prototype._throwIfClosed = function() {
+      if (this.closed) {
+        throw new ObjectUnsubscribedError();
+      }
+    };
+    Subject2.prototype.next = function(value) {
+      var _this = this;
+      errorContext(function() {
+        var e_1, _a2;
+        _this._throwIfClosed();
+        if (!_this.isStopped) {
+          if (!_this.currentObservers) {
+            _this.currentObservers = Array.from(_this.observers);
+          }
+          try {
+            for (var _b = __values(_this.currentObservers), _c = _b.next(); !_c.done; _c = _b.next()) {
+              var observer = _c.value;
+              observer.next(value);
+            }
+          } catch (e_1_1) {
+            e_1 = { error: e_1_1 };
+          } finally {
+            try {
+              if (_c && !_c.done && (_a2 = _b.return))
+                _a2.call(_b);
+            } finally {
+              if (e_1)
+                throw e_1.error;
+            }
+          }
+        }
+      });
+    };
+    Subject2.prototype.error = function(err) {
+      var _this = this;
+      errorContext(function() {
+        _this._throwIfClosed();
+        if (!_this.isStopped) {
+          _this.hasError = _this.isStopped = true;
+          _this.thrownError = err;
+          var observers = _this.observers;
+          while (observers.length) {
+            observers.shift().error(err);
+          }
+        }
+      });
+    };
+    Subject2.prototype.complete = function() {
+      var _this = this;
+      errorContext(function() {
+        _this._throwIfClosed();
+        if (!_this.isStopped) {
+          _this.isStopped = true;
+          var observers = _this.observers;
+          while (observers.length) {
+            observers.shift().complete();
+          }
+        }
+      });
+    };
+    Subject2.prototype.unsubscribe = function() {
+      this.isStopped = this.closed = true;
+      this.observers = this.currentObservers = null;
+    };
+    Object.defineProperty(Subject2.prototype, "observed", {
+      get: function() {
+        var _a2;
+        return ((_a2 = this.observers) === null || _a2 === void 0 ? void 0 : _a2.length) > 0;
+      },
+      enumerable: false,
+      configurable: true
+    });
+    Subject2.prototype._trySubscribe = function(subscriber) {
+      this._throwIfClosed();
+      return _super.prototype._trySubscribe.call(this, subscriber);
+    };
+    Subject2.prototype._subscribe = function(subscriber) {
+      this._throwIfClosed();
+      this._checkFinalizedStatuses(subscriber);
+      return this._innerSubscribe(subscriber);
+    };
+    Subject2.prototype._innerSubscribe = function(subscriber) {
+      var _this = this;
+      var _a2 = this, hasError = _a2.hasError, isStopped = _a2.isStopped, observers = _a2.observers;
+      if (hasError || isStopped) {
+        return EMPTY_SUBSCRIPTION;
+      }
+      this.currentObservers = null;
+      observers.push(subscriber);
+      return new Subscription(function() {
+        _this.currentObservers = null;
+        arrRemove(observers, subscriber);
+      });
+    };
+    Subject2.prototype._checkFinalizedStatuses = function(subscriber) {
+      var _a2 = this, hasError = _a2.hasError, thrownError = _a2.thrownError, isStopped = _a2.isStopped;
+      if (hasError) {
+        subscriber.error(thrownError);
+      } else if (isStopped) {
+        subscriber.complete();
+      }
+    };
+    Subject2.prototype.asObservable = function() {
+      var observable2 = new Observable();
+      observable2.source = this;
+      return observable2;
+    };
+    Subject2.create = function(destination, source) {
+      return new AnonymousSubject(destination, source);
+    };
+    return Subject2;
+  }(Observable);
+  var AnonymousSubject = function(_super) {
+    __extends(AnonymousSubject2, _super);
+    function AnonymousSubject2(destination, source) {
+      var _this = _super.call(this) || this;
+      _this.destination = destination;
+      _this.source = source;
+      return _this;
+    }
+    AnonymousSubject2.prototype.next = function(value) {
+      var _a2, _b;
+      (_b = (_a2 = this.destination) === null || _a2 === void 0 ? void 0 : _a2.next) === null || _b === void 0 ? void 0 : _b.call(_a2, value);
+    };
+    AnonymousSubject2.prototype.error = function(err) {
+      var _a2, _b;
+      (_b = (_a2 = this.destination) === null || _a2 === void 0 ? void 0 : _a2.error) === null || _b === void 0 ? void 0 : _b.call(_a2, err);
+    };
+    AnonymousSubject2.prototype.complete = function() {
+      var _a2, _b;
+      (_b = (_a2 = this.destination) === null || _a2 === void 0 ? void 0 : _a2.complete) === null || _b === void 0 ? void 0 : _b.call(_a2);
+    };
+    AnonymousSubject2.prototype._subscribe = function(subscriber) {
+      var _a2, _b;
+      return (_b = (_a2 = this.source) === null || _a2 === void 0 ? void 0 : _a2.subscribe(subscriber)) !== null && _b !== void 0 ? _b : EMPTY_SUBSCRIPTION;
+    };
+    return AnonymousSubject2;
+  }(Subject);
+
+  // node_modules/rxjs/dist/esm5/internal/BehaviorSubject.js
+  var BehaviorSubject = function(_super) {
+    __extends(BehaviorSubject2, _super);
+    function BehaviorSubject2(_value) {
+      var _this = _super.call(this) || this;
+      _this._value = _value;
+      return _this;
+    }
+    Object.defineProperty(BehaviorSubject2.prototype, "value", {
+      get: function() {
+        return this.getValue();
+      },
+      enumerable: false,
+      configurable: true
+    });
+    BehaviorSubject2.prototype._subscribe = function(subscriber) {
+      var subscription = _super.prototype._subscribe.call(this, subscriber);
+      !subscription.closed && subscriber.next(this._value);
+      return subscription;
+    };
+    BehaviorSubject2.prototype.getValue = function() {
+      var _a2 = this, hasError = _a2.hasError, thrownError = _a2.thrownError, _value = _a2._value;
+      if (hasError) {
+        throw thrownError;
+      }
+      this._throwIfClosed();
+      return _value;
+    };
+    BehaviorSubject2.prototype.next = function(value) {
+      _super.prototype.next.call(this, this._value = value);
+    };
+    return BehaviorSubject2;
+  }(Subject);
 
   // node_modules/rxjs/dist/esm5/internal/util/isObservable.js
   function isObservable(obj) {
@@ -1261,17 +1465,207 @@ form .row {
   var _devctx = createContext(null);
   var _devctxglobal = [null];
 
-  // ui-src/autocorrect.tsx
+  // gen/figma-typography-export.gen.ts
+  var TypographyProperty;
+  ((TypographyProperty2) => {
+    function apply(to) {
+      return function _match(input) {
+        if (typeof input !== "object" || input == null)
+          throw new TypeError("Unexpected non-object for input");
+        if ("FontFamily" in input)
+          return to.FontFamily(input["FontFamily"]);
+        if ("LineHeight" in input)
+          return to.LineHeight(input["LineHeight"]);
+        if ("FontSize" in input)
+          return to.FontSize(input["FontSize"]);
+        if ("LetterSpacing" in input)
+          return to.LetterSpacing(input["LetterSpacing"]);
+        if ("FontStyle" in input)
+          return to.FontStyle(input["FontStyle"]);
+        const _exhaust = input;
+        return _exhaust;
+      };
+    }
+    TypographyProperty2.apply = apply;
+    function match(input, to) {
+      return apply(to)(input);
+    }
+    TypographyProperty2.match = match;
+    function FontFamily(value) {
+      return { FontFamily: value };
+    }
+    TypographyProperty2.FontFamily = FontFamily;
+    function LineHeight(value) {
+      return { LineHeight: value };
+    }
+    TypographyProperty2.LineHeight = LineHeight;
+    function FontSize(value) {
+      return { FontSize: value };
+    }
+    TypographyProperty2.FontSize = FontSize;
+    function LetterSpacing(value) {
+      return { LetterSpacing: value };
+    }
+    TypographyProperty2.LetterSpacing = LetterSpacing;
+    function FontStyle(value) {
+      return { FontStyle: value };
+    }
+    TypographyProperty2.FontStyle = FontStyle;
+  })(TypographyProperty || (TypographyProperty = {}));
+
+  // gen/protocol-types.gen.ts
+  var protocol_types_gen_exports = {};
+  __export(protocol_types_gen_exports, {
+    CollectionInfo: () => CollectionInfo,
+    CollectionModeInfo: () => CollectionModeInfo,
+    IDOrNew: () => IDOrNew,
+    MessageToPlugin: () => MessageToPlugin,
+    MessageToUI: () => MessageToUI
+  });
+  var MessageToUI;
+  ((MessageToUI2) => {
+    function apply(to) {
+      return function _match(input) {
+        if (typeof input !== "object" || input == null)
+          throw new TypeError("Unexpected non-object for input");
+        if ("LoadCollections" in input)
+          return to.LoadCollections(input["LoadCollections"]);
+        const _exhaust = input;
+        return _exhaust;
+      };
+    }
+    MessageToUI2.apply = apply;
+    function match(input, to) {
+      return apply(to)(input);
+    }
+    MessageToUI2.match = match;
+    function LoadCollections(value) {
+      return { LoadCollections: value };
+    }
+    MessageToUI2.LoadCollections = LoadCollections;
+  })(MessageToUI || (MessageToUI = {}));
+  var MessageToPlugin;
+  ((MessageToPlugin2) => {
+    function apply(to) {
+      return function _match(input) {
+        if (typeof input !== "object" || input == null)
+          throw new TypeError("Unexpected non-object for input");
+        if ("ImportJSONFileToVariables" in input)
+          return to.ImportJSONFileToVariables(input["ImportJSONFileToVariables"]);
+        const _exhaust = input;
+        return _exhaust;
+      };
+    }
+    MessageToPlugin2.apply = apply;
+    function match(input, to) {
+      return apply(to)(input);
+    }
+    MessageToPlugin2.match = match;
+    function ImportJSONFileToVariables(value) {
+      return { ImportJSONFileToVariables: value };
+    }
+    MessageToPlugin2.ImportJSONFileToVariables = ImportJSONFileToVariables;
+  })(MessageToPlugin || (MessageToPlugin = {}));
+  var IDOrNew;
+  ((IDOrNew2) => {
+    function apply(to) {
+      return function _match(input) {
+        if (typeof input !== "object" || input == null)
+          throw new TypeError("Unexpected non-object for input");
+        if ("ID" in input)
+          return to.ID(input["ID"]);
+        if ("NewWithName" in input)
+          return to.NewWithName(input["NewWithName"]);
+        const _exhaust = input;
+        return _exhaust;
+      };
+    }
+    IDOrNew2.apply = apply;
+    function match(input, to) {
+      return apply(to)(input);
+    }
+    IDOrNew2.match = match;
+    function ID(value) {
+      return { ID: value };
+    }
+    IDOrNew2.ID = ID;
+    function NewWithName(value) {
+      return { NewWithName: value };
+    }
+    IDOrNew2.NewWithName = NewWithName;
+  })(IDOrNew || (IDOrNew = {}));
+  function CollectionInfo(inner) {
+    return inner;
+  }
+  function CollectionModeInfo(inner) {
+    return inner;
+  }
+
+  // ui-src/createUIState.ts
+  function createUIState(rootSub) {
+    const $mode$ = new BehaviorSubject({
+      name: "root"
+    });
+    function sendToPlugin(message) {
+      parent.postMessage({ pluginMessage: message }, "*");
+    }
+    window.onmessage = (event) => {
+      protocol_types_gen_exports.MessageToUI.match(event.data.pluginMessage, {
+        LoadCollections(inner) {
+          console.log("Load collections", { inner });
+        }
+      });
+    };
+    return {
+      mode$: $mode$.asObservable(),
+      nav: {
+        home: {
+          isOpen$: $mode$.pipe(map((mode) => mode.name === "root")),
+          open() {
+            $mode$.next({
+              name: "root"
+            });
+          }
+        },
+        update: {
+          isOpen$: $mode$.pipe(map((mode) => mode.name === "update-json")),
+          open() {
+            $mode$.next({
+              name: "update-json"
+            });
+          }
+        }
+      }
+    };
+  }
+
+  // ui-src/ui.tsx
+  function RootUI(root) {
+    return /* @__PURE__ */ jsx("h1", { children: "Home" });
+  }
+  function UpdateJSONUI(updateJSON) {
+    return /* @__PURE__ */ jsx("h1", { children: "UpdateJSON" });
+  }
   try {
     const rootSub = new Subscription();
-    const appJsx = /* @__PURE__ */ jsx("form", { children: [
-      /* @__PURE__ */ jsx("h1", { children: "Autocorrect" }),
-      /* @__PURE__ */ jsx("p", { children: "Give suggestions for correcting all children of the selection" }),
-      /* @__PURE__ */ jsx("button", { type: "submit", children: "Show suggestions" })
+    const state = createUIState(rootSub);
+    const appJsx = /* @__PURE__ */ jsx("div", { children: [
+      state.mode$.pipe(
+        map(
+          (mode) => mode.name === "root" ? RootUI(mode) : mode.name === "update-json" ? UpdateJSONUI(mode) : /* @__PURE__ */ jsx("span", { children: "UI State not found" })
+        )
+      ),
+      /* @__PURE__ */ jsx("div", { class: "row", children: [
+        /* @__PURE__ */ jsx(NavButton, { label: "Home", state: state.nav.home }),
+        /* @__PURE__ */ jsx(NavButton, { label: "Update", state: state.nav.update })
+      ] })
     ] });
     document.getElementById("app-root").appendChild(renderSpec(rootSub, appJsx));
   } catch (err) {
     console.error(err);
+  }
+  function NavButton(props) {
+    return /* @__PURE__ */ jsx("button", { disabled: props.state.isOpen$, onclick: () => props.state.open(), children: props.label });
   }
 })();
 </script></body></html>

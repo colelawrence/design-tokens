@@ -8,9 +8,10 @@
     "jsx": "react-jsx",
     "strict": true,
     "paths": {
-      "~helpers/*": ["../helpers/*"]
+      "~helpers/*": ["../helpers/*"],
+      "~gen": ["../gen/index.ts"]
     },
-    "rootDirs": [".", "../helpers"]
+    "rootDirs": [".", "../helpers", "../gen"]
   },
-  "include": ["*.tsx", "../node_modules"]
+  "include": ["*.tsx", "../node_modules", "createUIState.ts", "../_archive/import-old.tsx"]
 }

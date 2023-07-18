@@ -1,12 +1,23 @@
 import "./shared.css";
 import { Subscription } from "rxjs";
 import { renderSpec } from "jsx-view";
+import { protocol } from "~gen";
 
 try {
   const rootSub = new Subscription();
 
   const appJsx = (
-    <form>
+    <form
+      onsubmit={() => {
+        sendToPlugin(
+          protocol.MessageToPlugin.ImportJSONFileToVariables({
+            selected_collection_id: protocol.IDOrNew.NewWithName("Test"),
+            selected_mode_id: protocol.IDOrNew.NewWithName("Test"),
+            json: { hmm: "message" },
+          })
+        );
+      }}
+    >
       <div class="row">
         <select id="collectionSelect"></select>
         <input
@@ -30,3 +41,20 @@ try {
 } catch (err) {
   console.error(err);
 }
+
+function sendToPlugin(message: protocol.MessageToPlugin) {
+  parent.postMessage(
+    {
+      pluginMessage: message,
+    },
+    "*"
+  );
+}
+
+window.onmessage = (event) => {
+  protocol.MessageToUI.match(event.data.pluginMessage, {
+    LoadCollections(inner) {
+      console.log("Load collections", { inner });
+    },
+  });
+};

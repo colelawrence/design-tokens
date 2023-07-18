@@ -1,5 +1,5 @@
 [workspace]
-members = ["xtask", "design-tokens"]
+members = ["xtask", "design-tokens", "extensions/Here Now Figma/protocol-types"]
 
 [workspace.package]
 edition = "2021"
