@@ -16,7 +16,9 @@ enum XtaskCommand {
     #[options(name = "doc-code", help = "generate and show docs")]
     Docs(DocsOptions),
     #[options(name = "extension-figma-here-now-dev")]
-    ExtensionFigmaHereNowDev(DevOptions),
+    ExtensionFigmaHereNowDev(NoOptions),
+    #[options(name = "codegen")]
+    Codegen(NoOptions),
 }
 
 // Define options for the program.
@@ -41,17 +43,50 @@ fn main() {
         println!("{}", opts.self_usage());
         std::process::exit(0);
     }
-    let command = if let Some(command) = opts.command {
-        command
-    } else {
-        eprintln!("Sub-command required\n\n{}", opts.self_usage());
-        std::process::exit(1);
-    };
 
-    match command {
+    let command = opts.command.unwrap_or_else(|| {
+        eprintln!("Opening interactive mode");
+
+        inquire::Select::new(
+            "Pick thing you want to do",
+            [
+                PickXtask(XtaskCommand::Docs(DocsOptions {})),
+                PickXtask(XtaskCommand::Fix(FixOptions {})),
+                PickXtask(XtaskCommand::Codegen(NoOptions {})),
+                PickXtask(XtaskCommand::ExtensionFigmaHereNowDev(NoOptions {})),
+            ]
+            .into_iter()
+            .collect(),
+        )
+        .prompt()
+        .expect("picking command")
+        .0
+    });
+
+    return match command {
         XtaskCommand::Fix(opts) => fix(opts),
         XtaskCommand::Docs(opts) => docs(opts),
         XtaskCommand::ExtensionFigmaHereNowDev(opts) => extension_figma_here_now_dev(opts),
+        XtaskCommand::Codegen(opts) => codegen(opts),
+    };
+}
+
+struct PickXtask(XtaskCommand);
+
+impl std::fmt::Display for PickXtask {
+    fn fmt(&self, mut f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        if let Some(name) = self.0.command_name() {
+            write!(&mut f, "{}", name)?;
+            if let Some(list) = self.0.self_command_list() {
+                write!(&mut f, ": {}", list)?;
+            }
+        }
+        if let Some(options) = self.0.command() {
+            if let Some(name) = options.command_name() {
+                write!(&mut f, ": {}", name)?;
+            }
+        }
+        Ok(())
     }
 }
 
@@ -105,11 +140,13 @@ fn docs(_: DocsOptions) {
 }
 
 #[derive(Options)]
-struct DevOptions {}
-fn extension_figma_here_now_dev(_: DevOptions) {
+struct NoOptions {}
+
+fn extension_figma_here_now_dev(_: NoOptions) {
     let root_dir = get_project_root_dir();
     let output = Command::new("watchexec")
         .args("-w ui-src".split(' '))
+        .args("-w gen".split(' '))
         .arg("node ./build.cjs")
         .current_dir(root_dir.join("./extensions/Here Now Figma"))
         .spawn()
@@ -117,6 +154,27 @@ fn extension_figma_here_now_dev(_: DevOptions) {
         .wait_with_output()
         .expect("exiting");
 
+    expect_success(&output);
+}
+
+fn codegen(_: NoOptions) {
+    let root_dir = get_project_root_dir();
+    let output = Command::new("cargo")
+        .args("run --bin protocol-types".split(' '))
+        .current_dir(root_dir.join("./extensions/Here Now Figma/protocol-types"))
+        .spawn()
+        .expect("building types for figma plugin code")
+        .wait_with_output()
+        .expect("exiting");
+    expect_success(&output);
+
+    let output = Command::new("cargo")
+        .args("run --bin design-tokens -- dev-codegen".split(' '))
+        .current_dir(root_dir.join("./design-tokens"))
+        .spawn()
+        .expect("building types for extensions and settings")
+        .wait_with_output()
+        .expect("exiting");
     expect_success(&output);
 }
 

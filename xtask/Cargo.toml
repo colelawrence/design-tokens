@@ -6,4 +6,5 @@ publish = false
 
 [dependencies]
 gumdrop = "0.8.1"
+inquire = "0.6.2"
 jod-thread = "0.1.2"
