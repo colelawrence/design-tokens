@@ -13,5 +13,10 @@
     },
     "rootDirs": [".", "../helpers", "../gen"]
   },
-  "include": ["*.tsx", "../node_modules", "createUIState.ts", "../_archive/import-old.tsx"]
+  "include": [
+    "*.tsx",
+    "../node_modules",
+    "state/**/*.ts",
+    "view/**/*.tsx"
+  ]
 }

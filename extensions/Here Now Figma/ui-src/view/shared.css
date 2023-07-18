@@ -81,3 +81,48 @@ form .row {
   display: flex;
   gap: 0.5rem;
 }
+#app-root {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+.flex {
+  display: flex;
+}
+.flex-1 {
+  flex: 1;
+}
+.flex-col {
+  flex-direction: column;
+}
+
+.gap {
+  gap: var(--spacing);
+}
+
+.p {
+  padding: var(--spacing);
+}
+
+.justify-end {
+  justify-content: end;
+}
+
+button:disabled {
+  background-color: var(--figma-color-bg-disabled);
+  border-color: var(--figma-color-border-disabled);
+}
+
+.error-message:not(:empty) {
+  padding: var(--spacing);
+  color: var(--figma-color-text-danger);
+}
+
+.btn-secondary {
+  color: var(--figma-color-text-secondary);
+  background-color: var(--figma-color-bg-secondary);
+}
+.btn-secondary:disabled {
+  color: var(--figma-color-text-disabled-secondary);
+  background-color: var(--figma-color-bg-disabled-secondary);
+}

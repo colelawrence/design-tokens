@@ -1,7 +1,7 @@
 <!DOCTYPE html><html lang="en"><head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<style>/* ui-src/shared.css */
+<style>/* ui-src/view/shared.css */
 :root {
   --spacing: 0.8rem;
 }
@@ -82,6 +82,45 @@ form .row {
   display: flex;
   gap: 0.5rem;
 }
+#app-root {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+.flex {
+  display: flex;
+}
+.flex-1 {
+  flex: 1;
+}
+.flex-col {
+  flex-direction: column;
+}
+.gap {
+  gap: var(--spacing);
+}
+.p {
+  padding: var(--spacing);
+}
+.justify-end {
+  justify-content: end;
+}
+button:disabled {
+  background-color: var(--figma-color-bg-disabled);
+  border-color: var(--figma-color-border-disabled);
+}
+.error-message:not(:empty) {
+  padding: var(--spacing);
+  color: var(--figma-color-text-danger);
+}
+.btn-secondary {
+  color: var(--figma-color-text-secondary);
+  background-color: var(--figma-color-bg-secondary);
+}
+.btn-secondary:disabled {
+  color: var(--figma-color-text-disabled-secondary);
+  background-color: var(--figma-color-bg-disabled-secondary);
+}
 </style></head>
 <body>
   <div id="app-root"></div>
@@ -137,6 +176,109 @@ form .row {
     }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
   }
+  function __awaiter(thisArg, _arguments, P, generator) {
+    function adopt(value) {
+      return value instanceof P ? value : new P(function(resolve) {
+        resolve(value);
+      });
+    }
+    return new (P || (P = Promise))(function(resolve, reject) {
+      function fulfilled(value) {
+        try {
+          step(generator.next(value));
+        } catch (e) {
+          reject(e);
+        }
+      }
+      function rejected(value) {
+        try {
+          step(generator["throw"](value));
+        } catch (e) {
+          reject(e);
+        }
+      }
+      function step(result) {
+        result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected);
+      }
+      step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+  }
+  function __generator(thisArg, body) {
+    var _ = { label: 0, sent: function() {
+      if (t[0] & 1)
+        throw t[1];
+      return t[1];
+    }, trys: [], ops: [] }, f, y, t, g;
+    return g = { next: verb(0), "throw": verb(1), "return": verb(2) }, typeof Symbol === "function" && (g[Symbol.iterator] = function() {
+      return this;
+    }), g;
+    function verb(n) {
+      return function(v) {
+        return step([n, v]);
+      };
+    }
+    function step(op) {
+      if (f)
+        throw new TypeError("Generator is already executing.");
+      while (g && (g = 0, op[0] && (_ = 0)), _)
+        try {
+          if (f = 1, y && (t = op[0] & 2 ? y["return"] : op[0] ? y["throw"] || ((t = y["return"]) && t.call(y), 0) : y.next) && !(t = t.call(y, op[1])).done)
+            return t;
+          if (y = 0, t)
+            op = [op[0] & 2, t.value];
+          switch (op[0]) {
+            case 0:
+            case 1:
+              t = op;
+              break;
+            case 4:
+              _.label++;
+              return { value: op[1], done: false };
+            case 5:
+              _.label++;
+              y = op[1];
+              op = [0];
+              continue;
+            case 7:
+              op = _.ops.pop();
+              _.trys.pop();
+              continue;
+            default:
+              if (!(t = _.trys, t = t.length > 0 && t[t.length - 1]) && (op[0] === 6 || op[0] === 2)) {
+                _ = 0;
+                continue;
+              }
+              if (op[0] === 3 && (!t || op[1] > t[0] && op[1] < t[3])) {
+                _.label = op[1];
+                break;
+              }
+              if (op[0] === 6 && _.label < t[1]) {
+                _.label = t[1];
+                t = op;
+                break;
+              }
+              if (t && _.label < t[2]) {
+                _.label = t[2];
+                _.ops.push(op);
+                break;
+              }
+              if (t[2])
+                _.ops.pop();
+              _.trys.pop();
+              continue;
+          }
+          op = body.call(thisArg, _);
+        } catch (e) {
+          op = [6, e];
+          y = 0;
+        } finally {
+          f = t = 0;
+        }
+      if (op[0] & 5)
+        throw op[1];
+      return { value: op[0] ? op[1] : void 0, done: true };
+    }
+  }
   function __values(o) {
     var s = typeof Symbol === "function" && Symbol.iterator, m = s && o[s], i = 0;
     if (m)
@@ -183,6 +325,65 @@ form .row {
       }
     return to.concat(ar || Array.prototype.slice.call(from));
   }
+  function __await(v) {
+    return this instanceof __await ? (this.v = v, this) : new __await(v);
+  }
+  function __asyncGenerator(thisArg, _arguments, generator) {
+    if (!Symbol.asyncIterator)
+      throw new TypeError("Symbol.asyncIterator is not defined.");
+    var g = generator.apply(thisArg, _arguments || []), i, q = [];
+    return i = {}, verb("next"), verb("throw"), verb("return"), i[Symbol.asyncIterator] = function() {
+      return this;
+    }, i;
+    function verb(n) {
+      if (g[n])
+        i[n] = function(v) {
+          return new Promise(function(a, b) {
+            q.push([n, v, a, b]) > 1 || resume(n, v);
+          });
+        };
+    }
+    function resume(n, v) {
+      try {
+        step(g[n](v));
+      } catch (e) {
+        settle(q[0][3], e);
+      }
+    }
+    function step(r) {
+      r.value instanceof __await ? Promise.resolve(r.value.v).then(fulfill, reject) : settle(q[0][2], r);
+    }
+    function fulfill(value) {
+      resume("next", value);
+    }
+    function reject(value) {
+      resume("throw", value);
+    }
+    function settle(f, v) {
+      if (f(v), q.shift(), q.length)
+        resume(q[0][0], q[0][1]);
+    }
+  }
+  function __asyncValues(o) {
+    if (!Symbol.asyncIterator)
+      throw new TypeError("Symbol.asyncIterator is not defined.");
+    var m = o[Symbol.asyncIterator], i;
+    return m ? m.call(o) : (o = typeof __values === "function" ? __values(o) : o[Symbol.iterator](), i = {}, verb("next"), verb("throw"), verb("return"), i[Symbol.asyncIterator] = function() {
+      return this;
+    }, i);
+    function verb(n) {
+      i[n] = o[n] && function(v) {
+        return new Promise(function(resolve, reject) {
+          v = o[n](v), settle(resolve, reject, v.done, v.value);
+        });
+      };
+    }
+    function settle(resolve, reject, d, v) {
+      Promise.resolve(v).then(function(v2) {
+        resolve({ value: v2, done: d });
+      }, reject);
+    }
+  }
 
   // node_modules/rxjs/dist/esm5/internal/util/isFunction.js
   function isFunction(value) {
@@ -223,13 +424,13 @@ form .row {
 
   // node_modules/rxjs/dist/esm5/internal/Subscription.js
   var Subscription = function() {
-    function Subscription3(initialTeardown) {
+    function Subscription4(initialTeardown) {
       this.initialTeardown = initialTeardown;
       this.closed = false;
       this._parentage = null;
       this._finalizers = null;
     }
-    Subscription3.prototype.unsubscribe = function() {
+    Subscription4.prototype.unsubscribe = function() {
       var e_1, _a2, e_2, _b;
       var errors;
       if (!this.closed) {
@@ -300,13 +501,13 @@ form .row {
         }
       }
     };
-    Subscription3.prototype.add = function(teardown) {
+    Subscription4.prototype.add = function(teardown) {
       var _a2;
       if (teardown && teardown !== this) {
         if (this.closed) {
           execFinalizer(teardown);
         } else {
-          if (teardown instanceof Subscription3) {
+          if (teardown instanceof Subscription4) {
             if (teardown.closed || teardown._hasParent(this)) {
               return;
             }
@@ -316,15 +517,15 @@ form .row {
         }
       }
     };
-    Subscription3.prototype._hasParent = function(parent2) {
+    Subscription4.prototype._hasParent = function(parent2) {
       var _parentage = this._parentage;
       return _parentage === parent2 || Array.isArray(_parentage) && _parentage.includes(parent2);
     };
-    Subscription3.prototype._addParent = function(parent2) {
+    Subscription4.prototype._addParent = function(parent2) {
       var _parentage = this._parentage;
       this._parentage = Array.isArray(_parentage) ? (_parentage.push(parent2), _parentage) : _parentage ? [_parentage, parent2] : parent2;
     };
-    Subscription3.prototype._removeParent = function(parent2) {
+    Subscription4.prototype._removeParent = function(parent2) {
       var _parentage = this._parentage;
       if (_parentage === parent2) {
         this._parentage = null;
@@ -332,19 +533,19 @@ form .row {
         arrRemove(_parentage, parent2);
       }
     };
-    Subscription3.prototype.remove = function(teardown) {
+    Subscription4.prototype.remove = function(teardown) {
       var _finalizers = this._finalizers;
       _finalizers && arrRemove(_finalizers, teardown);
-      if (teardown instanceof Subscription3) {
+      if (teardown instanceof Subscription4) {
         teardown._removeParent(this);
       }
     };
-    Subscription3.EMPTY = function() {
-      var empty = new Subscription3();
+    Subscription4.EMPTY = function() {
+      var empty = new Subscription4();
       empty.closed = true;
       return empty;
     }();
-    return Subscription3;
+    return Subscription4;
   }();
   var EMPTY_SUBSCRIPTION = Subscription.EMPTY;
   function isSubscription(value) {
@@ -997,6 +1198,257 @@ form .row {
     return BehaviorSubject2;
   }(Subject);
 
+  // node_modules/rxjs/dist/esm5/internal/util/isArrayLike.js
+  var isArrayLike = function(x) {
+    return x && typeof x.length === "number" && typeof x !== "function";
+  };
+
+  // node_modules/rxjs/dist/esm5/internal/util/isPromise.js
+  function isPromise(value) {
+    return isFunction(value === null || value === void 0 ? void 0 : value.then);
+  }
+
+  // node_modules/rxjs/dist/esm5/internal/util/isInteropObservable.js
+  function isInteropObservable(input) {
+    return isFunction(input[observable]);
+  }
+
+  // node_modules/rxjs/dist/esm5/internal/util/isAsyncIterable.js
+  function isAsyncIterable(obj) {
+    return Symbol.asyncIterator && isFunction(obj === null || obj === void 0 ? void 0 : obj[Symbol.asyncIterator]);
+  }
+
+  // node_modules/rxjs/dist/esm5/internal/util/throwUnobservableError.js
+  function createInvalidObservableTypeError(input) {
+    return new TypeError("You provided " + (input !== null && typeof input === "object" ? "an invalid object" : "'" + input + "'") + " where a stream was expected. You can provide an Observable, Promise, ReadableStream, Array, AsyncIterable, or Iterable.");
+  }
+
+  // node_modules/rxjs/dist/esm5/internal/symbol/iterator.js
+  function getSymbolIterator() {
+    if (typeof Symbol !== "function" || !Symbol.iterator) {
+      return "@@iterator";
+    }
+    return Symbol.iterator;
+  }
+  var iterator = getSymbolIterator();
+
+  // node_modules/rxjs/dist/esm5/internal/util/isIterable.js
+  function isIterable(input) {
+    return isFunction(input === null || input === void 0 ? void 0 : input[iterator]);
+  }
+
+  // node_modules/rxjs/dist/esm5/internal/util/isReadableStreamLike.js
+  function readableStreamLikeToAsyncGenerator(readableStream) {
+    return __asyncGenerator(this, arguments, function readableStreamLikeToAsyncGenerator_1() {
+      var reader, _a2, value, done;
+      return __generator(this, function(_b) {
+        switch (_b.label) {
+          case 0:
+            reader = readableStream.getReader();
+            _b.label = 1;
+          case 1:
+            _b.trys.push([1, , 9, 10]);
+            _b.label = 2;
+          case 2:
+            if (false)
+              return [3, 8];
+            return [4, __await(reader.read())];
+          case 3:
+            _a2 = _b.sent(), value = _a2.value, done = _a2.done;
+            if (!done)
+              return [3, 5];
+            return [4, __await(void 0)];
+          case 4:
+            return [2, _b.sent()];
+          case 5:
+            return [4, __await(value)];
+          case 6:
+            return [4, _b.sent()];
+          case 7:
+            _b.sent();
+            return [3, 2];
+          case 8:
+            return [3, 10];
+          case 9:
+            reader.releaseLock();
+            return [7];
+          case 10:
+            return [2];
+        }
+      });
+    });
+  }
+  function isReadableStreamLike(obj) {
+    return isFunction(obj === null || obj === void 0 ? void 0 : obj.getReader);
+  }
+
+  // node_modules/rxjs/dist/esm5/internal/observable/innerFrom.js
+  function innerFrom(input) {
+    if (input instanceof Observable) {
+      return input;
+    }
+    if (input != null) {
+      if (isInteropObservable(input)) {
+        return fromInteropObservable(input);
+      }
+      if (isArrayLike(input)) {
+        return fromArrayLike(input);
+      }
+      if (isPromise(input)) {
+        return fromPromise(input);
+      }
+      if (isAsyncIterable(input)) {
+        return fromAsyncIterable(input);
+      }
+      if (isIterable(input)) {
+        return fromIterable(input);
+      }
+      if (isReadableStreamLike(input)) {
+        return fromReadableStreamLike(input);
+      }
+    }
+    throw createInvalidObservableTypeError(input);
+  }
+  function fromInteropObservable(obj) {
+    return new Observable(function(subscriber) {
+      var obs = obj[observable]();
+      if (isFunction(obs.subscribe)) {
+        return obs.subscribe(subscriber);
+      }
+      throw new TypeError("Provided object does not correctly implement Symbol.observable");
+    });
+  }
+  function fromArrayLike(array) {
+    return new Observable(function(subscriber) {
+      for (var i = 0; i < array.length && !subscriber.closed; i++) {
+        subscriber.next(array[i]);
+      }
+      subscriber.complete();
+    });
+  }
+  function fromPromise(promise) {
+    return new Observable(function(subscriber) {
+      promise.then(function(value) {
+        if (!subscriber.closed) {
+          subscriber.next(value);
+          subscriber.complete();
+        }
+      }, function(err) {
+        return subscriber.error(err);
+      }).then(null, reportUnhandledError);
+    });
+  }
+  function fromIterable(iterable) {
+    return new Observable(function(subscriber) {
+      var e_1, _a2;
+      try {
+        for (var iterable_1 = __values(iterable), iterable_1_1 = iterable_1.next(); !iterable_1_1.done; iterable_1_1 = iterable_1.next()) {
+          var value = iterable_1_1.value;
+          subscriber.next(value);
+          if (subscriber.closed) {
+            return;
+          }
+        }
+      } catch (e_1_1) {
+        e_1 = { error: e_1_1 };
+      } finally {
+        try {
+          if (iterable_1_1 && !iterable_1_1.done && (_a2 = iterable_1.return))
+            _a2.call(iterable_1);
+        } finally {
+          if (e_1)
+            throw e_1.error;
+        }
+      }
+      subscriber.complete();
+    });
+  }
+  function fromAsyncIterable(asyncIterable) {
+    return new Observable(function(subscriber) {
+      process(asyncIterable, subscriber).catch(function(err) {
+        return subscriber.error(err);
+      });
+    });
+  }
+  function fromReadableStreamLike(readableStream) {
+    return fromAsyncIterable(readableStreamLikeToAsyncGenerator(readableStream));
+  }
+  function process(asyncIterable, subscriber) {
+    var asyncIterable_1, asyncIterable_1_1;
+    var e_2, _a2;
+    return __awaiter(this, void 0, void 0, function() {
+      var value, e_2_1;
+      return __generator(this, function(_b) {
+        switch (_b.label) {
+          case 0:
+            _b.trys.push([0, 5, 6, 11]);
+            asyncIterable_1 = __asyncValues(asyncIterable);
+            _b.label = 1;
+          case 1:
+            return [4, asyncIterable_1.next()];
+          case 2:
+            if (!(asyncIterable_1_1 = _b.sent(), !asyncIterable_1_1.done))
+              return [3, 4];
+            value = asyncIterable_1_1.value;
+            subscriber.next(value);
+            if (subscriber.closed) {
+              return [2];
+            }
+            _b.label = 3;
+          case 3:
+            return [3, 1];
+          case 4:
+            return [3, 11];
+          case 5:
+            e_2_1 = _b.sent();
+            e_2 = { error: e_2_1 };
+            return [3, 11];
+          case 6:
+            _b.trys.push([6, , 9, 10]);
+            if (!(asyncIterable_1_1 && !asyncIterable_1_1.done && (_a2 = asyncIterable_1.return)))
+              return [3, 8];
+            return [4, _a2.call(asyncIterable_1)];
+          case 7:
+            _b.sent();
+            _b.label = 8;
+          case 8:
+            return [3, 10];
+          case 9:
+            if (e_2)
+              throw e_2.error;
+            return [7];
+          case 10:
+            return [7];
+          case 11:
+            subscriber.complete();
+            return [2];
+        }
+      });
+    });
+  }
+
+  // node_modules/rxjs/dist/esm5/internal/util/executeSchedule.js
+  function executeSchedule(parentSubscription, scheduler, work, delay, repeat) {
+    if (delay === void 0) {
+      delay = 0;
+    }
+    if (repeat === void 0) {
+      repeat = false;
+    }
+    var scheduleSubscription = scheduler.schedule(function() {
+      work();
+      if (repeat) {
+        parentSubscription.add(this.schedule(null, delay));
+      } else {
+        this.unsubscribe();
+      }
+    }, delay);
+    parentSubscription.add(scheduleSubscription);
+    if (!repeat) {
+      return scheduleSubscription;
+    }
+  }
+
   // node_modules/rxjs/dist/esm5/internal/util/isObservable.js
   function isObservable(obj) {
     return !!obj && (obj instanceof Observable || isFunction(obj.lift) && isFunction(obj.subscribe));
@@ -1010,6 +1462,154 @@ form .row {
         subscriber.next(project.call(thisArg, value, index++));
       }));
     });
+  }
+
+  // node_modules/rxjs/dist/esm5/internal/util/mapOneOrManyArgs.js
+  var isArray = Array.isArray;
+  function callOrApply(fn, args) {
+    return isArray(args) ? fn.apply(void 0, __spreadArray([], __read(args))) : fn(args);
+  }
+  function mapOneOrManyArgs(fn) {
+    return map(function(args) {
+      return callOrApply(fn, args);
+    });
+  }
+
+  // node_modules/rxjs/dist/esm5/internal/operators/mergeInternals.js
+  function mergeInternals(source, subscriber, project, concurrent, onBeforeNext, expand, innerSubScheduler, additionalFinalizer) {
+    var buffer = [];
+    var active = 0;
+    var index = 0;
+    var isComplete = false;
+    var checkComplete = function() {
+      if (isComplete && !buffer.length && !active) {
+        subscriber.complete();
+      }
+    };
+    var outerNext = function(value) {
+      return active < concurrent ? doInnerSub(value) : buffer.push(value);
+    };
+    var doInnerSub = function(value) {
+      expand && subscriber.next(value);
+      active++;
+      var innerComplete = false;
+      innerFrom(project(value, index++)).subscribe(createOperatorSubscriber(subscriber, function(innerValue) {
+        onBeforeNext === null || onBeforeNext === void 0 ? void 0 : onBeforeNext(innerValue);
+        if (expand) {
+          outerNext(innerValue);
+        } else {
+          subscriber.next(innerValue);
+        }
+      }, function() {
+        innerComplete = true;
+      }, void 0, function() {
+        if (innerComplete) {
+          try {
+            active--;
+            var _loop_1 = function() {
+              var bufferedValue = buffer.shift();
+              if (innerSubScheduler) {
+                executeSchedule(subscriber, innerSubScheduler, function() {
+                  return doInnerSub(bufferedValue);
+                });
+              } else {
+                doInnerSub(bufferedValue);
+              }
+            };
+            while (buffer.length && active < concurrent) {
+              _loop_1();
+            }
+            checkComplete();
+          } catch (err) {
+            subscriber.error(err);
+          }
+        }
+      }));
+    };
+    source.subscribe(createOperatorSubscriber(subscriber, outerNext, function() {
+      isComplete = true;
+      checkComplete();
+    }));
+    return function() {
+      additionalFinalizer === null || additionalFinalizer === void 0 ? void 0 : additionalFinalizer();
+    };
+  }
+
+  // node_modules/rxjs/dist/esm5/internal/operators/mergeMap.js
+  function mergeMap(project, resultSelector, concurrent) {
+    if (concurrent === void 0) {
+      concurrent = Infinity;
+    }
+    if (isFunction(resultSelector)) {
+      return mergeMap(function(a, i) {
+        return map(function(b, ii) {
+          return resultSelector(a, b, i, ii);
+        })(innerFrom(project(a, i)));
+      }, concurrent);
+    } else if (typeof resultSelector === "number") {
+      concurrent = resultSelector;
+    }
+    return operate(function(source, subscriber) {
+      return mergeInternals(source, subscriber, project, concurrent);
+    });
+  }
+
+  // node_modules/rxjs/dist/esm5/internal/observable/fromEvent.js
+  var nodeEventEmitterMethods = ["addListener", "removeListener"];
+  var eventTargetMethods = ["addEventListener", "removeEventListener"];
+  var jqueryMethods = ["on", "off"];
+  function fromEvent(target, eventName, options, resultSelector) {
+    if (isFunction(options)) {
+      resultSelector = options;
+      options = void 0;
+    }
+    if (resultSelector) {
+      return fromEvent(target, eventName, options).pipe(mapOneOrManyArgs(resultSelector));
+    }
+    var _a2 = __read(isEventTarget(target) ? eventTargetMethods.map(function(methodName) {
+      return function(handler) {
+        return target[methodName](eventName, handler, options);
+      };
+    }) : isNodeStyleEventEmitter(target) ? nodeEventEmitterMethods.map(toCommonHandlerRegistry(target, eventName)) : isJQueryStyleEventEmitter(target) ? jqueryMethods.map(toCommonHandlerRegistry(target, eventName)) : [], 2), add = _a2[0], remove = _a2[1];
+    if (!add) {
+      if (isArrayLike(target)) {
+        return mergeMap(function(subTarget) {
+          return fromEvent(subTarget, eventName, options);
+        })(innerFrom(target));
+      }
+    }
+    if (!add) {
+      throw new TypeError("Invalid event target");
+    }
+    return new Observable(function(subscriber) {
+      var handler = function() {
+        var args = [];
+        for (var _i = 0; _i < arguments.length; _i++) {
+          args[_i] = arguments[_i];
+        }
+        return subscriber.next(1 < args.length ? args : args[0]);
+      };
+      add(handler);
+      return function() {
+        return remove(handler);
+      };
+    });
+  }
+  function toCommonHandlerRegistry(target, eventName) {
+    return function(methodName) {
+      return function(handler) {
+        return target[methodName](eventName, handler);
+      };
+    };
+  }
+  function isNodeStyleEventEmitter(target) {
+    return isFunction(target.addListener) && isFunction(target.removeListener);
+  }
+  function isJQueryStyleEventEmitter(target) {
+    return isFunction(target.on) && isFunction(target.off);
+  }
+  function isEventTarget(target) {
+    return isFunction(target.addEventListener) && isFunction(target.removeEventListener);
   }
 
   // node_modules/rxjs/dist/esm5/internal/operators/distinctUntilChanged.js
@@ -1033,6 +1633,215 @@ form .row {
   }
   function defaultCompare(a, b) {
     return a === b;
+  }
+
+  // gen/figma-typography-export.gen.ts
+  var TypographyProperty;
+  ((TypographyProperty2) => {
+    function apply(to) {
+      return function _match(input) {
+        if (typeof input !== "object" || input == null)
+          throw new TypeError("Unexpected non-object for input");
+        if ("FontFamily" in input)
+          return to.FontFamily(input["FontFamily"]);
+        if ("LineHeight" in input)
+          return to.LineHeight(input["LineHeight"]);
+        if ("FontSize" in input)
+          return to.FontSize(input["FontSize"]);
+        if ("LetterSpacing" in input)
+          return to.LetterSpacing(input["LetterSpacing"]);
+        if ("FontStyle" in input)
+          return to.FontStyle(input["FontStyle"]);
+        const _exhaust = input;
+        return _exhaust;
+      };
+    }
+    TypographyProperty2.apply = apply;
+    function match(input, to) {
+      return apply(to)(input);
+    }
+    TypographyProperty2.match = match;
+    function FontFamily(value) {
+      return { FontFamily: value };
+    }
+    TypographyProperty2.FontFamily = FontFamily;
+    function LineHeight(value) {
+      return { LineHeight: value };
+    }
+    TypographyProperty2.LineHeight = LineHeight;
+    function FontSize(value) {
+      return { FontSize: value };
+    }
+    TypographyProperty2.FontSize = FontSize;
+    function LetterSpacing(value) {
+      return { LetterSpacing: value };
+    }
+    TypographyProperty2.LetterSpacing = LetterSpacing;
+    function FontStyle(value) {
+      return { FontStyle: value };
+    }
+    TypographyProperty2.FontStyle = FontStyle;
+  })(TypographyProperty || (TypographyProperty = {}));
+
+  // gen/protocol-types.gen.ts
+  var protocol_types_gen_exports = {};
+  __export(protocol_types_gen_exports, {
+    CollectionInfo: () => CollectionInfo,
+    CollectionModeInfo: () => CollectionModeInfo,
+    IDOrNew: () => IDOrNew,
+    MessageToPlugin: () => MessageToPlugin,
+    MessageToUI: () => MessageToUI
+  });
+  var MessageToUI;
+  ((MessageToUI2) => {
+    function apply(to) {
+      return function _match(input) {
+        if (typeof input !== "object" || input == null)
+          throw new TypeError("Unexpected non-object for input");
+        if ("LoadCollections" in input)
+          return to.LoadCollections(input["LoadCollections"]);
+        const _exhaust = input;
+        return _exhaust;
+      };
+    }
+    MessageToUI2.apply = apply;
+    function match(input, to) {
+      return apply(to)(input);
+    }
+    MessageToUI2.match = match;
+    function LoadCollections(value) {
+      return { LoadCollections: value };
+    }
+    MessageToUI2.LoadCollections = LoadCollections;
+  })(MessageToUI || (MessageToUI = {}));
+  var MessageToPlugin;
+  ((MessageToPlugin2) => {
+    function apply(to) {
+      return function _match(input) {
+        if (typeof input !== "object" || input == null)
+          throw new TypeError("Unexpected non-object for input");
+        if ("ImportJSONFileToVariables" in input)
+          return to.ImportJSONFileToVariables(input["ImportJSONFileToVariables"]);
+        const _exhaust = input;
+        return _exhaust;
+      };
+    }
+    MessageToPlugin2.apply = apply;
+    function match(input, to) {
+      return apply(to)(input);
+    }
+    MessageToPlugin2.match = match;
+    function ImportJSONFileToVariables(value) {
+      return { ImportJSONFileToVariables: value };
+    }
+    MessageToPlugin2.ImportJSONFileToVariables = ImportJSONFileToVariables;
+  })(MessageToPlugin || (MessageToPlugin = {}));
+  var IDOrNew;
+  ((IDOrNew2) => {
+    function apply(to) {
+      return function _match(input) {
+        if (typeof input !== "object" || input == null)
+          throw new TypeError("Unexpected non-object for input");
+        if ("ID" in input)
+          return to.ID(input["ID"]);
+        if ("NewWithName" in input)
+          return to.NewWithName(input["NewWithName"]);
+        const _exhaust = input;
+        return _exhaust;
+      };
+    }
+    IDOrNew2.apply = apply;
+    function match(input, to) {
+      return apply(to)(input);
+    }
+    IDOrNew2.match = match;
+    function ID(value) {
+      return { ID: value };
+    }
+    IDOrNew2.ID = ID;
+    function NewWithName(value) {
+      return { NewWithName: value };
+    }
+    IDOrNew2.NewWithName = NewWithName;
+  })(IDOrNew || (IDOrNew = {}));
+  function CollectionInfo(inner) {
+    return inner;
+  }
+  function CollectionModeInfo(inner) {
+    return inner;
+  }
+
+  // ui-src/state/createUIState.ts
+  function createUIState(rootSub) {
+    const $mode$ = new BehaviorSubject(createUpdateJSONMode());
+    function sendToPlugin(message) {
+      parent.postMessage({ pluginMessage: message }, "*");
+    }
+    window.onmessage = (event) => {
+      protocol_types_gen_exports.MessageToUI.match(event.data.pluginMessage, {
+        LoadCollections(inner) {
+          console.log("Load collections", { inner });
+        }
+      });
+    };
+    return {
+      mode$: $mode$.asObservable(),
+      nav: {
+        home: {
+          isOpen$: $mode$.pipe(map((mode) => mode.name === "root")),
+          open() {
+            $mode$.next({
+              name: "root"
+            });
+          }
+        },
+        update: {
+          isOpen$: $mode$.pipe(map((mode) => mode.name === "update-json")),
+          open() {
+            $mode$.next(createUpdateJSONMode());
+          }
+        }
+      }
+    };
+  }
+  function parseJSON(value) {
+    const trimmed = value.trim();
+    if (!trimmed)
+      return { ok: false, message: "Value is empty" };
+    try {
+      const value2 = JSON.parse(trimmed);
+      return { ok: true, message: "Update Typography", value: value2 };
+    } catch (err) {
+      return { ok: false, message: "Invalid JSON" };
+    }
+  }
+  function createUpdateJSONMode() {
+    const $json$ = new BehaviorSubject("");
+    const checked$ = $json$.pipe(map(parseJSON));
+    return {
+      name: "update-json",
+      jsonTextarea: {
+        update(newValue) {
+          $json$.next(newValue);
+        },
+        value$: $json$.asObservable()
+      },
+      error$: checked$.pipe(map((c) => c.ok ? null : c.message)),
+      resetBtn: {
+        click() {
+          $json$.next("");
+        },
+        disabled$: $json$.pipe(map((v) => v === "")),
+        label: "Reset"
+      },
+      submitBtn: {
+        click() {
+          console.warn("must update typography");
+        },
+        disabled$: checked$.pipe(map((v) => !v.ok)),
+        label$: checked$.pipe(map((v) => v.ok ? v.message : "Submit"))
+      }
+    };
   }
 
   // node_modules/jsx-view/lib/isObservableUnchecked.js
@@ -1465,207 +2274,99 @@ form .row {
   var _devctx = createContext(null);
   var _devctxglobal = [null];
 
-  // gen/figma-typography-export.gen.ts
-  var TypographyProperty;
-  ((TypographyProperty2) => {
-    function apply(to) {
-      return function _match(input) {
-        if (typeof input !== "object" || input == null)
-          throw new TypeError("Unexpected non-object for input");
-        if ("FontFamily" in input)
-          return to.FontFamily(input["FontFamily"]);
-        if ("LineHeight" in input)
-          return to.LineHeight(input["LineHeight"]);
-        if ("FontSize" in input)
-          return to.FontSize(input["FontSize"]);
-        if ("LetterSpacing" in input)
-          return to.LetterSpacing(input["LetterSpacing"]);
-        if ("FontStyle" in input)
-          return to.FontStyle(input["FontStyle"]);
-        const _exhaust = input;
-        return _exhaust;
-      };
-    }
-    TypographyProperty2.apply = apply;
-    function match(input, to) {
-      return apply(to)(input);
-    }
-    TypographyProperty2.match = match;
-    function FontFamily(value) {
-      return { FontFamily: value };
-    }
-    TypographyProperty2.FontFamily = FontFamily;
-    function LineHeight(value) {
-      return { LineHeight: value };
-    }
-    TypographyProperty2.LineHeight = LineHeight;
-    function FontSize(value) {
-      return { FontSize: value };
-    }
-    TypographyProperty2.FontSize = FontSize;
-    function LetterSpacing(value) {
-      return { LetterSpacing: value };
-    }
-    TypographyProperty2.LetterSpacing = LetterSpacing;
-    function FontStyle(value) {
-      return { FontStyle: value };
-    }
-    TypographyProperty2.FontStyle = FontStyle;
-  })(TypographyProperty || (TypographyProperty = {}));
-
-  // gen/protocol-types.gen.ts
-  var protocol_types_gen_exports = {};
-  __export(protocol_types_gen_exports, {
-    CollectionInfo: () => CollectionInfo,
-    CollectionModeInfo: () => CollectionModeInfo,
-    IDOrNew: () => IDOrNew,
-    MessageToPlugin: () => MessageToPlugin,
-    MessageToUI: () => MessageToUI
-  });
-  var MessageToUI;
-  ((MessageToUI2) => {
-    function apply(to) {
-      return function _match(input) {
-        if (typeof input !== "object" || input == null)
-          throw new TypeError("Unexpected non-object for input");
-        if ("LoadCollections" in input)
-          return to.LoadCollections(input["LoadCollections"]);
-        const _exhaust = input;
-        return _exhaust;
-      };
-    }
-    MessageToUI2.apply = apply;
-    function match(input, to) {
-      return apply(to)(input);
-    }
-    MessageToUI2.match = match;
-    function LoadCollections(value) {
-      return { LoadCollections: value };
-    }
-    MessageToUI2.LoadCollections = LoadCollections;
-  })(MessageToUI || (MessageToUI = {}));
-  var MessageToPlugin;
-  ((MessageToPlugin2) => {
-    function apply(to) {
-      return function _match(input) {
-        if (typeof input !== "object" || input == null)
-          throw new TypeError("Unexpected non-object for input");
-        if ("ImportJSONFileToVariables" in input)
-          return to.ImportJSONFileToVariables(input["ImportJSONFileToVariables"]);
-        const _exhaust = input;
-        return _exhaust;
-      };
-    }
-    MessageToPlugin2.apply = apply;
-    function match(input, to) {
-      return apply(to)(input);
-    }
-    MessageToPlugin2.match = match;
-    function ImportJSONFileToVariables(value) {
-      return { ImportJSONFileToVariables: value };
-    }
-    MessageToPlugin2.ImportJSONFileToVariables = ImportJSONFileToVariables;
-  })(MessageToPlugin || (MessageToPlugin = {}));
-  var IDOrNew;
-  ((IDOrNew2) => {
-    function apply(to) {
-      return function _match(input) {
-        if (typeof input !== "object" || input == null)
-          throw new TypeError("Unexpected non-object for input");
-        if ("ID" in input)
-          return to.ID(input["ID"]);
-        if ("NewWithName" in input)
-          return to.NewWithName(input["NewWithName"]);
-        const _exhaust = input;
-        return _exhaust;
-      };
-    }
-    IDOrNew2.apply = apply;
-    function match(input, to) {
-      return apply(to)(input);
-    }
-    IDOrNew2.match = match;
-    function ID(value) {
-      return { ID: value };
-    }
-    IDOrNew2.ID = ID;
-    function NewWithName(value) {
-      return { NewWithName: value };
-    }
-    IDOrNew2.NewWithName = NewWithName;
-  })(IDOrNew || (IDOrNew = {}));
-  function CollectionInfo(inner) {
-    return inner;
-  }
-  function CollectionModeInfo(inner) {
-    return inner;
-  }
-
-  // ui-src/createUIState.ts
-  function createUIState(rootSub) {
-    const $mode$ = new BehaviorSubject({
-      name: "root"
-    });
-    function sendToPlugin(message) {
-      parent.postMessage({ pluginMessage: message }, "*");
-    }
-    window.onmessage = (event) => {
-      protocol_types_gen_exports.MessageToUI.match(event.data.pluginMessage, {
-        LoadCollections(inner) {
-          console.log("Load collections", { inner });
-        }
-      });
-    };
-    return {
-      mode$: $mode$.asObservable(),
-      nav: {
-        home: {
-          isOpen$: $mode$.pipe(map((mode) => mode.name === "root")),
-          open() {
-            $mode$.next({
-              name: "root"
-            });
-          }
-        },
-        update: {
-          isOpen$: $mode$.pipe(map((mode) => mode.name === "update-json")),
-          open() {
-            $mode$.next({
-              name: "update-json"
-            });
-          }
-        }
-      }
-    };
-  }
-
-  // ui-src/ui.tsx
+  // ui-src/view/app-root.tsx
+  var debug = false;
   function RootUI(root) {
     return /* @__PURE__ */ jsx("h1", { children: "Home" });
   }
   function UpdateJSONUI(updateJSON) {
-    return /* @__PURE__ */ jsx("h1", { children: "UpdateJSON" });
+    return /* @__PURE__ */ jsx("div", { class: "flex flex-col flex-1 gap", children: [
+      /* @__PURE__ */ jsx(TextArea, { input: updateJSON.jsonTextarea }),
+      /* @__PURE__ */ jsx("div", { class: "flex gap justify-end", children: [
+        /* @__PURE__ */ jsx("div", { class: "error-message", children: updateJSON.error$ }),
+        /* @__PURE__ */ jsx(Button, { class: "btn-secondary", state: updateJSON.resetBtn }),
+        /* @__PURE__ */ jsx(Button, { state: updateJSON.submitBtn })
+      ] }),
+      debug ? /* @__PURE__ */ jsx("pre", { children: updateJSON.jsonTextarea.value$ }) : null
+    ] });
   }
-  try {
-    const rootSub = new Subscription();
-    const state = createUIState(rootSub);
-    const appJsx = /* @__PURE__ */ jsx("div", { children: [
+  function AppRoot({ state }) {
+    return /* @__PURE__ */ jsx("div", { class: "flex flex-col flex-1 gap", children: [
+      navJsx(state.nav),
       state.mode$.pipe(
         map(
           (mode) => mode.name === "root" ? RootUI(mode) : mode.name === "update-json" ? UpdateJSONUI(mode) : /* @__PURE__ */ jsx("span", { children: "UI State not found" })
         )
-      ),
-      /* @__PURE__ */ jsx("div", { class: "row", children: [
-        /* @__PURE__ */ jsx(NavButton, { label: "Home", state: state.nav.home }),
-        /* @__PURE__ */ jsx(NavButton, { label: "Update", state: state.nav.update })
-      ] })
+      )
     ] });
-    document.getElementById("app-root").appendChild(renderSpec(rootSub, appJsx));
-  } catch (err) {
-    console.error(err);
+  }
+  function navJsx(nav) {
+    return /* @__PURE__ */ jsx("div", { class: "flex gap", children: [
+      /* @__PURE__ */ jsx(NavButton, { label: "Home", state: nav.home }),
+      /* @__PURE__ */ jsx(NavButton, { label: "Update", state: nav.update })
+    ] });
   }
   function NavButton(props) {
-    return /* @__PURE__ */ jsx("button", { disabled: props.state.isOpen$, onclick: () => props.state.open(), children: props.label });
+    return /* @__PURE__ */ jsx(
+      "button",
+      {
+        disabled: props.state.isOpen$,
+        onclick: () => props.state.open(),
+        class: "flex-1",
+        style: {
+          backgroundColor: props.state.isOpen$.pipe(
+            falseyThen(`var(--figma-color-bg)`)
+          )
+        },
+        children: props.label
+      }
+    );
+  }
+  function Button(props) {
+    return /* @__PURE__ */ jsx(
+      "button",
+      {
+        disabled: props.state.disabled$,
+        onclick: () => props.state.click(),
+        class: props.class,
+        children: [
+          props.state.label$,
+          props.state.label
+        ]
+      }
+    );
+  }
+  function TextArea(props) {
+    return /* @__PURE__ */ jsx(
+      "textarea",
+      {
+        style: { resize: "vertical" },
+        ref: (textarea, sub) => {
+          sub.add(
+            props.input.value$.subscribe((value) => {
+              textarea.value = value;
+            })
+          );
+          sub.add(
+            fromEvent(textarea, "input").subscribe((update) => {
+              props.input.update(textarea.value);
+            })
+          );
+        }
+      }
+    );
+  }
+  function falseyThen(value) {
+    return map((test) => test ? "" : value);
+  }
+
+  // ui-src/ui.tsx
+  try {
+    const rootSub = new Subscription();
+    const state = createUIState(rootSub);
+    document.getElementById("app-root").appendChild(renderSpec(rootSub, /* @__PURE__ */ jsx(AppRoot, { state })));
+  } catch (err) {
+    console.error("Error setting up UI for Figma Plugin", err);
   }
 })();
 </script></body></html>

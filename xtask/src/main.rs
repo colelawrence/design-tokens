@@ -15,6 +15,8 @@ enum XtaskCommand {
     Fix(FixOptions),
     #[options(name = "doc-code", help = "generate and show docs")]
     Docs(DocsOptions),
+    #[options(name = "extension-figma-here-now-dev")]
+    ExtensionFigmaHereNowDev(DevOptions),
 }
 
 // Define options for the program.
@@ -49,6 +51,7 @@ fn main() {
     match command {
         XtaskCommand::Fix(opts) => fix(opts),
         XtaskCommand::Docs(opts) => docs(opts),
+        XtaskCommand::ExtensionFigmaHereNowDev(opts) => extension_figma_here_now_dev(opts),
     }
 }
 
@@ -95,6 +98,22 @@ fn docs(_: DocsOptions) {
         .current_dir(root_dir)
         .spawn()
         .expect("fixing code")
+        .wait_with_output()
+        .expect("exiting");
+
+    expect_success(&output);
+}
+
+#[derive(Options)]
+struct DevOptions {}
+fn extension_figma_here_now_dev(_: DevOptions) {
+    let root_dir = get_project_root_dir();
+    let output = Command::new("watchexec")
+        .args("-w ui-src".split(' '))
+        .arg("node ./build.cjs")
+        .current_dir(root_dir.join("./extensions/Here Now Figma"))
+        .spawn()
+        .expect("watching figma plugin code")
         .wait_with_output()
         .expect("exiting");
 
