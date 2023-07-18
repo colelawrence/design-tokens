@@ -4,11 +4,9 @@
     "lib": ["es6"],
     "strict": true,
     "paths": {
-      "~helpers/*": ["../helpers/*"],
       "~gen": ["../gen/index.ts"]
     },
-    "rootDirs": [".", "../helpers"],
     "typeRoots": ["../node_modules/@types", "../node_modules/@figma"]
   },
-  "include": ["../helpers/*.ts", "./*.ts", "./**/*.ts", "../_archive/test-data.ts", "../_archive/sample-from-figma-studio-tokens.ts"]
+  "include": ["./*.ts", "./**/*.ts"]
 }

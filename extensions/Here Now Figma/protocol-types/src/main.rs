@@ -15,7 +15,7 @@ enum MessageToPlugin {
     ImportJSONFileToVariables {
         selected_collection_id: IDOrNew,
         selected_mode_id: IDOrNew,
-        #[codegen(ts_as="unknown")]
+        #[codegen(ts_as = "unknown")]
         json: (),
     },
 }

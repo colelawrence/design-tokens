@@ -106,6 +106,7 @@ form .row {
   justify-content: end;
 }
 button:disabled {
+  color: var(--figma-color-text-disabled);
   background-color: var(--figma-color-bg-disabled);
   border-color: var(--figma-color-border-disabled);
 }
@@ -118,8 +119,8 @@ button:disabled {
   background-color: var(--figma-color-bg-secondary);
 }
 .btn-secondary:disabled {
-  color: var(--figma-color-text-disabled-secondary);
-  background-color: var(--figma-color-bg-disabled-secondary);
+  color: var(--figma-color-text-disabled);
+  background-color: var(--figma-color-bg-disabled);
 }
 </style></head>
 <body>
@@ -424,13 +425,13 @@ button:disabled {
 
   // node_modules/rxjs/dist/esm5/internal/Subscription.js
   var Subscription = function() {
-    function Subscription4(initialTeardown) {
+    function Subscription3(initialTeardown) {
       this.initialTeardown = initialTeardown;
       this.closed = false;
       this._parentage = null;
       this._finalizers = null;
     }
-    Subscription4.prototype.unsubscribe = function() {
+    Subscription3.prototype.unsubscribe = function() {
       var e_1, _a2, e_2, _b;
       var errors;
       if (!this.closed) {
@@ -501,13 +502,13 @@ button:disabled {
         }
       }
     };
-    Subscription4.prototype.add = function(teardown) {
+    Subscription3.prototype.add = function(teardown) {
       var _a2;
       if (teardown && teardown !== this) {
         if (this.closed) {
           execFinalizer(teardown);
         } else {
-          if (teardown instanceof Subscription4) {
+          if (teardown instanceof Subscription3) {
             if (teardown.closed || teardown._hasParent(this)) {
               return;
             }
@@ -517,15 +518,15 @@ button:disabled {
         }
       }
     };
-    Subscription4.prototype._hasParent = function(parent2) {
+    Subscription3.prototype._hasParent = function(parent2) {
       var _parentage = this._parentage;
       return _parentage === parent2 || Array.isArray(_parentage) && _parentage.includes(parent2);
     };
-    Subscription4.prototype._addParent = function(parent2) {
+    Subscription3.prototype._addParent = function(parent2) {
       var _parentage = this._parentage;
       this._parentage = Array.isArray(_parentage) ? (_parentage.push(parent2), _parentage) : _parentage ? [_parentage, parent2] : parent2;
     };
-    Subscription4.prototype._removeParent = function(parent2) {
+    Subscription3.prototype._removeParent = function(parent2) {
       var _parentage = this._parentage;
       if (_parentage === parent2) {
         this._parentage = null;
@@ -533,19 +534,19 @@ button:disabled {
         arrRemove(_parentage, parent2);
       }
     };
-    Subscription4.prototype.remove = function(teardown) {
+    Subscription3.prototype.remove = function(teardown) {
       var _finalizers = this._finalizers;
       _finalizers && arrRemove(_finalizers, teardown);
-      if (teardown instanceof Subscription4) {
+      if (teardown instanceof Subscription3) {
         teardown._removeParent(this);
       }
     };
-    Subscription4.EMPTY = function() {
-      var empty = new Subscription4();
+    Subscription3.EMPTY = function() {
+      var empty = new Subscription3();
       empty.closed = true;
       return empty;
     }();
-    return Subscription4;
+    return Subscription3;
   }();
   var EMPTY_SUBSCRIPTION = Subscription.EMPTY;
   function isSubscription(value) {
@@ -1636,6 +1637,23 @@ button:disabled {
   }
 
   // gen/figma-typography-export.gen.ts
+  var figma_typography_export_gen_exports = {};
+  __export(figma_typography_export_gen_exports, {
+    FigmaPluginCommand: () => FigmaPluginCommand,
+    FigmaPluginCommandOperation: () => FigmaPluginCommandOperation,
+    FigmaTypographyExport: () => FigmaTypographyExport,
+    FontStyleRule: () => FontStyleRule,
+    TextStyle: () => TextStyle,
+    TypographyExport: () => TypographyExport,
+    TypographyExtension: () => TypographyExtension,
+    TypographyProperty: () => TypographyProperty
+  });
+  function TypographyExport(inner) {
+    return inner;
+  }
+  function TypographyExtension(value) {
+    return value;
+  }
   var TypographyProperty;
   ((TypographyProperty2) => {
     function apply(to) {
@@ -1653,7 +1671,7 @@ button:disabled {
         if ("FontStyle" in input)
           return to.FontStyle(input["FontStyle"]);
         const _exhaust = input;
-        return _exhaust;
+        throw new TypeError("Unknown object when expected TypographyProperty");
       };
     }
     TypographyProperty2.apply = apply;
@@ -1682,6 +1700,40 @@ button:disabled {
     }
     TypographyProperty2.FontStyle = FontStyle;
   })(TypographyProperty || (TypographyProperty = {}));
+  function FontStyleRule(value) {
+    return value;
+  }
+  function FigmaPluginCommand(inner) {
+    return inner;
+  }
+  var FigmaPluginCommandOperation;
+  ((FigmaPluginCommandOperation2) => {
+    function apply(to) {
+      return function _match(input) {
+        if (typeof input !== "object" || input == null)
+          throw new TypeError("Unexpected non-object for input");
+        if ("UpdateTypography" in input)
+          return to.UpdateTypography(input["UpdateTypography"]);
+        const _exhaust = input;
+        throw new TypeError("Unknown object when expected FigmaPluginCommandOperation");
+      };
+    }
+    FigmaPluginCommandOperation2.apply = apply;
+    function match(input, to) {
+      return apply(to)(input);
+    }
+    FigmaPluginCommandOperation2.match = match;
+    function UpdateTypography(value) {
+      return { UpdateTypography: value };
+    }
+    FigmaPluginCommandOperation2.UpdateTypography = UpdateTypography;
+  })(FigmaPluginCommandOperation || (FigmaPluginCommandOperation = {}));
+  function TextStyle(inner) {
+    return inner;
+  }
+  function FigmaTypographyExport(inner) {
+    return inner;
+  }
 
   // gen/protocol-types.gen.ts
   var protocol_types_gen_exports = {};
@@ -1701,7 +1753,7 @@ button:disabled {
         if ("LoadCollections" in input)
           return to.LoadCollections(input["LoadCollections"]);
         const _exhaust = input;
-        return _exhaust;
+        throw new TypeError("Unknown object when expected MessageToUI");
       };
     }
     MessageToUI2.apply = apply;
@@ -1723,7 +1775,7 @@ button:disabled {
         if ("ImportJSONFileToVariables" in input)
           return to.ImportJSONFileToVariables(input["ImportJSONFileToVariables"]);
         const _exhaust = input;
-        return _exhaust;
+        throw new TypeError("Unknown object when expected MessageToPlugin");
       };
     }
     MessageToPlugin2.apply = apply;
@@ -1747,7 +1799,7 @@ button:disabled {
         if ("NewWithName" in input)
           return to.NewWithName(input["NewWithName"]);
         const _exhaust = input;
-        return _exhaust;
+        throw new TypeError("Unknown object when expected IDOrNew");
       };
     }
     IDOrNew2.apply = apply;
@@ -1810,7 +1862,19 @@ button:disabled {
       return { ok: false, message: "Value is empty" };
     try {
       const value2 = JSON.parse(trimmed);
-      return { ok: true, message: "Update Typography", value: value2 };
+      try {
+        const command = figma_typography_export_gen_exports.FigmaPluginCommand(value2);
+        return figma_typography_export_gen_exports.FigmaPluginCommandOperation.match(command.figma_plugin, {
+          UpdateTypography() {
+            return { ok: true, message: "Update Typography", value: value2 };
+          }
+        });
+      } catch (err) {
+        return {
+          ok: false,
+          message: "Unknown: This JSON does not appear to have come from design-tokens."
+        };
+      }
     } catch (err) {
       return { ok: false, message: "Invalid JSON" };
     }

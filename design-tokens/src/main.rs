@@ -26,10 +26,28 @@ pub(crate) mod input {
     }
 }
 
-mod color;
-mod typography;
+pub(crate) mod extensions {
+    use crate::prelude::*;
+    use derive_codegen::Codegen;
+
+    #[derive(Codegen, Serialize)]
+    #[codegen(tags = "figma-typography-export")]
+    pub struct FigmaPluginCommand {
+        figma_plugin: FigmaPluginCommandOperation,
+    }
+
+    #[derive(Codegen, Serialize)]
+    #[codegen(tags = "figma-typography-export")]
+    pub enum FigmaPluginCommandOperation {
+        UpdateTypography {
+            export: crate::typography::figma::FigmaTypographyExport,
+        },
+    }
+}
 
 mod cli;
+mod color;
+mod typography;
 
 /// TODO
 pub mod lengths {

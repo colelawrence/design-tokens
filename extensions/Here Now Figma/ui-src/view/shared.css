@@ -109,6 +109,7 @@ form .row {
 }
 
 button:disabled {
+  color: var(--figma-color-text-disabled);
   background-color: var(--figma-color-bg-disabled);
   border-color: var(--figma-color-border-disabled);
 }
@@ -123,6 +124,6 @@ button:disabled {
   background-color: var(--figma-color-bg-secondary);
 }
 .btn-secondary:disabled {
-  color: var(--figma-color-text-disabled-secondary);
-  background-color: var(--figma-color-bg-disabled-secondary);
+  color: var(--figma-color-text-disabled);
+  background-color: var(--figma-color-bg-disabled);
 }

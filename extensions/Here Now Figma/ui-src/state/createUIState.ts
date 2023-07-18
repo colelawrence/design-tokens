@@ -1,5 +1,5 @@
 import { BehaviorSubject, Observable, Subscription, map } from "rxjs";
-import { protocol } from "~gen";
+import { gen, protocol } from "~gen";
 
 export interface RootMode {
   name: "root";
@@ -78,7 +78,20 @@ function parseJSON(value: string) {
   if (!trimmed) return { ok: false, message: "Value is empty" };
   try {
     const value = JSON.parse(trimmed);
-    return { ok: true, message: "Update Typography", value };
+    try {
+      const command = gen.FigmaPluginCommand(value);
+      return gen.FigmaPluginCommandOperation.match(command.figma_plugin, {
+        UpdateTypography() {
+          return { ok: true, message: "Update Typography", value };
+        },
+      });
+    } catch (err) {
+      return {
+        ok: false,
+        message:
+          "Unknown: This JSON does not appear to have come from design-tokens.",
+      };
+    }
   } catch (err) {
     return { ok: false, message: "Invalid JSON" };
   }
@@ -106,10 +119,10 @@ function createUpdateJSONMode(): UpdateJSONMode {
     },
     submitBtn: {
       click() {
-        console.warn("must update typography")
+        console.warn("must update typography");
       },
       disabled$: checked$.pipe(map((v) => !v.ok)),
-      label$: checked$.pipe(map((v) => v.ok ? v.message : "Submit")),
+      label$: checked$.pipe(map((v) => (v.ok ? v.message : "Submit"))),
     },
   };
 }

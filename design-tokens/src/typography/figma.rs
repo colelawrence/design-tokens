@@ -45,7 +45,7 @@ pub mod figma_scalars {
     }
 }
 
-#[derive(Debug, Codegen)]
+#[derive(Debug, Codegen, Serialize)]
 #[codegen(tags = "figma-typography-export")]
 pub struct TextStyle {
     pub name: String,
@@ -53,9 +53,9 @@ pub struct TextStyle {
     pub properties: Vec<output::TypographyProperty>,
 }
 
-#[derive(Debug, Codegen)]
+#[derive(Debug, Codegen, Serialize)]
 #[codegen(tags = "figma-typography-export")]
-pub struct FigmaTypography {
+pub struct FigmaTypographyExport {
     pub core_styles: Vec<TextStyle>,
     // // I think we'd need a documentation thing for each individual token as well, right?
     // pub all_tokens: output::TypographyAllTokens,
@@ -105,8 +105,8 @@ pub mod figma_config {
 pub fn generate_typography_for_figma(
     all_tokens: &output::TypographyExport,
     figma_settings: &figma_config::FigmaTypographyConfig,
-) -> Result<FigmaTypography> {
-    Ok(FigmaTypography {
+) -> Result<FigmaTypographyExport> {
+    Ok(FigmaTypographyExport {
         core_styles: todo!("use all tokens to create core styles: {all_tokens:#?}"),
     })
 }

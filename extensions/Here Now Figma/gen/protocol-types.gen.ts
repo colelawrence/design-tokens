@@ -15,7 +15,7 @@ export namespace MessageToUI {
       if (typeof input !== "object" || input == null) throw new TypeError("Unexpected non-object for input");
       if ("LoadCollections" in input) return to.LoadCollections(input["LoadCollections"]);
       const _exhaust: never = input;
-      return _exhaust;
+      throw new TypeError("Unknown object when expected MessageToUI");
     }
   }
   /** Match helper for {@link MessageToUI} */
@@ -54,7 +54,7 @@ export namespace MessageToPlugin {
       if (typeof input !== "object" || input == null) throw new TypeError("Unexpected non-object for input");
       if ("ImportJSONFileToVariables" in input) return to.ImportJSONFileToVariables(input["ImportJSONFileToVariables"]);
       const _exhaust: never = input;
-      return _exhaust;
+      throw new TypeError("Unknown object when expected MessageToPlugin");
     }
   }
   /** Match helper for {@link MessageToPlugin} */
@@ -98,7 +98,7 @@ export namespace IDOrNew {
       if ("ID" in input) return to.ID(input["ID"]);
       if ("NewWithName" in input) return to.NewWithName(input["NewWithName"]);
       const _exhaust: never = input;
-      return _exhaust;
+      throw new TypeError("Unknown object when expected IDOrNew");
     }
   }
   /** Match helper for {@link IDOrNew} */

@@ -1,7 +1,5 @@
-import "./shared.css";
-import { Subscription, fromEvent, map } from "rxjs";
-import { renderSpec } from "jsx-view";
-import {
+import { fromEvent, map } from "rxjs";
+import type {
   ButtonState,
   NavButtonState,
   NavState,
@@ -9,8 +7,8 @@ import {
   UIInput,
   UIState,
   UpdateJSONMode,
-  createUIState,
 } from "../state/createUIState";
+import "./shared.css";
 
 const debug = false;
 

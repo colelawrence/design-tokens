@@ -224,7 +224,7 @@ export namespace FontFamilyTrackingRule {
       if (typeof input !== "object" || input == null) throw new TypeError("Unexpected non-object for input");
       if ("DynMetrics" in input) return to.DynMetrics(input["DynMetrics"]);
       const _exhaust: never = input;
-      return _exhaust;
+      throw new TypeError("Unknown object when expected FontFamilyTrackingRule");
     }
   }
   /** Match helper for {@link FontFamilyTrackingRule} */
@@ -279,7 +279,7 @@ export namespace FontFamilyLineHeightRule {
       if (typeof input !== "object" || input == null) throw new TypeError("Unexpected non-object for input");
       if ("FontSizePxMultipler" in input) return to.FontSizePxMultipler(input["FontSizePxMultipler"]);
       const _exhaust: never = input;
-      return _exhaust;
+      throw new TypeError("Unknown object when expected FontFamilyLineHeightRule");
     }
   }
   /** Match helper for {@link FontFamilyLineHeightRule} */
@@ -331,7 +331,7 @@ export namespace FontSizeEquation {
       if (typeof input !== "object" || input == null) throw new TypeError("Unexpected non-object for input");
       if ("Multiplier" in input) return to.Multiplier(input["Multiplier"]);
       const _exhaust: never = input;
-      return _exhaust;
+      throw new TypeError("Unknown object when expected FontSizeEquation");
     }
   }
   /** Match helper for {@link FontSizeEquation} */

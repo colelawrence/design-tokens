@@ -67,7 +67,7 @@ export namespace TypographyProperty {
       if ("LetterSpacing" in input) return to.LetterSpacing(input["LetterSpacing"]);
       if ("FontStyle" in input) return to.FontStyle(input["FontStyle"]);
       const _exhaust: never = input;
-      return _exhaust;
+      throw new TypeError("Unknown object when expected TypographyProperty");
     }
   }
   /** Match helper for {@link TypographyProperty} */
@@ -160,6 +160,69 @@ export function FontStyleRule(value: FontStyleRule): FontStyleRule {
 /**
  * `#[codegen(tags = "figma-typography-export")]`
  *
+ * [Source `design-tokens/src/main.rs:33`](../../../design-tokens/src/main.rs)
+ */
+export type FigmaPluginCommand = {
+  figma_plugin: FigmaPluginCommandOperation;
+};
+/**
+ * `#[codegen(tags = "figma-typography-export")]`
+ *
+ * [Source `design-tokens/src/main.rs:33`](../../../design-tokens/src/main.rs)
+ */
+export function FigmaPluginCommand(inner: FigmaPluginCommand): FigmaPluginCommand {
+  return inner;
+}
+/**
+ * `#[codegen(tags = "figma-typography-export")]`
+ *
+ * [Source `design-tokens/src/main.rs:39`](../../../design-tokens/src/main.rs)
+ */
+// deno-lint-ignore no-namespace
+export namespace FigmaPluginCommandOperation {
+  export type ApplyFns<R> = {
+    // callbacks
+    UpdateTypography(inner: UpdateTypography["UpdateTypography"]): R,
+  }
+  /** Match helper for {@link FigmaPluginCommandOperation} */
+  export function apply<R>(
+    to: ApplyFns<R>,
+  ): (input: FigmaPluginCommandOperation) => R {
+    return function _match(input): R {
+      // if-else strings
+      // if-else objects
+      if (typeof input !== "object" || input == null) throw new TypeError("Unexpected non-object for input");
+      if ("UpdateTypography" in input) return to.UpdateTypography(input["UpdateTypography"]);
+      const _exhaust: never = input;
+      throw new TypeError("Unknown object when expected FigmaPluginCommandOperation");
+    }
+  }
+  /** Match helper for {@link FigmaPluginCommandOperation} */
+  export function match<R>(
+    input: FigmaPluginCommandOperation,
+    to: ApplyFns<R>,
+  ): R {
+    return apply(to)(input)
+  }
+  export type UpdateTypography = {
+    UpdateTypography: {
+      export: FigmaTypographyExport;
+    };
+  }
+  export function UpdateTypography(value: UpdateTypography["UpdateTypography"]): UpdateTypography {
+    return { UpdateTypography: value }
+  }
+}
+/**
+ * `#[codegen(tags = "figma-typography-export")]`
+ *
+ * [Source `design-tokens/src/main.rs:39`](../../../design-tokens/src/main.rs)
+ */
+export type FigmaPluginCommandOperation =
+  | FigmaPluginCommandOperation.UpdateTypography
+/**
+ * `#[codegen(tags = "figma-typography-export")]`
+ *
  * [Source `design-tokens/src/typography/figma.rs:48`](../../../design-tokens/src/typography/figma.rs)
  */
 export type TextStyle = {
@@ -180,7 +243,7 @@ export function TextStyle(inner: TextStyle): TextStyle {
  *
  * [Source `design-tokens/src/typography/figma.rs:56`](../../../design-tokens/src/typography/figma.rs)
  */
-export type FigmaTypography = {
+export type FigmaTypographyExport = {
   core_styles: Array<TextStyle>;
 };
 /**
@@ -188,6 +251,6 @@ export type FigmaTypography = {
  *
  * [Source `design-tokens/src/typography/figma.rs:56`](../../../design-tokens/src/typography/figma.rs)
  */
-export function FigmaTypography(inner: FigmaTypography): FigmaTypography {
+export function FigmaTypographyExport(inner: FigmaTypographyExport): FigmaTypographyExport {
   return inner;
 }

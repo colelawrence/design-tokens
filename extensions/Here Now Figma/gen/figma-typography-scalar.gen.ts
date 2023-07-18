@@ -80,7 +80,7 @@ export namespace FigmaFontStyleRule {
       if ("FontSuffix" in input) return to.FontSuffix(input["FontSuffix"]);
       if ("FontVariation" in input) return to.FontVariation(input["FontVariation"]);
       const _exhaust: never = input;
-      return _exhaust;
+      throw new TypeError("Unknown object when expected FigmaFontStyleRule");
     }
   }
   /** Match helper for {@link FigmaFontStyleRule} */

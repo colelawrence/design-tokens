@@ -25,8 +25,8 @@ enum Commands {
         #[clap(long)]
         show_settings: bool,
     },
-    /// Generate code from example `cargo run -- example-codegen`
-    ExampleCodegen,
+    /// Generate code from example `cargo run -- dev-codegen`
+    DevCodegen,
 }
 
 pub(crate) fn run() {
@@ -35,7 +35,7 @@ pub(crate) fn run() {
         std::env::var("CARGO_MANIFEST_DIR").expect("getting cargo manifest directory");
 
     match cli.command {
-        Commands::ExampleCodegen => {
+        Commands::DevCodegen => {
             let dev = DesignTokensDev {
                 project_root: PathBuf::from(current_directory)
                     .canonicalize()
