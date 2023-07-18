@@ -31,13 +31,14 @@
       // and we can maintain different vscode setting roots (i.e. with deno)
       "design-tokens/*": true,
       "examples/*": true,
-      "extensions/*/*": true,
+      "extensions/*/*": true
     },
     "tailwindCSS.includeLanguages": {
       "jinja-html": "html"
     },
     "emmet.includeLanguages": {
-      "jinja-html": "html"
+      "jinja-html": "html",
+      "typescriptreact": "html"
     },
     "editor.linkedEditing": true,
     "explorer.fileNesting.patterns": {
