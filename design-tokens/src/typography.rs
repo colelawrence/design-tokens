@@ -18,5 +18,5 @@ pub mod scalars {
     #[codegen(tags = "typography-export,typography-input")]
     #[codegen(scalar)]
     #[serde(transparent)]
-    pub struct FontStyleRule(serde_json::Value);
+    pub struct FontStyleRule(pub serde_json::Value);
 }

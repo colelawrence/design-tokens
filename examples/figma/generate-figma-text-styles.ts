@@ -16,18 +16,18 @@ W100, text, content, W200, xs [
 */
 
 for (const textStyle of figmaTypographyExtension.FigmaTextStyles) {
-  let allTextStyles: {
+  let collected: {
     names: string[];
     /** split and flattened */
     tokens: string[];
   }[] = [{ names: [textStyle.BaseName], tokens: splitTokens(textStyle.BaseTokens) }];
   for (const group of textStyle.Groups) {
-    const originalTextStyles = allTextStyles;
-    allTextStyles = new Array(originalTextStyles.length * group.Options.length);
+    const originalTextStyles = collected;
+    collected = new Array(originalTextStyles.length * group.Options.length);
     let i = 0;
     for (const original of originalTextStyles) {
       for (const option of group.Options) {
-        allTextStyles[i] = {
+        collected[i] = {
           names: [...original.names, option.Name],
           tokens: [...original.tokens, ...splitTokens(option.Tokens)],
         };
@@ -36,11 +36,11 @@ for (const textStyle of figmaTypographyExtension.FigmaTextStyles) {
     }
   }
 
-  const len = allTextStyles.length;
+  const len = collected.length;
   const figmaTextStyles: any[] = new Array(len);
   const lookup = new TypographyTokenLookup(allTokensSampleData);
   for (let i = 0; i < len; i++) {
-    const textStyle = allTextStyles[i];
+    const textStyle = collected[i];
     figmaTextStyles[i] = {
       name: textStyle.names.join("/"),
       props: lookup.query(textStyle.tokens),

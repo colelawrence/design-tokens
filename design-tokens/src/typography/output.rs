@@ -1,4 +1,4 @@
-use std::collections::{BTreeMap, BTreeSet};
+use std::collections::{BTreeMap, BTreeSet, HashMap};
 
 use crate::prelude::*;
 
@@ -11,6 +11,75 @@ pub struct TypographyExport {
     tokens: Vec<(BTreeSet<String>, Vec<usize>)>,
     /// For example, `{"figma": FigmaTypographyExport, "tailwind": TailwindTypographyExport}`
     extensions: TypographyExtensionExport,
+}
+
+impl TypographyExport {
+    pub fn as_lookup(&self) -> TokenLookup {
+        self.into()
+    }
+}
+
+pub struct TokenLookup<'a> {
+    export: &'a TypographyExport,
+    // useful?
+    tokens_map: HashMap<String, Vec<usize>>,
+}
+
+impl<'a> From<&'a TypographyExport> for TokenLookup<'a> {
+    fn from(value: &'a TypographyExport) -> Self {
+        let mut tokens_map: HashMap<String, Vec<usize>> = HashMap::new();
+        for (i, (reqs, _)) in value.tokens.iter().enumerate() {
+            for req in reqs {
+                tokens_map.entry(req.clone()).or_default().push(i);
+            }
+        }
+        TokenLookup {
+            export: value,
+            tokens_map,
+        }
+    }
+}
+
+pub struct TokenQueryOutput<'a> {
+    pub properties: Vec<&'a TypographyProperty>,
+    /// Used to construct a `"key"` for figuring out which Figma TextStyles to replace.
+    pub tokens_required: BTreeSet<&'a str>,
+}
+
+impl<'a> TokenLookup<'a> {
+    pub fn query(&self, tokens: &[String]) -> TokenQueryOutput<'a> {
+        let mut found: Vec<(usize, (&Vec<usize>, &BTreeSet<String>))> = Vec::new();
+        'possible: for (reqs, prop_idxs) in &self.export.tokens {
+            let mut precedence = None;
+            for req in reqs {
+                match tokens.iter().position(|x| x == req) {
+                    Some(idx) => {
+                        precedence = Some(precedence.map_or(idx, |curr| std::cmp::max(curr, idx)))
+                    }
+                    None => continue 'possible,
+                }
+            }
+            if let Some(precedence) = precedence {
+                found.push((precedence, (prop_idxs, reqs)));
+            }
+        }
+
+        found.sort_unstable_by_key(|&(prec, _)| prec);
+
+        let mut all_reqs: BTreeSet<&'a str> = BTreeSet::new();
+        let mut all_props: Vec<&TypographyProperty> = Vec::new();
+        for (_, (idxs, reqs)) in found {
+            all_reqs.extend(reqs.iter().map(|s| s.as_str()));
+            for idx in idxs {
+                all_props.push(&self.export.properties[*idx]);
+            }
+        }
+
+        TokenQueryOutput {
+            properties: all_props,
+            tokens_required: all_reqs,
+        }
+    }
 }
 
 #[derive(Debug, Serialize, Codegen)]
@@ -54,7 +123,7 @@ impl From<TypographyTokensCollector> for TypographyExport {
     }
 }
 
-#[derive(Debug, Serialize, Codegen, PartialEq)]
+#[derive(Debug, Serialize, Clone, Codegen, PartialEq)]
 #[codegen(tags = "typography-export")]
 pub enum TypographyProperty {
     FontFamily { family_name: Cow<'static, str> },

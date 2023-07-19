@@ -83,7 +83,8 @@ pub(crate) fn run() {
             println!(
                 "{}",
                 serde_json::to_string(&figma_plugin_command)
-                    .expect("json stringifying figma plugin command")
+                    .expect("json stringifying figma plugin command").replace(r#"},{"name""#, r#"},
+{"name""#)
             );
 
             // let output = run_deno_or_exit::<serde_json::Value>(

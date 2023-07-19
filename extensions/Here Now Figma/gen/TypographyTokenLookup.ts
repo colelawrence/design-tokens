@@ -5,11 +5,11 @@ import * as gen from "./figma-typography-export.gen.js";
 // Figma plugin, which require this querying logic to be executed in
 // the plugin itself.
 export class TypographyTokenLookup {
-  constructor(private tokens: gen.TypographyExport) {}
+  constructor(private allTokens: gen.TypographyExport) {}
   query(tokens: string[]): gen.TypographyProperty[] {
     // precedence + props
     const found: [number, number[]][] = [];
-    possible: for (const [reqs, propIdxs] of this.tokens.tokens) {
+    possible: for (const [reqs, propIdxs] of this.allTokens.tokens) {
       let precedence = -1;
       for (const req of reqs) {
         const idx = tokens.indexOf(req);
@@ -27,7 +27,7 @@ export class TypographyTokenLookup {
     const byPrecedence = found.sort((a, b) => a[0] - b[0]);
     for (const [_, idxs] of byPrecedence) {
       for (const idx of idxs) {
-        allProps.push(this.tokens.properties[idx]);
+        allProps.push(this.allTokens.properties[idx]);
       }
     }
     return allProps;

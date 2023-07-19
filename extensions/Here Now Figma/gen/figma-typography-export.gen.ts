@@ -25,7 +25,7 @@ export function TypographyExport(inner: TypographyExport): TypographyExport {
  *
  * `#[codegen(scalar, tags = "typography-export")]`
  *
- * [Source `design-tokens/src/typography/output.rs:16`](../../../design-tokens/src/typography/output.rs)
+ * [Source `design-tokens/src/typography/output.rs:85`](../../../design-tokens/src/typography/output.rs)
  */
 export type TypographyExtensionExport = _TypographyExtensionExport;
 /**
@@ -33,7 +33,7 @@ export type TypographyExtensionExport = _TypographyExtensionExport;
  *
  * `#[codegen(scalar, tags = "typography-export")]`
  *
- * [Source `design-tokens/src/typography/output.rs:16`](../../../design-tokens/src/typography/output.rs)
+ * [Source `design-tokens/src/typography/output.rs:85`](../../../design-tokens/src/typography/output.rs)
  */
 export function TypographyExtensionExport(value: TypographyExtensionExport): TypographyExtensionExport {
   return value;
@@ -41,7 +41,7 @@ export function TypographyExtensionExport(value: TypographyExtensionExport): Typ
 /**
  * `#[codegen(tags = "typography-export")]`
  *
- * [Source `design-tokens/src/typography/output.rs:57`](../../../design-tokens/src/typography/output.rs)
+ * [Source `design-tokens/src/typography/output.rs:126`](../../../design-tokens/src/typography/output.rs)
  */
 // deno-lint-ignore no-namespace
 export namespace TypographyProperty {
@@ -119,7 +119,7 @@ export namespace TypographyProperty {
 /**
  * `#[codegen(tags = "typography-export")]`
  *
- * [Source `design-tokens/src/typography/output.rs:57`](../../../design-tokens/src/typography/output.rs)
+ * [Source `design-tokens/src/typography/output.rs:126`](../../../design-tokens/src/typography/output.rs)
  */
 export type TypographyProperty =
   | TypographyProperty.FontFamily
@@ -160,7 +160,7 @@ export function FontStyleRule(value: FontStyleRule): FontStyleRule {
 /**
  * `#[codegen(tags = "figma-typography-export")]`
  *
- * [Source `design-tokens/src/main.rs:33`](../../../design-tokens/src/main.rs)
+ * [Source `design-tokens/src/typography/figma.rs:52`](../../../design-tokens/src/typography/figma.rs)
  */
 export type FigmaPluginCommand = {
   figma_plugin: FigmaPluginCommandOperation;
@@ -168,7 +168,7 @@ export type FigmaPluginCommand = {
 /**
  * `#[codegen(tags = "figma-typography-export")]`
  *
- * [Source `design-tokens/src/main.rs:33`](../../../design-tokens/src/main.rs)
+ * [Source `design-tokens/src/typography/figma.rs:52`](../../../design-tokens/src/typography/figma.rs)
  */
 export function FigmaPluginCommand(inner: FigmaPluginCommand): FigmaPluginCommand {
   return inner;
@@ -176,7 +176,7 @@ export function FigmaPluginCommand(inner: FigmaPluginCommand): FigmaPluginComman
 /**
  * `#[codegen(tags = "figma-typography-export")]`
  *
- * [Source `design-tokens/src/main.rs:39`](../../../design-tokens/src/main.rs)
+ * [Source `design-tokens/src/typography/figma.rs:58`](../../../design-tokens/src/typography/figma.rs)
  */
 // deno-lint-ignore no-namespace
 export namespace FigmaPluginCommandOperation {
@@ -206,7 +206,7 @@ export namespace FigmaPluginCommandOperation {
   }
   export type UpdateTypography = {
     UpdateTypography: {
-      export: FigmaTypographyExport;
+      text_styles: Array<TextStyle>;
     };
   };
   export function UpdateTypography(value: UpdateTypography["UpdateTypography"]): UpdateTypography {
@@ -216,41 +216,33 @@ export namespace FigmaPluginCommandOperation {
 /**
  * `#[codegen(tags = "figma-typography-export")]`
  *
- * [Source `design-tokens/src/main.rs:39`](../../../design-tokens/src/main.rs)
+ * [Source `design-tokens/src/typography/figma.rs:58`](../../../design-tokens/src/typography/figma.rs)
  */
 export type FigmaPluginCommandOperation =
   | FigmaPluginCommandOperation.UpdateTypography
 /**
  * `#[codegen(tags = "figma-typography-export")]`
  *
- * [Source `design-tokens/src/typography/figma.rs:41`](../../../design-tokens/src/typography/figma.rs)
+ * [Source `design-tokens/src/typography/figma.rs:64`](../../../design-tokens/src/typography/figma.rs)
  */
 export type TextStyle = {
   name: string;
+  /** Used to figure out which Figma TextStyles to replace. */
+  key: string;
   family_name: string;
-  properties: Array<TypographyProperty>;
+  font_size_px: number;
+  /** `#[serde(skip_serializing_if = "Option::is_none")]` */
+  line_height_px?: number | undefined | null | null | undefined;
+  /** `#[serde(skip_serializing_if = "Option::is_none")]` */
+  letter_spacing_px?: number | undefined | null | null | undefined;
+  /** `#[serde(skip_serializing_if = "Vec::is_empty")]` */
+  variant_values: Array<[string, string]>;
 };
 /**
  * `#[codegen(tags = "figma-typography-export")]`
  *
- * [Source `design-tokens/src/typography/figma.rs:41`](../../../design-tokens/src/typography/figma.rs)
+ * [Source `design-tokens/src/typography/figma.rs:64`](../../../design-tokens/src/typography/figma.rs)
  */
 export function TextStyle(inner: TextStyle): TextStyle {
-  return inner;
-}
-/**
- * `#[codegen(tags = "figma-typography-export")]`
- *
- * [Source `design-tokens/src/typography/figma.rs:49`](../../../design-tokens/src/typography/figma.rs)
- */
-export type FigmaTypographyExport = {
-  core_styles: Array<TextStyle>;
-};
-/**
- * `#[codegen(tags = "figma-typography-export")]`
- *
- * [Source `design-tokens/src/typography/figma.rs:49`](../../../design-tokens/src/typography/figma.rs)
- */
-export function FigmaTypographyExport(inner: FigmaTypographyExport): FigmaTypographyExport {
   return inner;
 }
