@@ -78,6 +78,8 @@ pub mod figma_export {
     }
 
     impl TextStyle {
+        /// I'm not sure if this is something we should really do on the Rust side.
+        /// Maybe Figma files will have their own custom TextStyles with on-demand tokenization ?
         pub fn try_from_lookup<'a>(
             name: String,
             lookup_output: TokenQueryOutput<'a>,
