@@ -2,9 +2,9 @@ use crate::prelude::*;
 
 pub mod css;
 pub mod figma;
-pub mod tailwind;
 pub mod input;
 pub mod output;
+pub mod tailwind;
 pub mod scalars {
     use crate::prelude::*;
 
