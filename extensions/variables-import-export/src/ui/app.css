@@ -1,0 +1,19 @@
+:root {
+  --spacing: 0.8rem;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  background-color: var(--figma-color-bg);
+  color: var(--figma-color-text);
+  margin: 0;
+  padding: var(--spacing);
+}
+
+html,
+body {
+  height: 100%;
+}
