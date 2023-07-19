@@ -1645,13 +1645,13 @@ button:disabled {
     FontStyleRule: () => FontStyleRule,
     TextStyle: () => TextStyle,
     TypographyExport: () => TypographyExport,
-    TypographyExtension: () => TypographyExtension,
+    TypographyExtensionExport: () => TypographyExtensionExport,
     TypographyProperty: () => TypographyProperty
   });
   function TypographyExport(inner) {
     return inner;
   }
-  function TypographyExtension(value) {
+  function TypographyExtensionExport(value) {
     return value;
   }
   var TypographyProperty;

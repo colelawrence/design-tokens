@@ -21,27 +21,8 @@ pub(crate) mod input {
     #[derive(Debug, Deserialize, Codegen)]
     #[codegen(tags = "input")]
     pub struct SystemInput {
-        pub color_palette: crate::color::input::ColorPalette,
-        pub typography: crate::typography::input::Typography,
-    }
-}
-
-pub(crate) mod extensions {
-    use crate::prelude::*;
-    use derive_codegen::Codegen;
-
-    #[derive(Codegen, Serialize)]
-    #[codegen(tags = "figma-typography-export")]
-    pub struct FigmaPluginCommand {
-        figma_plugin: FigmaPluginCommandOperation,
-    }
-
-    #[derive(Codegen, Serialize)]
-    #[codegen(tags = "figma-typography-export")]
-    pub enum FigmaPluginCommandOperation {
-        UpdateTypography {
-            export: crate::typography::figma::FigmaTypographyExport,
-        },
+        pub color_palette: Option<crate::color::input::ColorPalette>,
+        pub typography: crate::typography::input::BaseTypographyInput,
     }
 }
 
@@ -61,6 +42,6 @@ pub mod lengths {
 }
 
 fn main() {
-    println!("Running at {:?} ({})", std::env::current_dir(), file!());
+    eprintln!("Running at {:?} ({})", std::env::current_dir(), file!());
     cli::run();
 }

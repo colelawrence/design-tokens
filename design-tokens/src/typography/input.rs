@@ -7,13 +7,14 @@ use super::scalars;
 #[derive(Codegen, Debug, Deserialize)]
 #[codegen(tags = "typography-input")]
 #[allow(non_snake_case)]
-pub struct Typography {
+pub struct BaseTypographyInput {
     pub Families: Vec<FontFamilyInfo>,
     // Use case for multiple size scales?
     /// Scaling strategy for different font-sizes.
     pub FontSizeScale: FontSizeScale,
     pub TextRoles: Vec<TextRole>,
-    pub Extensions: BTreeMap<String, serde_json::Value>,
+    #[codegen(ts_as = "TypographyExtensionInput")]
+    pub Extensions: serde_json::Value,
 }
 
 #[derive(Codegen, Debug, Deserialize)]

@@ -6,15 +6,6 @@ use crate::prelude::*;
 pub mod figma_scalars {
     use crate::prelude::*;
 
-    /// Codgen depends on `figma-typography-input` tag
-    #[derive(Debug, Codegen)]
-    #[codegen(tags = "figma-typography-scalar")]
-    #[allow(non_snake_case)]
-    pub struct TypographyExtension {
-        #[serde(alias = "figma")]
-        Figma: super::figma_config::FigmaTypographyConfig,
-    }
-
     /// This must have the same name as the [crate::typography::scalars::FontStyleRule].
     /// TODO: Perhaps we can make it so the multiple scalars can be combined somehow
     /// like if there is another scalar for css::css_scalars.
@@ -22,6 +13,8 @@ pub mod figma_scalars {
     /// Another way to think of this is the "Figma-specific" settings.
     #[derive(Codegen)]
     #[codegen(tags = "figma-typography-scalar")]
+    // ts_interface_merge: so it can be combined with other specified scalars (WIP 0/10: maybe not very nice for other languages...)
+    #[codegen(ts_interface_merge)]
     #[allow(non_snake_case)]
     pub struct FontStyleRule {
         #[serde(alias = "figma")]
@@ -45,26 +38,59 @@ pub mod figma_scalars {
     }
 }
 
-#[derive(Debug, Codegen, Serialize)]
-#[codegen(tags = "figma-typography-export")]
-pub struct TextStyle {
-    pub name: String,
-    pub family_name: String,
-    pub properties: Vec<output::TypographyProperty>,
-}
+pub mod figma_export {
+    use crate::prelude::*;
+    use derive_codegen::Codegen;
 
-#[derive(Debug, Codegen, Serialize)]
-#[codegen(tags = "figma-typography-export")]
-pub struct FigmaTypographyExport {
-    pub core_styles: Vec<TextStyle>,
-    // // I think we'd need a documentation thing for each individual token as well, right?
-    // pub all_tokens: output::TypographyAllTokens,
+    use super::figma_config;
+
+    #[derive(Codegen, Serialize)]
+    #[codegen(tags = "figma-typography-export")]
+    pub struct FigmaPluginCommand {
+        figma_plugin: FigmaPluginCommandOperation,
+    }
+
+    #[derive(Codegen, Serialize)]
+    #[codegen(tags = "figma-typography-export")]
+    pub enum FigmaPluginCommandOperation {
+        UpdateTypography { text_styles: Vec<TextStyle> },
+    }
+
+    #[derive(Debug, Codegen, Serialize)]
+    #[codegen(tags = "figma-typography-export")]
+    pub struct TextStyle {
+        pub name: String,
+        pub family_name: String,
+        pub properties: Vec<crate::typography::output::TypographyProperty>,
+    }
+
+    pub fn update_typography_for_figma(
+        all_tokens: &crate::typography::output::TypographyExport,
+        extension_input: &figma_config::TypographyExtensionInput,
+    ) -> Result<FigmaPluginCommand> {
+        eprintln!("TODO: use all tokens to create core styles: {all_tokens:?}");
+        Ok(FigmaPluginCommand {
+            figma_plugin: FigmaPluginCommandOperation::UpdateTypography {
+                text_styles: Vec::new(),
+            },
+        })
+    }
 }
 
 pub mod figma_config {
     use crate::prelude::*;
 
-    #[derive(Codegen, Debug)]
+    // Must be named `TypographyExtensionInput` to ensure it merges with other typography extensions
+    #[derive(Debug, Codegen, Deserialize)]
+    #[codegen(tags = "figma-typography-input")]
+    #[codegen(ts_interface_merge)]
+    #[allow(non_snake_case)]
+    pub struct TypographyExtensionInput {
+        #[serde(alias = "figma")]
+        Figma: FigmaTypographyConfig,
+    }
+
+    #[derive(Codegen, Debug, Deserialize)]
     #[codegen(tags = "figma-typography-input")]
     #[allow(non_snake_case)]
     pub struct FigmaTypographyConfig {
@@ -74,7 +100,7 @@ pub mod figma_config {
         pub FigmaTextStyles: Vec<FigmaTextStyle>,
     }
 
-    #[derive(Codegen, Debug)]
+    #[derive(Codegen, Debug, Deserialize)]
     #[codegen(tags = "figma-typography-input")]
     #[allow(non_snake_case)]
     pub struct FigmaTextStyle {
@@ -84,7 +110,7 @@ pub mod figma_config {
         pub Groups: Vec<FigmaTextStyleMatrixGroup>,
     }
 
-    #[derive(Codegen, Debug)]
+    #[derive(Codegen, Debug, Deserialize)]
     #[codegen(tags = "figma-typography-input")]
     #[allow(non_snake_case)]
     pub struct FigmaTextStyleMatrixGroup {
@@ -92,7 +118,7 @@ pub mod figma_config {
         pub Options: Vec<FigmaTextStyleMatrixOption>,
     }
 
-    #[derive(Codegen, Debug)]
+    #[derive(Codegen, Debug, Deserialize)]
     #[codegen(tags = "figma-typography-input")]
     #[allow(non_snake_case)]
     pub struct FigmaTextStyleMatrixOption {
@@ -100,13 +126,4 @@ pub mod figma_config {
         pub Tokens: String,
         pub Description: Option<String>,
     }
-}
-
-pub fn generate_typography_for_figma(
-    all_tokens: &output::TypographyExport,
-    figma_settings: &figma_config::FigmaTypographyConfig,
-) -> Result<FigmaTypographyExport> {
-    Ok(FigmaTypographyExport {
-        core_styles: todo!("use all tokens to create core styles: {all_tokens:#?}"),
-    })
 }

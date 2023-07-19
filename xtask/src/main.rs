@@ -19,6 +19,8 @@ enum XtaskCommand {
     ExtensionFigmaHereNowDev(NoOptions),
     #[options(name = "codegen")]
     Codegen(NoOptions),
+    #[options(name = "test-typography-for-figma-plugin")]
+    TestTypographyForFigmaPlugin(NoOptions),
 }
 
 // Define options for the program.
@@ -54,6 +56,7 @@ fn main() {
                 PickXtask(XtaskCommand::Fix(FixOptions {})),
                 PickXtask(XtaskCommand::Codegen(NoOptions {})),
                 PickXtask(XtaskCommand::ExtensionFigmaHereNowDev(NoOptions {})),
+                PickXtask(XtaskCommand::TestTypographyForFigmaPlugin(NoOptions {})),
             ]
             .into_iter()
             .collect(),
@@ -66,8 +69,9 @@ fn main() {
     return match command {
         XtaskCommand::Fix(opts) => fix(opts),
         XtaskCommand::Docs(opts) => docs(opts),
-        XtaskCommand::ExtensionFigmaHereNowDev(opts) => extension_figma_here_now_dev(opts),
         XtaskCommand::Codegen(opts) => codegen(opts),
+        XtaskCommand::ExtensionFigmaHereNowDev(opts) => extension_figma_here_now_dev(opts),
+        XtaskCommand::TestTypographyForFigmaPlugin(opts) => test_typography_for_figma_plugin(opts),
     };
 }
 
@@ -154,6 +158,18 @@ fn extension_figma_here_now_dev(_: NoOptions) {
         .wait_with_output()
         .expect("exiting");
 
+    expect_success(&output);
+}
+
+fn test_typography_for_figma_plugin(_: NoOptions) {
+    let root_dir = get_project_root_dir();
+    let output = Command::new("cargo")
+        .args("run -- test-typography".split(' '))
+        .current_dir(root_dir.join("./design-tokens"))
+        .spawn()
+        .expect("testing typography for figma plugin code")
+        .wait_with_output()
+        .expect("exiting");
     expect_success(&output);
 }
 

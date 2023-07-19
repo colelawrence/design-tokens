@@ -9,15 +9,15 @@ use super::{input, scalars};
 pub struct TypographyExport {
     properties: Vec<TypographyProperty>,
     tokens: Vec<(BTreeSet<String>, Vec<usize>)>,
-    /// For example, `{"figma": FigmaTypographyConfig, "tailwind": TailwindTypographyConfig}`
-    extensions: TypographyExtension,
+    /// For example, `{"figma": FigmaTypographyExport, "tailwind": TailwindTypographyExport}`
+    extensions: TypographyExtensionExport,
 }
 
 #[derive(Debug, Serialize, Codegen)]
 #[codegen(tags = "typography-export")]
 #[codegen(scalar)]
 #[serde(transparent)]
-pub struct TypographyExtension(BTreeMap<String, serde_json::Value>);
+pub struct TypographyExtensionExport(BTreeMap<String, serde_json::Value>);
 
 #[derive(Default)]
 pub struct TypographyTokensCollector(BTreeMap<BTreeSet<String>, Vec<TypographyProperty>>);
@@ -27,7 +27,7 @@ impl From<TypographyTokensCollector> for TypographyExport {
         let mut result = TypographyExport {
             properties: Vec::new(),
             tokens: Vec::new(),
-            extensions: TypographyExtension(BTreeMap::new()),
+            extensions: TypographyExtensionExport(BTreeMap::new()),
         };
 
         for (tokens, values) in value.0.into_iter() {
@@ -92,7 +92,7 @@ impl TypographyTokensCollector {
 }
 
 pub fn generate_typography_all_tokens(
-    input: &input::Typography,
+    input: &input::BaseTypographyInput,
 ) -> Result<TypographyTokensCollector> {
     let mut all_tokens = TypographyTokensCollector::default();
 

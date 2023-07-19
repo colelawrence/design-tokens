@@ -1,3 +1,3 @@
-import { settings } from "./settings.ts";
+import { typography } from "./typography-settings.ts";
 
-console.log(JSON.stringify(settings));
+console.log(JSON.stringify({ typography }));

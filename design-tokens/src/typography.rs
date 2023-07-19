@@ -2,6 +2,7 @@ use crate::prelude::*;
 
 pub mod css;
 pub mod figma;
+pub mod tailwind;
 pub mod input;
 pub mod output;
 pub mod scalars {

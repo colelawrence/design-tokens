@@ -1,6 +1,6 @@
-import * as figma from "./figma-config.gen.ts";
+import * as input from "../typography-input.gen.ts";
 
-const figmaWeightsGroup = figma.FigmaTextStyleMatrixGroup({
+const figmaWeightsGroup = input.FigmaTextStyleMatrixGroup({
   Description: "Font weight",
   Options: [
     { Name: "Base", Tokens: "" },
@@ -15,21 +15,21 @@ const figmaWeightsGroup = figma.FigmaTextStyleMatrixGroup({
     { Name: "Black", Tokens: "w900" },
   ],
 });
-const figmaItalicGroup = figma.FigmaTextStyleMatrixGroup({
+const figmaItalicGroup = input.FigmaTextStyleMatrixGroup({
   Description: "Font italicized",
   Options: [
     { Name: "Base", Tokens: "" },
     { Name: "Italic", Tokens: "italic" },
   ],
 });
-const figmaProseStyleGroup = figma.FigmaTextStyleMatrixGroup({
+const figmaProseStyleGroup = input.FigmaTextStyleMatrixGroup({
   Description: "Prose stylization",
   Options: [
     { Name: "Base", Tokens: "" },
     { Name: "Code", Tokens: "code" },
   ],
 });
-export const figmaTypographyExtension = figma.FigmaTypographyConfig({
+export const figmaTypographyExtension = input.FigmaTypographyConfig({
   FigmaTextStyles: [
     {
       BaseName: "Content",

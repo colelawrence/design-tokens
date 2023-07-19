@@ -8,7 +8,6 @@ use std::{
 use clap::{Parser, Subcommand};
 use serde::de::DeserializeOwned;
 
-use crate::input;
 /// Simple program to greet a person
 #[derive(Parser)]
 #[command(author, version, about, long_about = None)]
@@ -31,15 +30,16 @@ enum Commands {
 
 pub(crate) fn run() {
     let cli = Cli::parse();
-    let current_directory =
-        std::env::var("CARGO_MANIFEST_DIR").expect("getting cargo manifest directory");
+    let manifest_dir = PathBuf::from(
+        std::env::var("CARGO_MANIFEST_DIR").expect("getting cargo manifest directory"),
+    )
+    .canonicalize()
+    .expect("finding cargo manifest directory");
 
     match cli.command {
         Commands::DevCodegen => {
             let dev = DesignTokensDev {
-                project_root: PathBuf::from(current_directory)
-                    .canonicalize()
-                    .expect("finding cargo manifest directory")
+                project_root: manifest_dir
                     .parent()
                     .expect("getting project root (parent of cargo manifest directory)")
                     .to_path_buf(),
@@ -47,17 +47,17 @@ pub(crate) fn run() {
             dev.generate_helpers_for_sdks();
         }
         Commands::TestTypography { show_settings } => {
-            let input_settings = run_deno_or_exit::<input::SystemInput>(
+            let input_settings = run_deno_or_exit::<crate::input::SystemInput>(
                 "./examples/get-settings-json-to-stdout.ts",
                 std::iter::empty(),
             );
 
             if show_settings {
-                println!("System settings: {input_settings:#?}");
+                eprintln!("System settings: {input_settings:#?}");
             }
             let families_len = input_settings.typography.Families.len();
             let text_roles_len = input_settings.typography.TextRoles.len();
-            println!("System settings {families_len} families, {text_roles_len} text roles");
+            eprintln!("System settings {families_len} families, {text_roles_len} text roles");
 
             let all_tokens: crate::typography::output::TypographyExport =
                 crate::typography::output::generate_typography_all_tokens(
@@ -66,13 +66,32 @@ pub(crate) fn run() {
                 .expect("generating all tokens")
                 .into();
 
-            let all_tokens_str = serde_json::to_string(&all_tokens).unwrap();
-            let output = run_deno_or_exit::<serde_json::Value>(
-                "./examples/tailwind/generate-tailwind-json-from-arg.ts",
-                std::iter::once(all_tokens_str.as_str()),
+            let figma_extension_input = serde_json::from_value::<
+                crate::typography::figma::figma_config::TypographyExtensionInput,
+            >(input_settings.typography.Extensions.clone())
+            .expect("reading Figma extension input");
+
+            // let all_tokens_str = serde_json::to_string(&all_tokens).unwrap();
+
+            let figma_plugin_command =
+                crate::typography::figma::figma_export::update_typography_for_figma(
+                    &all_tokens,
+                    &figma_extension_input,
+                )
+                .expect("getting an update command for Figma plugin");
+
+            println!(
+                "{}",
+                serde_json::to_string(&figma_plugin_command)
+                    .expect("json stringifying figma plugin command")
             );
 
-            println!("{output:#?}");
+            // let output = run_deno_or_exit::<serde_json::Value>(
+            //     "./examples/tailwind/generate-tailwind-json-from-arg.ts",
+            //     std::iter::once(all_tokens_str.as_str()),
+            // );
+
+            // eprintln!("{output:#?}");
         }
     }
 }
@@ -84,13 +103,16 @@ struct DesignTokensDev {
 impl DesignTokensDev {
     pub fn generate_helpers_for_sdks(&self) {
         derive_codegen::Generation::for_tag("typography-input")
+            .include_tag("css-typography-scalar")
+            .include_tag("tailwind-typography-input")
+            .include_tag("figma-typography-scalar")
+            .include_tag("figma-typography-input")
             .as_arg_of(
                 Command::new("deno")
                     .arg("run")
                     .arg("./vendor/derive-codegen/typescript-generator/generate-typescript.ts")
                     .arg("--includeLocationsRelativeTo=../../")
                     .arg("--fileName=typography-input.gen.ts")
-                    .arg("--importScalarsFrom=./scalars.ts")
                     .arg(r#"--prependText=type Value = unknown;"#)
                     .current_dir(&self.project_root),
             )

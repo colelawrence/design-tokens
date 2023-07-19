@@ -1,6 +1,6 @@
 // The data passed to the Figma plugin.
 type Value = unknown;
-import { TypographyExtension as _TypographyExtension, FontStyleRule as _FontStyleRule } from "./figma-typography-scalar.gen.js";
+import { TypographyExtensionExport as _TypographyExtensionExport, FontStyleRule as _FontStyleRule } from "./figma-typography-scalar.gen.js";
 /**
  * `#[codegen(tags = "typography-export")]`
  *
@@ -9,8 +9,8 @@ import { TypographyExtension as _TypographyExtension, FontStyleRule as _FontStyl
 export type TypographyExport = {
   properties: Array<TypographyProperty>;
   tokens: Array<[Array<string>, Array<number>]>;
-  /** For example, `{"figma": FigmaTypographyConfig, "tailwind": TailwindTypographyConfig}` */
-  extensions: TypographyExtension;
+  /** For example, `{"figma": FigmaTypographyExport, "tailwind": TailwindTypographyExport}` */
+  extensions: TypographyExtensionExport;
 };
 /**
  * `#[codegen(tags = "typography-export")]`
@@ -27,7 +27,7 @@ export function TypographyExport(inner: TypographyExport): TypographyExport {
  *
  * [Source `design-tokens/src/typography/output.rs:16`](../../../design-tokens/src/typography/output.rs)
  */
-export type TypographyExtension = _TypographyExtension;
+export type TypographyExtensionExport = _TypographyExtensionExport;
 /**
  * `#[serde(transparent)]`
  *
@@ -35,7 +35,7 @@ export type TypographyExtension = _TypographyExtension;
  *
  * [Source `design-tokens/src/typography/output.rs:16`](../../../design-tokens/src/typography/output.rs)
  */
-export function TypographyExtension(value: TypographyExtension): TypographyExtension {
+export function TypographyExtensionExport(value: TypographyExtensionExport): TypographyExtensionExport {
   return value;
 }
 /**
@@ -81,7 +81,7 @@ export namespace TypographyProperty {
     FontFamily: {
       family_name: string;
     };
-  }
+  };
   export function FontFamily(value: FontFamily["FontFamily"]): FontFamily {
     return { FontFamily: value }
   }
@@ -89,7 +89,7 @@ export namespace TypographyProperty {
     LineHeight: {
       px: number;
     };
-  }
+  };
   export function LineHeight(value: LineHeight["LineHeight"]): LineHeight {
     return { LineHeight: value }
   }
@@ -97,7 +97,7 @@ export namespace TypographyProperty {
     FontSize: {
       px: number;
     };
-  }
+  };
   export function FontSize(value: FontSize["FontSize"]): FontSize {
     return { FontSize: value }
   }
@@ -105,7 +105,7 @@ export namespace TypographyProperty {
     LetterSpacing: {
       px: number;
     };
-  }
+  };
   export function LetterSpacing(value: LetterSpacing["LetterSpacing"]): LetterSpacing {
     return { LetterSpacing: value }
   }
@@ -138,7 +138,7 @@ export type TypographyProperty =
  *
  * `#[codegen(scalar, tags = "typography-export,typography-input")]`
  *
- * [Source `design-tokens/src/typography.rs:16`](../../../design-tokens/src/typography.rs)
+ * [Source `design-tokens/src/typography.rs:17`](../../../design-tokens/src/typography.rs)
  */
 export type FontStyleRule = _FontStyleRule;
 /**
@@ -152,7 +152,7 @@ export type FontStyleRule = _FontStyleRule;
  *
  * `#[codegen(scalar, tags = "typography-export,typography-input")]`
  *
- * [Source `design-tokens/src/typography.rs:16`](../../../design-tokens/src/typography.rs)
+ * [Source `design-tokens/src/typography.rs:17`](../../../design-tokens/src/typography.rs)
  */
 export function FontStyleRule(value: FontStyleRule): FontStyleRule {
   return value;
@@ -208,7 +208,7 @@ export namespace FigmaPluginCommandOperation {
     UpdateTypography: {
       export: FigmaTypographyExport;
     };
-  }
+  };
   export function UpdateTypography(value: UpdateTypography["UpdateTypography"]): UpdateTypography {
     return { UpdateTypography: value }
   }
@@ -223,7 +223,7 @@ export type FigmaPluginCommandOperation =
 /**
  * `#[codegen(tags = "figma-typography-export")]`
  *
- * [Source `design-tokens/src/typography/figma.rs:48`](../../../design-tokens/src/typography/figma.rs)
+ * [Source `design-tokens/src/typography/figma.rs:41`](../../../design-tokens/src/typography/figma.rs)
  */
 export type TextStyle = {
   name: string;
@@ -233,7 +233,7 @@ export type TextStyle = {
 /**
  * `#[codegen(tags = "figma-typography-export")]`
  *
- * [Source `design-tokens/src/typography/figma.rs:48`](../../../design-tokens/src/typography/figma.rs)
+ * [Source `design-tokens/src/typography/figma.rs:41`](../../../design-tokens/src/typography/figma.rs)
  */
 export function TextStyle(inner: TextStyle): TextStyle {
   return inner;
@@ -241,7 +241,7 @@ export function TextStyle(inner: TextStyle): TextStyle {
 /**
  * `#[codegen(tags = "figma-typography-export")]`
  *
- * [Source `design-tokens/src/typography/figma.rs:56`](../../../design-tokens/src/typography/figma.rs)
+ * [Source `design-tokens/src/typography/figma.rs:49`](../../../design-tokens/src/typography/figma.rs)
  */
 export type FigmaTypographyExport = {
   core_styles: Array<TextStyle>;
@@ -249,7 +249,7 @@ export type FigmaTypographyExport = {
 /**
  * `#[codegen(tags = "figma-typography-export")]`
  *
- * [Source `design-tokens/src/typography/figma.rs:56`](../../../design-tokens/src/typography/figma.rs)
+ * [Source `design-tokens/src/typography/figma.rs:49`](../../../design-tokens/src/typography/figma.rs)
  */
 export function FigmaTypographyExport(inner: FigmaTypographyExport): FigmaTypographyExport {
   return inner;
