@@ -229,7 +229,7 @@ export type TextStyle = {
   name: string;
   /** Used to figure out which Figma TextStyles to replace. */
   key: string;
-  family_name: string;
+  family_name_and_style: [string, string];
   font_size_px: number;
   /** `#[serde(skip_serializing_if = "Option::is_none")]` */
   line_height_px?: number | undefined | null | null | undefined;

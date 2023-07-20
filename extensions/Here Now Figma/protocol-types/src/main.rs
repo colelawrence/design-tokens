@@ -18,6 +18,10 @@ enum MessageToPlugin {
         #[codegen(ts_as = "unknown")]
         json: (),
     },
+    Command {
+        #[codegen(ts_as = "import(\"./figma-typography-export.gen.js\").FigmaPluginCommand")]
+        command: ()
+    },
 }
 
 #[derive(Codegen)]

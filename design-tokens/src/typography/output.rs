@@ -174,14 +174,19 @@ pub fn generate_typography_all_tokens(
             .or_default()
             .push(text_role.Token.clone());
 
+        let rules = &["text", &text_role.Token];
         all_tokens.push(
-            &["text", &text_role.Token],
+            rules,
             TypographyProperty::FontFamily {
                 family_name: family_name.clone(),
             },
         )?;
 
         let family_info = input.Families.iter().find(|f| f.BaseName.as_str() == &family_name).ok_or_else(|| anyhow::anyhow!("Family name ({family_name:?}) used for text role ({:?}) does not have an entry in `Families`", text_role.Token))?;
+
+        for def_rule in family_info.DefaultRules.iter() {
+            all_tokens.push(rules, TypographyProperty::FontStyle(def_rule.clone()))?;
+        }
 
         let recip = family_info.Metrics.unitsPerEm / family_info.Metrics.capHeight;
 
@@ -220,7 +225,7 @@ pub fn generate_typography_all_tokens(
         for role_token in role_tokens.iter() {
             for weight in family.Weights.iter() {
                 all_tokens.push_all(
-                    &[role_token.as_str(), &format!("W{}", weight.Weight)],
+                    &[role_token.as_str(), &format!("w{}", weight.Weight)],
                     [TypographyProperty::FontStyle(weight.FontStyleRule.clone())],
                 )?;
             }

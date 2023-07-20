@@ -1,4 +1,4 @@
-import { BehaviorSubject, Observable, Subscription, map } from "rxjs";
+import { BehaviorSubject, Observable, Subscription, map, take } from "rxjs";
 import { gen, protocol } from "~gen";
 
 export interface RootMode {
@@ -38,11 +38,17 @@ export type UIState = {
   mode$: Observable<Mode>;
   nav: NavState;
 };
+interface Services {
+  sendToPlugin(message: protocol.MessageToPlugin): void;
+}
+
 export function createUIState(rootSub: Subscription): UIState {
-  const $mode$ = new BehaviorSubject<Mode>(createUpdateJSONMode());
-  function sendToPlugin(message: protocol.MessageToPlugin) {
-    parent.postMessage({ pluginMessage: message }, "*");
-  }
+  const services: Services = {
+    sendToPlugin(message) {
+      parent.postMessage({ pluginMessage: message }, "*");
+    },
+  };
+  const $mode$ = new BehaviorSubject<Mode>(createUpdateJSONMode(services));
 
   window.onmessage = (event) => {
     protocol.MessageToUI.match(event.data.pluginMessage, {
@@ -66,14 +72,18 @@ export function createUIState(rootSub: Subscription): UIState {
       update: {
         isOpen$: $mode$.pipe(map((mode) => mode.name === "update-json")),
         open() {
-          $mode$.next(createUpdateJSONMode());
+          $mode$.next(createUpdateJSONMode(services));
         },
       },
     },
   };
 }
 
-function parseJSON(value: string) {
+function parseJSON(
+  value: string
+):
+  | { ok: false; message: string }
+  | { ok: true; message: string; command: gen.FigmaPluginCommand } {
   const trimmed = value.trim();
   if (!trimmed) return { ok: false, message: "Value is empty" };
   try {
@@ -82,7 +92,7 @@ function parseJSON(value: string) {
       const command = gen.FigmaPluginCommand(value);
       return gen.FigmaPluginCommandOperation.match(command.figma_plugin, {
         UpdateTypography() {
-          return { ok: true, message: "Update Typography", value };
+          return { ok: true, message: "Update Typography", command };
         },
       });
     } catch (err) {
@@ -97,7 +107,7 @@ function parseJSON(value: string) {
   }
 }
 
-function createUpdateJSONMode(): UpdateJSONMode {
+function createUpdateJSONMode(services: Services): UpdateJSONMode {
   const $json$ = new BehaviorSubject("");
   const checked$ = $json$.pipe(map(parseJSON));
 
@@ -119,7 +129,17 @@ function createUpdateJSONMode(): UpdateJSONMode {
     },
     submitBtn: {
       click() {
-        console.warn("must update typography");
+        checked$.pipe(take(1)).subscribe((checked) => {
+          if (checked.ok) {
+            services.sendToPlugin(
+              protocol.MessageToPlugin.Command({
+                command: checked.command,
+              })
+            );
+          } else {
+            console.error("submitted erroneous value", checked);
+          }
+        });
       },
       disabled$: checked$.pipe(map((v) => !v.ok)),
       label$: checked$.pipe(map((v) => (v.ok ? v.message : "Submit"))),

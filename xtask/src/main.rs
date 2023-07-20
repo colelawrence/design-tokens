@@ -150,6 +150,7 @@ fn extension_figma_here_now_dev(_: NoOptions) {
     let root_dir = get_project_root_dir();
     let output = Command::new("watchexec")
         .args("-w ui-src".split(' '))
+        .args("-w plugin-src".split(' '))
         .args("-w gen".split(' '))
         .arg("node ./build.cjs")
         .current_dir(root_dir.join("./extensions/Here Now Figma"))

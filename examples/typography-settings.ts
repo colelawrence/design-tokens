@@ -24,11 +24,12 @@ export const typography = input.BaseTypographyInput({
       CSSFontFamilyName: "hnsans",
       CSSFontFamilyFallbacks: ["system-ui", ...emojiFontFamilies, "sans-serif"],
       Metrics: interMetrics,
+      DefaultRules: [{ CSS: [{ FontWeight: 400 }], Figma: { FontSuffix: [" Regular", 1] } }],
       Weights: [
         { Weight: 100, FontStyleRule: { CSS: [{ FontWeight: 100 }], Figma: { FontSuffix: [" Thin", 1] } } },
         { Weight: 200, FontStyleRule: { CSS: [{ FontWeight: 200 }], Figma: { FontSuffix: [" Extra Light", 1] } } },
         { Weight: 300, FontStyleRule: { CSS: [{ FontWeight: 300 }], Figma: { FontSuffix: [" Light", 1] } } },
-        { Weight: 400, FontStyleRule: { CSS: [{ FontWeight: 400 }], Figma: { FontSuffix: [" Normal", 1] } } },
+        { Weight: 400, FontStyleRule: { CSS: [{ FontWeight: 400 }], Figma: { FontSuffix: [" Regular", 1] } } },
         { Weight: 500, FontStyleRule: { CSS: [{ FontWeight: 500 }], Figma: { FontSuffix: [" Medium", 1] } } },
         { Weight: 600, FontStyleRule: { CSS: [{ FontWeight: 600 }], Figma: { FontSuffix: [" Semi Bold", 1] } } },
         { Weight: 700, FontStyleRule: { CSS: [{ FontWeight: 700 }], Figma: { FontSuffix: [" Bold", 1] } } },
@@ -38,15 +39,17 @@ export const typography = input.BaseTypographyInput({
       ItalicOption: { CSS: ["FontStyleItalics"], Figma: { FontSuffix: [" Italic", 2] } },
     },
     {
-      BaseName: "IBM Plex",
+      // TODO: make these font selectors part of a scalar for Font Family Base ?
+      BaseName: "IBM Plex Mono",
       CSSFontFamilyName: "hnmono",
       CSSFontFamilyFallbacks: ["Source Code Pro", ...emojiFontFamilies, "monospace"],
       Metrics: iBMPlexMonoMetrics,
+      DefaultRules: [{ CSS: [{ FontWeight: 400 }], Figma: { FontSuffix: [" Regular", 1] } }],
       Weights: [
         { Weight: 100, FontStyleRule: { CSS: [{ FontWeight: 100 }], Figma: { FontSuffix: [" Thin", 1] } } },
         { Weight: 200, FontStyleRule: { CSS: [{ FontWeight: 200 }], Figma: { FontSuffix: [" ExtraLight", 1] } } },
         { Weight: 300, FontStyleRule: { CSS: [{ FontWeight: 300 }], Figma: { FontSuffix: [" Light", 1] } } },
-        { Weight: 400, FontStyleRule: { CSS: [{ FontWeight: 400 }], Figma: { FontSuffix: [" Normal", 1] } } },
+        { Weight: 400, FontStyleRule: { CSS: [{ FontWeight: 400 }], Figma: { FontSuffix: [" Regular", 1] } } },
         { Weight: 500, FontStyleRule: { CSS: [{ FontWeight: 500 }], Figma: { FontSuffix: [" Medium", 1] } } },
         { Weight: 600, FontStyleRule: { CSS: [{ FontWeight: 600 }], Figma: { FontSuffix: [" SemiBold", 1] } } },
         { Weight: 700, FontStyleRule: { CSS: [{ FontWeight: 700 }], Figma: { FontSuffix: [" Bold", 1] } } },
@@ -69,7 +72,7 @@ export const typography = input.BaseTypographyInput({
     },
     {
       Token: "code",
-      FamilyBaseName: "IBM Plex",
+      FamilyBaseName: "IBM Plex Mono",
       LineHeightRule: tightLineHeight,
       TrackingRule: { DynMetrics: { a: -0.005, b: 0.26, c: -0.17 } },
     },

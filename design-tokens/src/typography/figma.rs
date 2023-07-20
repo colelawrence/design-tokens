@@ -67,7 +67,7 @@ pub mod figma_export {
         pub name: String,
         /// Used to figure out which Figma TextStyles to replace.
         pub key: String,
-        pub family_name: String,
+        pub family_name_and_style: (String, String),
         pub font_size_px: f64,
         #[serde(skip_serializing_if = "Option::is_none")]
         pub line_height_px: Option<f64>,
@@ -85,7 +85,8 @@ pub mod figma_export {
             lookup_output: TokenQueryOutput<'a>,
         ) -> Result<Self> {
             // collected with precedents
-            let mut family_name_prec: BTreeMap<isize, Cow<'a, str>> = BTreeMap::new();
+            let mut family_name_found = Option::<Cow<'a, str>>::None;
+            let mut family_style_prec: BTreeMap<isize, String> = BTreeMap::new();
             let mut line_height_px = Option::<f64>::None;
             let mut letter_spacing_px = Option::<f64>::None;
             let mut line_height_px = Option::<f64>::None;
@@ -94,7 +95,7 @@ pub mod figma_export {
             for prop in lookup_output.properties {
                 match prop {
                     TypographyProperty::FontFamily { family_name } => {
-                        family_name_prec.insert(-1, family_name.clone());
+                        family_name_found = Some(family_name.clone());
                     }
                     TypographyProperty::LineHeight { px } => line_height_px = Some(*px),
                     TypographyProperty::FontSize { px } => font_size_px = *px,
@@ -113,7 +114,7 @@ pub mod figma_export {
 
                         match figma_font_style_rule {
                             figma_scalars::FigmaFontStyleRule::FontSuffix(name, prec) => {
-                                family_name_prec.insert(prec as isize, name.into());
+                                family_style_prec.insert(prec as isize, name);
                             }
                             figma_scalars::FigmaFontStyleRule::FontVariation(key, value) => {
                                 variant_values.push((key, value))
@@ -131,7 +132,16 @@ pub mod figma_export {
                     .collect::<Vec<_>>()
                     .join("-"),
                 // using a btree map to ensure the keys are ordered
-                family_name: family_name_prec.into_values().collect(),
+                family_name_and_style: (
+                    family_name_found
+                        .ok_or_else(|| anyhow::anyhow!("no family name found for text style"))?
+                        .to_string(),
+                    family_style_prec
+                        .into_values()
+                        .collect::<String>()
+                        .trim()
+                        .to_string(),
+                ),
                 font_size_px,
                 line_height_px,
                 letter_spacing_px,
@@ -171,7 +181,7 @@ pub mod figma_export {
             }
 
             for collection in &collected {
-                let name = collection.0.join("/");
+                let name = collection.0.join(" / ");
                 let lookup_output = lookup.query(&collection.1);
 
                 figma_text_styles.push(

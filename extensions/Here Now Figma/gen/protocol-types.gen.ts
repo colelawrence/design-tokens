@@ -43,6 +43,7 @@ export namespace MessageToPlugin {
   export type ApplyFns<R> = {
     // callbacks
     ImportJSONFileToVariables(inner: ImportJSONFileToVariables["ImportJSONFileToVariables"]): R,
+    Command(inner: Command["Command"]): R,
   }
   /** Match helper for {@link MessageToPlugin} */
   export function apply<R>(
@@ -53,6 +54,7 @@ export namespace MessageToPlugin {
       // if-else objects
       if (typeof input !== "object" || input == null) throw new TypeError("Unexpected non-object for input");
       if ("ImportJSONFileToVariables" in input) return to.ImportJSONFileToVariables(input["ImportJSONFileToVariables"]);
+      if ("Command" in input) return to.Command(input["Command"]);
       const _exhaust: never = input;
       throw new TypeError("Unknown object when expected MessageToPlugin");
     }
@@ -75,10 +77,20 @@ export namespace MessageToPlugin {
   export function ImportJSONFileToVariables(value: ImportJSONFileToVariables["ImportJSONFileToVariables"]): ImportJSONFileToVariables {
     return { ImportJSONFileToVariables: value }
   }
+  export type Command = {
+    Command: {
+      /** `#[codegen(ts_as = "import(\"./figma-typography-export.gen.js\").FigmaPluginCommand")]` */
+      command: import("./figma-typography-export.gen.js").FigmaPluginCommand;
+    };
+  }
+  export function Command(value: Command["Command"]): Command {
+    return { Command: value }
+  }
 }
 /** `#[codegen(tags = "hn-figma-types")]` */
 export type MessageToPlugin =
   | MessageToPlugin.ImportJSONFileToVariables
+  | MessageToPlugin.Command
 /** `#[codegen(tags = "hn-figma-types")]` */
 // deno-lint-ignore no-namespace
 export namespace IDOrNew {

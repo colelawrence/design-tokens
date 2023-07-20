@@ -42,6 +42,8 @@ pub struct FontFamilyInfo {
     pub CSSFontFamilyName: Option<String>,
     /// e.g. `"system-ui", "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Arial", "sans-serif"`
     pub CSSFontFamilyFallbacks: Vec<String>,
+    /// Required for some systems like Figma, for it to properly select the default text style font name.
+    pub DefaultRules: Vec<scalars::FontStyleRule>,
     pub Weights: Vec<FamilyWeightRule>,
     pub ItalicOption: Option<scalars::FontStyleRule>,
     /// e.g. metrics from @capsize/metrics

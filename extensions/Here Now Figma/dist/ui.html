@@ -1199,6 +1199,11 @@ button:disabled {
     return BehaviorSubject2;
   }(Subject);
 
+  // node_modules/rxjs/dist/esm5/internal/observable/empty.js
+  var EMPTY = new Observable(function(subscriber) {
+    return subscriber.complete();
+  });
+
   // node_modules/rxjs/dist/esm5/internal/util/isArrayLike.js
   var isArrayLike = function(x) {
     return x && typeof x.length === "number" && typeof x !== "function";
@@ -1613,6 +1618,23 @@ button:disabled {
     return isFunction(target.addEventListener) && isFunction(target.removeEventListener);
   }
 
+  // node_modules/rxjs/dist/esm5/internal/operators/take.js
+  function take(count) {
+    return count <= 0 ? function() {
+      return EMPTY;
+    } : operate(function(source, subscriber) {
+      var seen = 0;
+      source.subscribe(createOperatorSubscriber(subscriber, function(value) {
+        if (++seen <= count) {
+          subscriber.next(value);
+          if (count <= seen) {
+            subscriber.complete();
+          }
+        }
+      }));
+    });
+  }
+
   // node_modules/rxjs/dist/esm5/internal/operators/distinctUntilChanged.js
   function distinctUntilChanged(comparator, keySelector) {
     if (keySelector === void 0) {
@@ -1641,7 +1663,6 @@ button:disabled {
   __export(figma_typography_export_gen_exports, {
     FigmaPluginCommand: () => FigmaPluginCommand,
     FigmaPluginCommandOperation: () => FigmaPluginCommandOperation,
-    FigmaTypographyExport: () => FigmaTypographyExport,
     FontStyleRule: () => FontStyleRule,
     TextStyle: () => TextStyle,
     TypographyExport: () => TypographyExport,
@@ -1731,9 +1752,6 @@ button:disabled {
   function TextStyle(inner) {
     return inner;
   }
-  function FigmaTypographyExport(inner) {
-    return inner;
-  }
 
   // gen/protocol-types.gen.ts
   var protocol_types_gen_exports = {};
@@ -1774,6 +1792,8 @@ button:disabled {
           throw new TypeError("Unexpected non-object for input");
         if ("ImportJSONFileToVariables" in input)
           return to.ImportJSONFileToVariables(input["ImportJSONFileToVariables"]);
+        if ("Command" in input)
+          return to.Command(input["Command"]);
         const _exhaust = input;
         throw new TypeError("Unknown object when expected MessageToPlugin");
       };
@@ -1787,6 +1807,10 @@ button:disabled {
       return { ImportJSONFileToVariables: value };
     }
     MessageToPlugin2.ImportJSONFileToVariables = ImportJSONFileToVariables;
+    function Command(value) {
+      return { Command: value };
+    }
+    MessageToPlugin2.Command = Command;
   })(MessageToPlugin || (MessageToPlugin = {}));
   var IDOrNew;
   ((IDOrNew2) => {
@@ -1825,10 +1849,12 @@ button:disabled {
 
   // ui-src/state/createUIState.ts
   function createUIState(rootSub) {
-    const $mode$ = new BehaviorSubject(createUpdateJSONMode());
-    function sendToPlugin(message) {
-      parent.postMessage({ pluginMessage: message }, "*");
-    }
+    const services = {
+      sendToPlugin(message) {
+        parent.postMessage({ pluginMessage: message }, "*");
+      }
+    };
+    const $mode$ = new BehaviorSubject(createUpdateJSONMode(services));
     window.onmessage = (event) => {
       protocol_types_gen_exports.MessageToUI.match(event.data.pluginMessage, {
         LoadCollections(inner) {
@@ -1850,7 +1876,7 @@ button:disabled {
         update: {
           isOpen$: $mode$.pipe(map((mode) => mode.name === "update-json")),
           open() {
-            $mode$.next(createUpdateJSONMode());
+            $mode$.next(createUpdateJSONMode(services));
           }
         }
       }
@@ -1866,7 +1892,7 @@ button:disabled {
         const command = figma_typography_export_gen_exports.FigmaPluginCommand(value2);
         return figma_typography_export_gen_exports.FigmaPluginCommandOperation.match(command.figma_plugin, {
           UpdateTypography() {
-            return { ok: true, message: "Update Typography", value: value2 };
+            return { ok: true, message: "Update Typography", command };
           }
         });
       } catch (err) {
@@ -1879,7 +1905,7 @@ button:disabled {
       return { ok: false, message: "Invalid JSON" };
     }
   }
-  function createUpdateJSONMode() {
+  function createUpdateJSONMode(services) {
     const $json$ = new BehaviorSubject("");
     const checked$ = $json$.pipe(map(parseJSON));
     return {
@@ -1900,7 +1926,17 @@ button:disabled {
       },
       submitBtn: {
         click() {
-          console.warn("must update typography");
+          checked$.pipe(take(1)).subscribe((checked) => {
+            if (checked.ok) {
+              services.sendToPlugin(
+                protocol_types_gen_exports.MessageToPlugin.Command({
+                  command: checked.command
+                })
+              );
+            } else {
+              console.error("submitted erroneous value", checked);
+            }
+          });
         },
         disabled$: checked$.pipe(map((v) => !v.ok)),
         label$: checked$.pipe(map((v) => v.ok ? v.message : "Submit"))

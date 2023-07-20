@@ -91,7 +91,7 @@ export type FigmaFontStyleRule =
 /**
  * `#[codegen(ts_interface_merge, tags = "figma-typography-input")]`
  *
- * [Source `design-tokens/src/typography/figma.rs:207`](../../../design-tokens/src/typography/figma.rs)
+ * [Source `design-tokens/src/typography/figma.rs:219`](../../../design-tokens/src/typography/figma.rs)
  */
 export interface TypographyExtensionInput {
   /** `#[serde(alias = "figma")]` */
@@ -100,7 +100,7 @@ export interface TypographyExtensionInput {
 /**
  * `#[codegen(tags = "figma-typography-input")]`
  *
- * [Source `design-tokens/src/typography/figma.rs:216`](../../../design-tokens/src/typography/figma.rs)
+ * [Source `design-tokens/src/typography/figma.rs:228`](../../../design-tokens/src/typography/figma.rs)
  */
 export type FigmaTypographyConfig = {
   /** A sort of matrice of all possible combinations of the variants */
@@ -109,7 +109,7 @@ export type FigmaTypographyConfig = {
 /**
  * `#[codegen(tags = "figma-typography-input")]`
  *
- * [Source `design-tokens/src/typography/figma.rs:216`](../../../design-tokens/src/typography/figma.rs)
+ * [Source `design-tokens/src/typography/figma.rs:228`](../../../design-tokens/src/typography/figma.rs)
  */
 export function FigmaTypographyConfig(inner: FigmaTypographyConfig): FigmaTypographyConfig {
   return inner;
@@ -117,7 +117,7 @@ export function FigmaTypographyConfig(inner: FigmaTypographyConfig): FigmaTypogr
 /**
  * `#[codegen(tags = "figma-typography-input")]`
  *
- * [Source `design-tokens/src/typography/figma.rs:226`](../../../design-tokens/src/typography/figma.rs)
+ * [Source `design-tokens/src/typography/figma.rs:238`](../../../design-tokens/src/typography/figma.rs)
  */
 export type FigmaTextStyle = {
   BaseName: string;
@@ -128,7 +128,7 @@ export type FigmaTextStyle = {
 /**
  * `#[codegen(tags = "figma-typography-input")]`
  *
- * [Source `design-tokens/src/typography/figma.rs:226`](../../../design-tokens/src/typography/figma.rs)
+ * [Source `design-tokens/src/typography/figma.rs:238`](../../../design-tokens/src/typography/figma.rs)
  */
 export function FigmaTextStyle(inner: FigmaTextStyle): FigmaTextStyle {
   return inner;
@@ -136,7 +136,7 @@ export function FigmaTextStyle(inner: FigmaTextStyle): FigmaTextStyle {
 /**
  * `#[codegen(tags = "figma-typography-input")]`
  *
- * [Source `design-tokens/src/typography/figma.rs:236`](../../../design-tokens/src/typography/figma.rs)
+ * [Source `design-tokens/src/typography/figma.rs:248`](../../../design-tokens/src/typography/figma.rs)
  */
 export type FigmaTextStyleMatrixGroup = {
   Description?: string | undefined | null | null | undefined;
@@ -145,7 +145,7 @@ export type FigmaTextStyleMatrixGroup = {
 /**
  * `#[codegen(tags = "figma-typography-input")]`
  *
- * [Source `design-tokens/src/typography/figma.rs:236`](../../../design-tokens/src/typography/figma.rs)
+ * [Source `design-tokens/src/typography/figma.rs:248`](../../../design-tokens/src/typography/figma.rs)
  */
 export function FigmaTextStyleMatrixGroup(inner: FigmaTextStyleMatrixGroup): FigmaTextStyleMatrixGroup {
   return inner;
@@ -153,7 +153,7 @@ export function FigmaTextStyleMatrixGroup(inner: FigmaTextStyleMatrixGroup): Fig
 /**
  * `#[codegen(tags = "figma-typography-input")]`
  *
- * [Source `design-tokens/src/typography/figma.rs:244`](../../../design-tokens/src/typography/figma.rs)
+ * [Source `design-tokens/src/typography/figma.rs:256`](../../../design-tokens/src/typography/figma.rs)
  */
 export type FigmaTextStyleMatrixOption = {
   Name: string;
@@ -163,7 +163,7 @@ export type FigmaTextStyleMatrixOption = {
 /**
  * `#[codegen(tags = "figma-typography-input")]`
  *
- * [Source `design-tokens/src/typography/figma.rs:244`](../../../design-tokens/src/typography/figma.rs)
+ * [Source `design-tokens/src/typography/figma.rs:256`](../../../design-tokens/src/typography/figma.rs)
  */
 export function FigmaTextStyleMatrixOption(inner: FigmaTextStyleMatrixOption): FigmaTextStyleMatrixOption {
   return inner;
