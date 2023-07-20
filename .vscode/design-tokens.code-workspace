@@ -33,6 +33,15 @@
       "examples/*": true,
       "extensions/*/*": true
     },
+    "search.exclude": {
+      "*.gen.ts": true,
+      "**/dist/*": true,
+      "**/_archive/*": true,
+      "**/*.gen.ts": true,
+      "**/node_modules": true,
+      "**/bower_components": true,
+      "**/*.code-search": true
+    },
     "tailwindCSS.includeLanguages": {
       "jinja-html": "html"
     },
