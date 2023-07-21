@@ -1,6 +1,6 @@
 # ignore references
 design-tokens/references/* linguist-generated=true
 design-tokens/**/*.gen.* linguist-generated=true
-extensions/Here\ Now\ Figma/gen/* linguist-generated=true
-extensions/Here\ Now\ Figma/dist/*.html linguist-generated=true
+"extensions/Here\ Now\ Figma/gen/*" linguist-generated=true
+"extensions/Here\ Now\ Figma/dist/*.html" linguist-generated=true
 extensions/out/*.gen.* linguist-generated=true
