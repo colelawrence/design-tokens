@@ -23,6 +23,10 @@ enum Commands {
     TestTypography {
         #[clap(long)]
         show_settings: bool,
+        #[clap(long)]
+        print_all_tokens: bool,
+        #[clap(long)]
+        print_figma_input: bool,
     },
     /// Generate code from example `cargo run -- dev-codegen`
     DevCodegen,
@@ -46,7 +50,11 @@ pub(crate) fn run() {
             };
             dev.generate_helpers_for_sdks();
         }
-        Commands::TestTypography { show_settings } => {
+        Commands::TestTypography {
+            show_settings,
+            print_all_tokens,
+            print_figma_input,
+        } => {
             let input_settings = run_deno_or_exit::<crate::input::SystemInput>(
                 "./examples/get-settings-json-to-stdout.ts",
                 std::iter::empty(),
@@ -65,29 +73,44 @@ pub(crate) fn run() {
                 )
                 .expect("generating all tokens")
                 .into();
+            if print_all_tokens {
+                let mut formatter = serde_json::ser::PrettyFormatter::new();
 
-            let figma_extension_input = serde_json::from_value::<
-                crate::typography::figma::figma_config::TypographyExtensionInput,
-            >(input_settings.typography.Extensions.clone())
-            .expect("reading Figma extension input");
+                let pretty =
+                    serde_json::to_string(&all_tokens).expect("json stringifying all tokens")
+                    .replace("}},{", "}},\n  {")
+                    .replace("\"tokens\":[", "\n\"tokens\":[\n  ")
+                    .replace("\"properties\":[", "\n\"properties\":[\n  ")
+                    .replace("\"extensions\":{", "\n\"extensions\":{\n")
+                    .replace("]],[[", "]],\n  [[");
+                println!("####BEGIN:ALL TOKENS####\n{pretty}\n####END:ALL TOKENS####");
+            }
 
-            let figma_plugin_command =
-                crate::typography::figma::figma_export::update_typography_for_figma(
-                    &all_tokens,
-                    &figma_extension_input,
-                )
-                .expect("getting an update command for Figma plugin");
+            if print_figma_input {
+                let figma_extension_input =
+                    serde_json::from_value::<
+                        crate::typography::figma::figma_config::TypographyExtensionInput,
+                    >(input_settings.typography.Extensions.clone())
+                    .expect("reading Figma extension input");
 
-            println!(
-                "####BEGIN:FIGMA PLUGIN COMMAND####\n{}\n####END:FIGMA PLUGIN COMMAND####",
-                serde_json::to_string(&figma_plugin_command)
-                    .expect("json stringifying figma plugin command")
-                    .replace(
-                        r#"},{"name""#,
-                        r#"},
-{"name""#
+                let figma_plugin_command =
+                    crate::typography::figma::figma_export::update_typography_for_figma(
+                        &all_tokens,
+                        &figma_extension_input,
                     )
-            );
+                    .expect("getting an update command for Figma plugin");
+
+                println!(
+                    "####BEGIN:FIGMA PLUGIN COMMAND####\n{}\n####END:FIGMA PLUGIN COMMAND####",
+                    serde_json::to_string(&figma_plugin_command)
+                        .expect("json stringifying figma plugin command")
+                        .replace(
+                            r#"},{"name""#,
+                            r#"},
+    {"name""#
+                        )
+                );
+            }
 
             // let output = run_deno_or_exit::<serde_json::Value>(
             //     "./examples/tailwind/generate-tailwind-json-from-arg.ts",

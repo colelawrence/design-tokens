@@ -23,6 +23,8 @@ enum XtaskCommand {
     TestTypographyForFigmaPlugin(NoOptions),
     #[options(name = "test-typography-e2e")]
     TestTypographyE2E(NoOptions),
+    #[options(name = "test-typography-print-all-tokens")]
+    TestTypographyAllTokens(NoOptions),
 }
 
 // Define options for the program.
@@ -60,6 +62,7 @@ fn main() {
                 PickXtask(XtaskCommand::ExtensionFigmaHereNowDev(NoOptions {})),
                 PickXtask(XtaskCommand::TestTypographyForFigmaPlugin(NoOptions {})),
                 PickXtask(XtaskCommand::TestTypographyE2E(NoOptions {})),
+                PickXtask(XtaskCommand::TestTypographyAllTokens(NoOptions {})),
             ]
             .into_iter()
             .collect(),
@@ -79,6 +82,7 @@ fn main() {
             codegen(opts);
             test_typography_for_figma_plugin(opts);
         }
+        XtaskCommand::TestTypographyAllTokens(opts) => test_typography_print_all_tokens(opts),
     };
 }
 
@@ -169,10 +173,22 @@ fn extension_figma_here_now_dev(_: NoOptions) {
     expect_success(&output);
 }
 
+fn test_typography_print_all_tokens(_: NoOptions) {
+    let root_dir = get_project_root_dir();
+    let output = Command::new("cargo")
+        .args("run -- test-typography --print-all-tokens".split(' '))
+        .current_dir(root_dir.join("./design-tokens"))
+        .spawn()
+        .expect("testing typography by printing all tokens")
+        .wait_with_output()
+        .expect("exiting");
+    expect_success(&output);
+}
+
 fn test_typography_for_figma_plugin(_: NoOptions) {
     let root_dir = get_project_root_dir();
     let output = Command::new("cargo")
-        .args("run -- test-typography".split(' '))
+        .args("run -- test-typography --print-figma-input".split(' '))
         .current_dir(root_dir.join("./design-tokens"))
         .spawn()
         .expect("testing typography for figma plugin code")

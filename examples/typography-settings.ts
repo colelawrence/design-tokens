@@ -108,8 +108,8 @@ export const typography = input.BaseTypographyInput({
     },
     {
       Token: "code",
-      FamilyBaseName: "IBM Plex Mono",
-      // FamilyBaseName: "Roboto Mono",
+      // FamilyBaseName: "IBM Plex Mono",
+      FamilyBaseName: "Roboto Mono",
       LineHeightRule: tightLineHeight,
       TrackingRule: { DynMetrics: { a: -0.005, b: 0.26, c: -0.17 } },
     },
