@@ -71,8 +71,6 @@ pub(crate) fn run() {
             >(input_settings.typography.Extensions.clone())
             .expect("reading Figma extension input");
 
-            // let all_tokens_str = serde_json::to_string(&all_tokens).unwrap();
-
             let figma_plugin_command =
                 crate::typography::figma::figma_export::update_typography_for_figma(
                     &all_tokens,
@@ -81,10 +79,14 @@ pub(crate) fn run() {
                 .expect("getting an update command for Figma plugin");
 
             println!(
-                "{}",
+                "####BEGIN:FIGMA PLUGIN COMMAND####\n{}\n####END:FIGMA PLUGIN COMMAND####",
                 serde_json::to_string(&figma_plugin_command)
-                    .expect("json stringifying figma plugin command").replace(r#"},{"name""#, r#"},
-{"name""#)
+                    .expect("json stringifying figma plugin command")
+                    .replace(
+                        r#"},{"name""#,
+                        r#"},
+{"name""#
+                    )
             );
 
             // let output = run_deno_or_exit::<serde_json::Value>(

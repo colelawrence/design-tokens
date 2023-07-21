@@ -21,6 +21,8 @@ enum XtaskCommand {
     Codegen(NoOptions),
     #[options(name = "test-typography-for-figma-plugin")]
     TestTypographyForFigmaPlugin(NoOptions),
+    #[options(name = "test-typography-e2e")]
+    TestTypographyE2E(NoOptions),
 }
 
 // Define options for the program.
@@ -57,6 +59,7 @@ fn main() {
                 PickXtask(XtaskCommand::Codegen(NoOptions {})),
                 PickXtask(XtaskCommand::ExtensionFigmaHereNowDev(NoOptions {})),
                 PickXtask(XtaskCommand::TestTypographyForFigmaPlugin(NoOptions {})),
+                PickXtask(XtaskCommand::TestTypographyE2E(NoOptions {})),
             ]
             .into_iter()
             .collect(),
@@ -72,6 +75,10 @@ fn main() {
         XtaskCommand::Codegen(opts) => codegen(opts),
         XtaskCommand::ExtensionFigmaHereNowDev(opts) => extension_figma_here_now_dev(opts),
         XtaskCommand::TestTypographyForFigmaPlugin(opts) => test_typography_for_figma_plugin(opts),
+        XtaskCommand::TestTypographyE2E(opts) => {
+            codegen(opts);
+            test_typography_for_figma_plugin(opts);
+        }
     };
 }
 
@@ -143,7 +150,7 @@ fn docs(_: DocsOptions) {
     expect_success(&output);
 }
 
-#[derive(Options)]
+#[derive(Options, Clone, Copy)]
 struct NoOptions {}
 
 fn extension_figma_here_now_dev(_: NoOptions) {

@@ -91,7 +91,7 @@ export type FigmaFontStyleRule =
 /**
  * `#[codegen(ts_interface_merge, tags = "figma-typography-input")]`
  *
- * [Source `design-tokens/src/typography/figma.rs:219`](../../../design-tokens/src/typography/figma.rs)
+ * [Source `design-tokens/src/typography/figma.rs:286`](../../../design-tokens/src/typography/figma.rs)
  */
 export interface TypographyExtensionInput {
   /** `#[serde(alias = "figma")]` */
@@ -100,7 +100,7 @@ export interface TypographyExtensionInput {
 /**
  * `#[codegen(tags = "figma-typography-input")]`
  *
- * [Source `design-tokens/src/typography/figma.rs:228`](../../../design-tokens/src/typography/figma.rs)
+ * [Source `design-tokens/src/typography/figma.rs:295`](../../../design-tokens/src/typography/figma.rs)
  */
 export type FigmaTypographyConfig = {
   /** A sort of matrice of all possible combinations of the variants */
@@ -109,7 +109,7 @@ export type FigmaTypographyConfig = {
 /**
  * `#[codegen(tags = "figma-typography-input")]`
  *
- * [Source `design-tokens/src/typography/figma.rs:228`](../../../design-tokens/src/typography/figma.rs)
+ * [Source `design-tokens/src/typography/figma.rs:295`](../../../design-tokens/src/typography/figma.rs)
  */
 export function FigmaTypographyConfig(inner: FigmaTypographyConfig): FigmaTypographyConfig {
   return inner;
@@ -117,18 +117,19 @@ export function FigmaTypographyConfig(inner: FigmaTypographyConfig): FigmaTypogr
 /**
  * `#[codegen(tags = "figma-typography-input")]`
  *
- * [Source `design-tokens/src/typography/figma.rs:238`](../../../design-tokens/src/typography/figma.rs)
+ * [Source `design-tokens/src/typography/figma.rs:305`](../../../design-tokens/src/typography/figma.rs)
  */
 export type FigmaTextStyle = {
   BaseName: string;
   BaseTokens: string;
+  BaseKey: string;
   Description?: string | undefined | null | null | undefined;
   Groups: Array<FigmaTextStyleMatrixGroup>;
 };
 /**
  * `#[codegen(tags = "figma-typography-input")]`
  *
- * [Source `design-tokens/src/typography/figma.rs:238`](../../../design-tokens/src/typography/figma.rs)
+ * [Source `design-tokens/src/typography/figma.rs:305`](../../../design-tokens/src/typography/figma.rs)
  */
 export function FigmaTextStyle(inner: FigmaTextStyle): FigmaTextStyle {
   return inner;
@@ -136,16 +137,25 @@ export function FigmaTextStyle(inner: FigmaTextStyle): FigmaTextStyle {
 /**
  * `#[codegen(tags = "figma-typography-input")]`
  *
- * [Source `design-tokens/src/typography/figma.rs:248`](../../../design-tokens/src/typography/figma.rs)
+ * [Source `design-tokens/src/typography/figma.rs:316`](../../../design-tokens/src/typography/figma.rs)
  */
 export type FigmaTextStyleMatrixGroup = {
+  /**
+   * Defaults to `" / "` for groups to create folders.
+   * Use something like `" "` to create join with the previous group like "Regular Italic" from "Regular" & "Italic" groups.
+   */
+  NamePrefix?: string | undefined | null | null | undefined;
+  /** Defaults to `""`, but can be useful for stylizing your name groups */
+  NameSuffix?: string | undefined | null | null | undefined;
+  /** When the name is empty, then don't apply the name prefix and name suffix. */
+  IncludeEmptyOption?: boolean | undefined | null | null | undefined;
   Description?: string | undefined | null | null | undefined;
   Options: Array<FigmaTextStyleMatrixOption>;
 };
 /**
  * `#[codegen(tags = "figma-typography-input")]`
  *
- * [Source `design-tokens/src/typography/figma.rs:248`](../../../design-tokens/src/typography/figma.rs)
+ * [Source `design-tokens/src/typography/figma.rs:316`](../../../design-tokens/src/typography/figma.rs)
  */
 export function FigmaTextStyleMatrixGroup(inner: FigmaTextStyleMatrixGroup): FigmaTextStyleMatrixGroup {
   return inner;
@@ -153,17 +163,22 @@ export function FigmaTextStyleMatrixGroup(inner: FigmaTextStyleMatrixGroup): Fig
 /**
  * `#[codegen(tags = "figma-typography-input")]`
  *
- * [Source `design-tokens/src/typography/figma.rs:256`](../../../design-tokens/src/typography/figma.rs)
+ * [Source `design-tokens/src/typography/figma.rs:331`](../../../design-tokens/src/typography/figma.rs)
  */
 export type FigmaTextStyleMatrixOption = {
   Name: string;
   Tokens: string;
+  /**
+   * Specify a key when the tokens are used as a "group" with semantic meaning.
+   * This will ensure that even if the Tokens change, that the options will update correctly.
+   */
+  Key?: string | undefined | null | null | undefined;
   Description?: string | undefined | null | null | undefined;
 };
 /**
  * `#[codegen(tags = "figma-typography-input")]`
  *
- * [Source `design-tokens/src/typography/figma.rs:256`](../../../design-tokens/src/typography/figma.rs)
+ * [Source `design-tokens/src/typography/figma.rs:331`](../../../design-tokens/src/typography/figma.rs)
  */
 export function FigmaTextStyleMatrixOption(inner: FigmaTextStyleMatrixOption): FigmaTextStyleMatrixOption {
   return inner;

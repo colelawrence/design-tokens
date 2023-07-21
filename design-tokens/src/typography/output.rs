@@ -1,6 +1,10 @@
 use std::collections::{BTreeMap, BTreeSet, HashMap};
 
-use crate::prelude::*;
+use crate::{
+    prelude::*,
+    token,
+    tokens::{Token, TokenSet},
+};
 
 use super::{input, scalars};
 
@@ -8,7 +12,7 @@ use super::{input, scalars};
 #[codegen(tags = "typography-export")]
 pub struct TypographyExport {
     properties: Vec<TypographyProperty>,
-    tokens: Vec<(BTreeSet<String>, Vec<usize>)>,
+    tokens: Vec<(TokenSet, Vec<usize>)>,
     /// For example, `{"figma": FigmaTypographyExport, "tailwind": TailwindTypographyExport}`
     extensions: TypographyExtensionExport,
 }
@@ -22,14 +26,14 @@ impl TypographyExport {
 pub struct TokenLookup<'a> {
     export: &'a TypographyExport,
     // useful?
-    tokens_map: HashMap<String, Vec<usize>>,
+    tokens_map: HashMap<Token, Vec<usize>>,
 }
 
 impl<'a> From<&'a TypographyExport> for TokenLookup<'a> {
     fn from(value: &'a TypographyExport) -> Self {
-        let mut tokens_map: HashMap<String, Vec<usize>> = HashMap::new();
+        let mut tokens_map: HashMap<Token, Vec<usize>> = HashMap::new();
         for (i, (reqs, _)) in value.tokens.iter().enumerate() {
-            for req in reqs {
+            for req in reqs.iter() {
                 tokens_map.entry(req.clone()).or_default().push(i);
             }
         }
@@ -43,33 +47,24 @@ impl<'a> From<&'a TypographyExport> for TokenLookup<'a> {
 pub struct TokenQueryOutput<'a> {
     pub properties: Vec<&'a TypographyProperty>,
     /// Used to construct a `"key"` for figuring out which Figma TextStyles to replace.
-    pub tokens_required: BTreeSet<&'a str>,
+    pub tokens_required: TokenSet,
 }
 
 impl<'a> TokenLookup<'a> {
-    pub fn query(&self, tokens: &[String]) -> TokenQueryOutput<'a> {
-        let mut found: Vec<(usize, (&Vec<usize>, &BTreeSet<String>))> = Vec::new();
-        'possible: for (reqs, prop_idxs) in &self.export.tokens {
-            let mut precedence = None;
-            for req in reqs {
-                match tokens.iter().position(|x| x == req) {
-                    Some(idx) => {
-                        precedence = Some(precedence.map_or(idx, |curr| std::cmp::max(curr, idx)))
-                    }
-                    None => continue 'possible,
-                }
-            }
-            if let Some(precedence) = precedence {
-                found.push((precedence, (prop_idxs, reqs)));
+    pub fn query_with_set(&self, token_set: &TokenSet) -> TokenQueryOutput<'a> {
+        let mut found: Vec<(&Vec<usize>, &TokenSet)> = Vec::new();
+        for (reqs, prop_idxs) in &self.export.tokens {
+            if token_set.contains_all_of(reqs) {
+                found.push((prop_idxs, reqs));
             }
         }
 
         found.sort_unstable_by_key(|&(prec, _)| prec);
 
-        let mut all_reqs: BTreeSet<&'a str> = BTreeSet::new();
+        let mut all_reqs = TokenSet::new();
         let mut all_props: Vec<&TypographyProperty> = Vec::new();
-        for (_, (idxs, reqs)) in found {
-            all_reqs.extend(reqs.iter().map(|s| s.as_str()));
+        for (idxs, reqs) in found {
+            all_reqs.append(reqs.iter());
             for idx in idxs {
                 all_props.push(&self.export.properties[*idx]);
             }
@@ -80,6 +75,41 @@ impl<'a> TokenLookup<'a> {
             tokens_required: all_reqs,
         }
     }
+    pub fn query(&self, tokens: &[Token]) -> TokenQueryOutput<'a> {
+        return self.query_with_set(&TokenSet::from(tokens.iter().cloned()));
+        // Just in case our logic with sets is flawed...
+        // let mut found: Vec<(usize, (&Vec<usize>, &TokenSet))> = Vec::new();
+        // 'possible: for (reqs, prop_idxs) in &self.export.tokens {
+        //     let mut precedence = None;
+        //     for req in reqs.iter() {
+        //         match tokens.iter().position(|x| x == &req) {
+        //             Some(idx) => {
+        //                 precedence = Some(precedence.map_or(idx, |curr| std::cmp::max(curr, idx)))
+        //             }
+        //             None => continue 'possible,
+        //         }
+        //     }
+        //     if let Some(precedence) = precedence {
+        //         found.push((precedence, (prop_idxs, reqs)));
+        //     }
+        // }
+
+        // found.sort_unstable_by_key(|&(prec, _)| prec);
+
+        // let mut all_reqs = TokenSet::new();
+        // let mut all_props: Vec<&TypographyProperty> = Vec::new();
+        // for (_, (idxs, reqs)) in found {
+        //     all_reqs.append(reqs.iter());
+        //     for idx in idxs {
+        //         all_props.push(&self.export.properties[*idx]);
+        //     }
+        // }
+
+        // TokenQueryOutput {
+        //     properties: all_props,
+        //     tokens_required: all_reqs,
+        // }
+    }
 }
 
 #[derive(Debug, Serialize, Codegen)]
@@ -89,7 +119,7 @@ impl<'a> TokenLookup<'a> {
 pub struct TypographyExtensionExport(BTreeMap<String, serde_json::Value>);
 
 #[derive(Default)]
-pub struct TypographyTokensCollector(BTreeMap<BTreeSet<String>, Vec<TypographyProperty>>);
+pub struct TypographyTokensCollector(BTreeMap<TokenSet, Vec<TypographyProperty>>);
 
 impl From<TypographyTokensCollector> for TypographyExport {
     fn from(value: TypographyTokensCollector) -> Self {
@@ -136,7 +166,11 @@ pub enum TypographyProperty {
 }
 
 impl TypographyTokensCollector {
-    fn push(&mut self, filter: &[&str], value: TypographyProperty) -> Result<()> {
+    fn push(
+        &mut self,
+        filter: impl IntoIterator<Item = Token>,
+        value: TypographyProperty,
+    ) -> Result<()> {
         self.push_all(filter, [value])?;
         // self.0.push(TokenValue {
         //     filter: filter.iter().cloned().map(String::from).collect(),
@@ -146,11 +180,11 @@ impl TypographyTokensCollector {
     }
     fn push_all(
         &mut self,
-        filter: &[&str],
+        filter: impl IntoIterator<Item = Token>,
         values: impl IntoIterator<Item = TypographyProperty>,
     ) -> Result<()> {
         self.0
-            .entry(filter.iter().cloned().map(String::from).collect())
+            .entry(TokenSet::from(filter))
             .or_default()
             .extend(values);
         // for value in values {
@@ -165,18 +199,22 @@ pub fn generate_typography_all_tokens(
 ) -> Result<TypographyTokensCollector> {
     let mut all_tokens = TypographyTokensCollector::default();
 
-    let mut roles_by_family_name = BTreeMap::<&str, Vec<String>>::new();
+    let mut role_tokens_by_family_name = BTreeMap::<&str, Vec<Token>>::new();
 
     for text_role in input.TextRoles.iter() {
         let family_name = Cow::<'static, str>::Owned(text_role.FamilyBaseName.to_string());
-        roles_by_family_name
+        role_tokens_by_family_name
             .entry(&text_role.FamilyBaseName)
             .or_default()
-            .push(text_role.Token.clone());
+            .push(Token::of_value("role", text_role.Token.clone()));
 
-        let rules = &["text", &text_role.Token];
+        let rules = TokenSet::from([
+            Token::of_kind("text"),
+            Token::of_value("role", text_role.Token.clone()),
+        ]);
+
         all_tokens.push(
-            rules,
+            rules.iter(),
             TypographyProperty::FontFamily {
                 family_name: family_name.clone(),
             },
@@ -185,7 +223,10 @@ pub fn generate_typography_all_tokens(
         let family_info = input.Families.iter().find(|f| f.BaseName.as_str() == &family_name).ok_or_else(|| anyhow::anyhow!("Family name ({family_name:?}) used for text role ({:?}) does not have an entry in `Families`", text_role.Token))?;
 
         for def_rule in family_info.DefaultRules.iter() {
-            all_tokens.push(rules, TypographyProperty::FontStyle(def_rule.clone()))?;
+            all_tokens.push(
+                rules.iter(),
+                TypographyProperty::FontStyle(def_rule.clone()),
+            )?;
         }
 
         let recip = family_info.Metrics.unitsPerEm / family_info.Metrics.capHeight;
@@ -207,7 +248,9 @@ pub fn generate_typography_all_tokens(
                 .compute_line_height_px(font_size_px, input.FontSizeScale.AlignLineHeightPxOption);
 
             all_tokens.push_all(
-                &["text", &text_role.Token, &size.Token],
+                rules
+                    .iter()
+                    .chain(std::iter::once(Token::of_value("size", size.Token.clone()))),
                 [
                     TypographyProperty::FontSize { px: font_size_px },
                     TypographyProperty::LetterSpacing { px: tracking_px },
@@ -218,15 +261,24 @@ pub fn generate_typography_all_tokens(
     }
 
     for family in input.Families.iter() {
-        let role_tokens = match roles_by_family_name.get(family.BaseName.as_str()) {
+        let role_tokens = match role_tokens_by_family_name.get(family.BaseName.as_str()) {
             Some(roles) => roles,
             None => continue,
         };
         for role_token in role_tokens.iter() {
             for weight in family.Weights.iter() {
                 all_tokens.push_all(
-                    &[role_token.as_str(), &format!("w{}", weight.Weight)],
+                    [
+                        role_token.clone(),
+                        Token::of_value_display("weight", weight.Weight),
+                    ],
                     [TypographyProperty::FontStyle(weight.FontStyleRule.clone())],
+                )?;
+            }
+            if let Some(italic) = &family.ItalicOption {
+                all_tokens.push_all(
+                    [role_token.clone(), token!("italic:true")],
+                    [TypographyProperty::FontStyle(italic.clone())],
                 )?;
             }
         }

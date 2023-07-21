@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { figmaTypographyExtension } from "./figma-typography-extension.ts";
 
 const h = harness(allTokensSampleData);

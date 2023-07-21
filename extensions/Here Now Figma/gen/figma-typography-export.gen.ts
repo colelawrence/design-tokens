@@ -4,18 +4,18 @@ import { TypographyExtensionExport as _TypographyExtensionExport, FontStyleRule 
 /**
  * `#[codegen(tags = "typography-export")]`
  *
- * [Source `design-tokens/src/typography/output.rs:7`](../../../design-tokens/src/typography/output.rs)
+ * [Source `design-tokens/src/typography/output.rs:11`](../../../design-tokens/src/typography/output.rs)
  */
 export type TypographyExport = {
   properties: Array<TypographyProperty>;
-  tokens: Array<[Array<string>, Array<number>]>;
+  tokens: Array<[TokenSet, Array<number>]>;
   /** For example, `{"figma": FigmaTypographyExport, "tailwind": TailwindTypographyExport}` */
   extensions: TypographyExtensionExport;
 };
 /**
  * `#[codegen(tags = "typography-export")]`
  *
- * [Source `design-tokens/src/typography/output.rs:7`](../../../design-tokens/src/typography/output.rs)
+ * [Source `design-tokens/src/typography/output.rs:11`](../../../design-tokens/src/typography/output.rs)
  */
 export function TypographyExport(inner: TypographyExport): TypographyExport {
   return inner;
@@ -25,7 +25,7 @@ export function TypographyExport(inner: TypographyExport): TypographyExport {
  *
  * `#[codegen(scalar, tags = "typography-export")]`
  *
- * [Source `design-tokens/src/typography/output.rs:85`](../../../design-tokens/src/typography/output.rs)
+ * [Source `design-tokens/src/typography/output.rs:115`](../../../design-tokens/src/typography/output.rs)
  */
 export type TypographyExtensionExport = _TypographyExtensionExport;
 /**
@@ -33,7 +33,7 @@ export type TypographyExtensionExport = _TypographyExtensionExport;
  *
  * `#[codegen(scalar, tags = "typography-export")]`
  *
- * [Source `design-tokens/src/typography/output.rs:85`](../../../design-tokens/src/typography/output.rs)
+ * [Source `design-tokens/src/typography/output.rs:115`](../../../design-tokens/src/typography/output.rs)
  */
 export function TypographyExtensionExport(value: TypographyExtensionExport): TypographyExtensionExport {
   return value;
@@ -41,7 +41,7 @@ export function TypographyExtensionExport(value: TypographyExtensionExport): Typ
 /**
  * `#[codegen(tags = "typography-export")]`
  *
- * [Source `design-tokens/src/typography/output.rs:126`](../../../design-tokens/src/typography/output.rs)
+ * [Source `design-tokens/src/typography/output.rs:156`](../../../design-tokens/src/typography/output.rs)
  */
 // deno-lint-ignore no-namespace
 export namespace TypographyProperty {
@@ -119,7 +119,7 @@ export namespace TypographyProperty {
 /**
  * `#[codegen(tags = "typography-export")]`
  *
- * [Source `design-tokens/src/typography/output.rs:126`](../../../design-tokens/src/typography/output.rs)
+ * [Source `design-tokens/src/typography/output.rs:156`](../../../design-tokens/src/typography/output.rs)
  */
 export type TypographyProperty =
   | TypographyProperty.FontFamily
@@ -160,7 +160,7 @@ export function FontStyleRule(value: FontStyleRule): FontStyleRule {
 /**
  * `#[codegen(tags = "figma-typography-export")]`
  *
- * [Source `design-tokens/src/typography/figma.rs:52`](../../../design-tokens/src/typography/figma.rs)
+ * [Source `design-tokens/src/typography/figma.rs:53`](../../../design-tokens/src/typography/figma.rs)
  */
 export type FigmaPluginCommand = {
   figma_plugin: FigmaPluginCommandOperation;
@@ -168,7 +168,7 @@ export type FigmaPluginCommand = {
 /**
  * `#[codegen(tags = "figma-typography-export")]`
  *
- * [Source `design-tokens/src/typography/figma.rs:52`](../../../design-tokens/src/typography/figma.rs)
+ * [Source `design-tokens/src/typography/figma.rs:53`](../../../design-tokens/src/typography/figma.rs)
  */
 export function FigmaPluginCommand(inner: FigmaPluginCommand): FigmaPluginCommand {
   return inner;
@@ -176,7 +176,7 @@ export function FigmaPluginCommand(inner: FigmaPluginCommand): FigmaPluginComman
 /**
  * `#[codegen(tags = "figma-typography-export")]`
  *
- * [Source `design-tokens/src/typography/figma.rs:58`](../../../design-tokens/src/typography/figma.rs)
+ * [Source `design-tokens/src/typography/figma.rs:59`](../../../design-tokens/src/typography/figma.rs)
  */
 // deno-lint-ignore no-namespace
 export namespace FigmaPluginCommandOperation {
@@ -216,14 +216,14 @@ export namespace FigmaPluginCommandOperation {
 /**
  * `#[codegen(tags = "figma-typography-export")]`
  *
- * [Source `design-tokens/src/typography/figma.rs:58`](../../../design-tokens/src/typography/figma.rs)
+ * [Source `design-tokens/src/typography/figma.rs:59`](../../../design-tokens/src/typography/figma.rs)
  */
 export type FigmaPluginCommandOperation =
   | FigmaPluginCommandOperation.UpdateTypography
 /**
  * `#[codegen(tags = "figma-typography-export")]`
  *
- * [Source `design-tokens/src/typography/figma.rs:64`](../../../design-tokens/src/typography/figma.rs)
+ * [Source `design-tokens/src/typography/figma.rs:65`](../../../design-tokens/src/typography/figma.rs)
  */
 export type TextStyle = {
   name: string;
@@ -241,7 +241,7 @@ export type TextStyle = {
 /**
  * `#[codegen(tags = "figma-typography-export")]`
  *
- * [Source `design-tokens/src/typography/figma.rs:64`](../../../design-tokens/src/typography/figma.rs)
+ * [Source `design-tokens/src/typography/figma.rs:65`](../../../design-tokens/src/typography/figma.rs)
  */
 export function TextStyle(inner: TextStyle): TextStyle {
   return inner;

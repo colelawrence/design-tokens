@@ -44,9 +44,12 @@ pub struct FontFamilyInfo {
     pub CSSFontFamilyFallbacks: Vec<String>,
     /// Required for some systems like Figma, for it to properly select the default text style font name.
     pub DefaultRules: Vec<scalars::FontStyleRule>,
+    /// Source for `weight:{value}` tokens.
     pub Weights: Vec<FamilyWeightRule>,
+    /// Source for `italic:true` token.
     pub ItalicOption: Option<scalars::FontStyleRule>,
     /// e.g. metrics from @capsize/metrics
+    /// Factors into `size:{}` tokens for fonts.
     pub Metrics: FontFamilyMetrics,
     // TODO: Variable variations ?
 }
@@ -88,6 +91,7 @@ pub struct FontSizeScale {
 #[allow(non_snake_case)]
 pub struct FontSizeRel {
     /// e.g. `"xs"`, `"sm"`, `"base"`, `"lg"`, etc.
+    /// Will result in tokens such as `size:xs`, `size:sm`, etc.
     pub Token: String,
     /// e.g. `-2`, `-1`, `0`, `1`, etc.
     pub Rel: f64,

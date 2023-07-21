@@ -1,8 +1,9 @@
 // import workSansMetrics from "@capsizecss/metrics/workSans";
 import * as input from "./typography-input.gen.ts";
 import { iBMPlexMonoMetrics } from "./iBMPlexMonoMetrics.ts";
+import { robotoMonoMetrics } from "./robotoMonoMetrics.ts";
 import { interMetrics } from "./interMetrics.ts";
-import { figmaTypographyExtension } from "./figma/figma-typography-extension.ts";
+import { figmaTypographyConfig } from "./figma/figma-typography-config.ts";
 
 const GOLDEN_RATIO = 1.61803398875;
 // 1.61803 (golden ratio) ^ 0.5
@@ -13,7 +14,7 @@ const emojiFontFamilies = ["Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symb
 
 export const typography = input.BaseTypographyInput({
   Extensions: {
-    Figma: figmaTypographyExtension,
+    Figma: figmaTypographyConfig,
     Tailwind: {
       TailwindTextClasses: [],
     },
@@ -40,6 +41,22 @@ export const typography = input.BaseTypographyInput({
     },
     {
       // TODO: make these font selectors part of a scalar for Font Family Base ?
+      BaseName: "Roboto Mono",
+      CSSFontFamilyName: "hnmono",
+      CSSFontFamilyFallbacks: ["Source Code Pro", ...emojiFontFamilies, "monospace"],
+      Metrics: robotoMonoMetrics,
+      DefaultRules: [{ CSS: [{ FontWeight: 400 }], Figma: { FontSuffix: [" Regular", 1] } }],
+      Weights: [
+        { Weight: 100, FontStyleRule: { CSS: [{ FontWeight: 100 }], Figma: { FontSuffix: [" Thin", 1] } } },
+        { Weight: 300, FontStyleRule: { CSS: [{ FontWeight: 300 }], Figma: { FontSuffix: [" Light", 1] } } },
+        { Weight: 400, FontStyleRule: { CSS: [{ FontWeight: 400 }], Figma: { FontSuffix: [" Regular", 1] } } },
+        { Weight: 500, FontStyleRule: { CSS: [{ FontWeight: 500 }], Figma: { FontSuffix: [" Medium", 1] } } },
+        { Weight: 700, FontStyleRule: { CSS: [{ FontWeight: 700 }], Figma: { FontSuffix: [" Bold", 1] } } },
+      ],
+      ItalicOption: { CSS: ["FontStyleItalics"], Figma: { FontSuffix: [" Italic", 2] } },
+    },
+    {
+      // TODO: make these font selectors part of a scalar for Font Family Base ?
       BaseName: "IBM Plex Mono",
       CSSFontFamilyName: "hnmono",
       CSSFontFamilyFallbacks: ["Source Code Pro", ...emojiFontFamilies, "monospace"],
@@ -55,6 +72,25 @@ export const typography = input.BaseTypographyInput({
         { Weight: 700, FontStyleRule: { CSS: [{ FontWeight: 700 }], Figma: { FontSuffix: [" Bold", 1] } } },
       ],
       ItalicOption: { CSS: ["FontStyleItalics"], Figma: { FontSuffix: [" Italic", 2] } },
+      // @ts-ignore experiment
+      Figma: {
+        FamilyStyle: {
+          "weight:100": "Thin",
+          "weight:100 italic:true": "Thin Italic",
+          "weight:200": "Thin",
+          "weight:200 italic:true": "Thin Italic",
+          "weight:300": "Thin",
+          "weight:300 italic:true": "Thin Italic",
+          "weight:400": "Regular",
+          "weight:400 italic:true": "Italic",
+          "weight:500": "Medium",
+          "weight:500 italic:true": "Medium Italic",
+          "weight:600": "Semibold",
+          "weight:600 italic:true": "Semibold Italic",
+          "weight:700": "Bold",
+          "weight:700 italic:true": "Bold Italic",
+        },
+      },
     },
   ],
   TextRoles: [
@@ -73,6 +109,7 @@ export const typography = input.BaseTypographyInput({
     {
       Token: "code",
       FamilyBaseName: "IBM Plex Mono",
+      // FamilyBaseName: "Roboto Mono",
       LineHeightRule: tightLineHeight,
       TrackingRule: { DynMetrics: { a: -0.005, b: 0.26, c: -0.17 } },
     },
@@ -82,6 +119,8 @@ export const typography = input.BaseTypographyInput({
       base_px: 12,
       multiplier: Math.sqrt(GOLDEN_RATIO),
     }),
+    AlignCapHeightPxOption: 1,
+    AlignLineHeightPxOption: 8,
     FontSizes: [
       { Token: "xs", Rel: -2 },
       { Token: "sm", Rel: -1 },

@@ -231,7 +231,7 @@ export function TailwindTypographyConfig(inner: TailwindTypographyConfig): Tailw
 /**
  * `#[codegen(ts_interface_merge, tags = "figma-typography-input")]`
  *
- * [Source `design-tokens/src/typography/figma.rs:219`](../../design-tokens/src/typography/figma.rs)
+ * [Source `design-tokens/src/typography/figma.rs:286`](../../design-tokens/src/typography/figma.rs)
  */
 export interface TypographyExtensionInput {
   /** `#[serde(alias = "figma")]` */
@@ -240,7 +240,7 @@ export interface TypographyExtensionInput {
 /**
  * `#[codegen(tags = "figma-typography-input")]`
  *
- * [Source `design-tokens/src/typography/figma.rs:228`](../../design-tokens/src/typography/figma.rs)
+ * [Source `design-tokens/src/typography/figma.rs:295`](../../design-tokens/src/typography/figma.rs)
  */
 export type FigmaTypographyConfig = {
   /** A sort of matrice of all possible combinations of the variants */
@@ -249,7 +249,7 @@ export type FigmaTypographyConfig = {
 /**
  * `#[codegen(tags = "figma-typography-input")]`
  *
- * [Source `design-tokens/src/typography/figma.rs:228`](../../design-tokens/src/typography/figma.rs)
+ * [Source `design-tokens/src/typography/figma.rs:295`](../../design-tokens/src/typography/figma.rs)
  */
 export function FigmaTypographyConfig(inner: FigmaTypographyConfig): FigmaTypographyConfig {
   return inner;
@@ -257,18 +257,19 @@ export function FigmaTypographyConfig(inner: FigmaTypographyConfig): FigmaTypogr
 /**
  * `#[codegen(tags = "figma-typography-input")]`
  *
- * [Source `design-tokens/src/typography/figma.rs:238`](../../design-tokens/src/typography/figma.rs)
+ * [Source `design-tokens/src/typography/figma.rs:305`](../../design-tokens/src/typography/figma.rs)
  */
 export type FigmaTextStyle = {
   BaseName: string;
   BaseTokens: string;
+  BaseKey: string;
   Description?: string | undefined | null | null | undefined;
   Groups: Array<FigmaTextStyleMatrixGroup>;
 };
 /**
  * `#[codegen(tags = "figma-typography-input")]`
  *
- * [Source `design-tokens/src/typography/figma.rs:238`](../../design-tokens/src/typography/figma.rs)
+ * [Source `design-tokens/src/typography/figma.rs:305`](../../design-tokens/src/typography/figma.rs)
  */
 export function FigmaTextStyle(inner: FigmaTextStyle): FigmaTextStyle {
   return inner;
@@ -276,16 +277,25 @@ export function FigmaTextStyle(inner: FigmaTextStyle): FigmaTextStyle {
 /**
  * `#[codegen(tags = "figma-typography-input")]`
  *
- * [Source `design-tokens/src/typography/figma.rs:248`](../../design-tokens/src/typography/figma.rs)
+ * [Source `design-tokens/src/typography/figma.rs:316`](../../design-tokens/src/typography/figma.rs)
  */
 export type FigmaTextStyleMatrixGroup = {
+  /**
+   * Defaults to `" / "` for groups to create folders.
+   * Use something like `" "` to create join with the previous group like "Regular Italic" from "Regular" & "Italic" groups.
+   */
+  NamePrefix?: string | undefined | null | null | undefined;
+  /** Defaults to `""`, but can be useful for stylizing your name groups */
+  NameSuffix?: string | undefined | null | null | undefined;
+  /** When the name is empty, then don't apply the name prefix and name suffix. */
+  IncludeEmptyOption?: boolean | undefined | null | null | undefined;
   Description?: string | undefined | null | null | undefined;
   Options: Array<FigmaTextStyleMatrixOption>;
 };
 /**
  * `#[codegen(tags = "figma-typography-input")]`
  *
- * [Source `design-tokens/src/typography/figma.rs:248`](../../design-tokens/src/typography/figma.rs)
+ * [Source `design-tokens/src/typography/figma.rs:316`](../../design-tokens/src/typography/figma.rs)
  */
 export function FigmaTextStyleMatrixGroup(inner: FigmaTextStyleMatrixGroup): FigmaTextStyleMatrixGroup {
   return inner;
@@ -293,17 +303,22 @@ export function FigmaTextStyleMatrixGroup(inner: FigmaTextStyleMatrixGroup): Fig
 /**
  * `#[codegen(tags = "figma-typography-input")]`
  *
- * [Source `design-tokens/src/typography/figma.rs:256`](../../design-tokens/src/typography/figma.rs)
+ * [Source `design-tokens/src/typography/figma.rs:331`](../../design-tokens/src/typography/figma.rs)
  */
 export type FigmaTextStyleMatrixOption = {
   Name: string;
   Tokens: string;
+  /**
+   * Specify a key when the tokens are used as a "group" with semantic meaning.
+   * This will ensure that even if the Tokens change, that the options will update correctly.
+   */
+  Key?: string | undefined | null | null | undefined;
   Description?: string | undefined | null | null | undefined;
 };
 /**
  * `#[codegen(tags = "figma-typography-input")]`
  *
- * [Source `design-tokens/src/typography/figma.rs:256`](../../design-tokens/src/typography/figma.rs)
+ * [Source `design-tokens/src/typography/figma.rs:331`](../../design-tokens/src/typography/figma.rs)
  */
 export function FigmaTextStyleMatrixOption(inner: FigmaTextStyleMatrixOption): FigmaTextStyleMatrixOption {
   return inner;
@@ -369,9 +384,14 @@ export type FontFamilyInfo = {
   CSSFontFamilyFallbacks: Array<string>;
   /** Required for some systems like Figma, for it to properly select the default text style font name. */
   DefaultRules: Array<FontStyleRule>;
+  /** Source for `weight:{value}` tokens. */
   Weights: Array<FamilyWeightRule>;
+  /** Source for `italic:true` token. */
   ItalicOption?: FontStyleRule | undefined | null | null | undefined;
-  /** e.g. metrics from @capsize/metrics */
+  /**
+   * e.g. metrics from @capsize/metrics
+   * Factors into `size:{}` tokens for fonts.
+   */
   Metrics: FontFamilyMetrics;
 };
 /**
@@ -385,7 +405,7 @@ export function FontFamilyInfo(inner: FontFamilyInfo): FontFamilyInfo {
 /**
  * `#[codegen(tags = "typography-input")]`
  *
- * [Source `design-tokens/src/typography/input.rs:54`](../../design-tokens/src/typography/input.rs)
+ * [Source `design-tokens/src/typography/input.rs:57`](../../design-tokens/src/typography/input.rs)
  */
 export type FamilyWeightRule = {
   /**
@@ -408,7 +428,7 @@ export type FamilyWeightRule = {
 /**
  * `#[codegen(tags = "typography-input")]`
  *
- * [Source `design-tokens/src/typography/input.rs:54`](../../design-tokens/src/typography/input.rs)
+ * [Source `design-tokens/src/typography/input.rs:57`](../../design-tokens/src/typography/input.rs)
  */
 export function FamilyWeightRule(inner: FamilyWeightRule): FamilyWeightRule {
   return inner;
@@ -416,7 +436,7 @@ export function FamilyWeightRule(inner: FamilyWeightRule): FamilyWeightRule {
 /**
  * `#[codegen(tags = "typography-input")]`
  *
- * [Source `design-tokens/src/typography/input.rs:74`](../../design-tokens/src/typography/input.rs)
+ * [Source `design-tokens/src/typography/input.rs:77`](../../design-tokens/src/typography/input.rs)
  */
 export type FontSizeScale = {
   FontSizes: Array<FontSizeRel>;
@@ -429,7 +449,7 @@ export type FontSizeScale = {
 /**
  * `#[codegen(tags = "typography-input")]`
  *
- * [Source `design-tokens/src/typography/input.rs:74`](../../design-tokens/src/typography/input.rs)
+ * [Source `design-tokens/src/typography/input.rs:77`](../../design-tokens/src/typography/input.rs)
  */
 export function FontSizeScale(inner: FontSizeScale): FontSizeScale {
   return inner;
@@ -437,10 +457,13 @@ export function FontSizeScale(inner: FontSizeScale): FontSizeScale {
 /**
  * `#[codegen(tags = "typography-input")]`
  *
- * [Source `design-tokens/src/typography/input.rs:86`](../../design-tokens/src/typography/input.rs)
+ * [Source `design-tokens/src/typography/input.rs:89`](../../design-tokens/src/typography/input.rs)
  */
 export type FontSizeRel = {
-  /** e.g. `"xs"`, `"sm"`, `"base"`, `"lg"`, etc. */
+  /**
+   * e.g. `"xs"`, `"sm"`, `"base"`, `"lg"`, etc.
+   * Will result in tokens such as `size:xs`, `size:sm`, etc.
+   */
   Token: string;
   /** e.g. `-2`, `-1`, `0`, `1`, etc. */
   Rel: number;
@@ -448,7 +471,7 @@ export type FontSizeRel = {
 /**
  * `#[codegen(tags = "typography-input")]`
  *
- * [Source `design-tokens/src/typography/input.rs:86`](../../design-tokens/src/typography/input.rs)
+ * [Source `design-tokens/src/typography/input.rs:89`](../../design-tokens/src/typography/input.rs)
  */
 export function FontSizeRel(inner: FontSizeRel): FontSizeRel {
   return inner;
@@ -458,7 +481,7 @@ export function FontSizeRel(inner: FontSizeRel): FontSizeRel {
  *
  * `#[codegen(tags = "typography-input")]`
  *
- * [Source `design-tokens/src/typography/input.rs:97`](../../design-tokens/src/typography/input.rs)
+ * [Source `design-tokens/src/typography/input.rs:101`](../../design-tokens/src/typography/input.rs)
  */
 export type FontFamilyMetrics = {
   familyName: string;
@@ -476,7 +499,7 @@ export type FontFamilyMetrics = {
  *
  * `#[codegen(tags = "typography-input")]`
  *
- * [Source `design-tokens/src/typography/input.rs:97`](../../design-tokens/src/typography/input.rs)
+ * [Source `design-tokens/src/typography/input.rs:101`](../../design-tokens/src/typography/input.rs)
  */
 export function FontFamilyMetrics(inner: FontFamilyMetrics): FontFamilyMetrics {
   return inner;
@@ -486,7 +509,7 @@ export function FontFamilyMetrics(inner: FontFamilyMetrics): FontFamilyMetrics {
  *
  * `#[codegen(tags = "typography-input")]`
  *
- * [Source `design-tokens/src/typography/input.rs:113`](../../design-tokens/src/typography/input.rs)
+ * [Source `design-tokens/src/typography/input.rs:117`](../../design-tokens/src/typography/input.rs)
  */
 // deno-lint-ignore no-namespace
 export namespace FontFamilyTrackingRule {
@@ -534,14 +557,14 @@ export namespace FontFamilyTrackingRule {
  *
  * `#[codegen(tags = "typography-input")]`
  *
- * [Source `design-tokens/src/typography/input.rs:113`](../../design-tokens/src/typography/input.rs)
+ * [Source `design-tokens/src/typography/input.rs:117`](../../design-tokens/src/typography/input.rs)
  */
 export type FontFamilyTrackingRule =
   | FontFamilyTrackingRule.DynMetrics
 /**
  * `#[codegen(tags = "typography-input")]`
  *
- * [Source `design-tokens/src/typography/input.rs:130`](../../design-tokens/src/typography/input.rs)
+ * [Source `design-tokens/src/typography/input.rs:134`](../../design-tokens/src/typography/input.rs)
  */
 // deno-lint-ignore no-namespace
 export namespace FontFamilyLineHeightRule {
@@ -585,7 +608,7 @@ export namespace FontFamilyLineHeightRule {
 /**
  * `#[codegen(tags = "typography-input")]`
  *
- * [Source `design-tokens/src/typography/input.rs:130`](../../design-tokens/src/typography/input.rs)
+ * [Source `design-tokens/src/typography/input.rs:134`](../../design-tokens/src/typography/input.rs)
  */
 export type FontFamilyLineHeightRule =
   | FontFamilyLineHeightRule.FontSizePxMultipler
@@ -594,7 +617,7 @@ export type FontFamilyLineHeightRule =
  *
  * `#[codegen(tags = "typography-input")]`
  *
- * [Source `design-tokens/src/typography/input.rs:150`](../../design-tokens/src/typography/input.rs)
+ * [Source `design-tokens/src/typography/input.rs:154`](../../design-tokens/src/typography/input.rs)
  */
 // deno-lint-ignore no-namespace
 export namespace FontSizeEquation {
@@ -642,7 +665,7 @@ export namespace FontSizeEquation {
  *
  * `#[codegen(tags = "typography-input")]`
  *
- * [Source `design-tokens/src/typography/input.rs:150`](../../design-tokens/src/typography/input.rs)
+ * [Source `design-tokens/src/typography/input.rs:154`](../../design-tokens/src/typography/input.rs)
  */
 export type FontSizeEquation =
   | FontSizeEquation.Multiplier

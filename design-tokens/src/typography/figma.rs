@@ -43,6 +43,7 @@ pub mod figma_export {
 
     use crate::{
         prelude::*,
+        tokens::{split_tokens, Token, TokenSet},
         typography::output::{TokenLookup, TokenQueryOutput, TypographyProperty},
     };
     use derive_codegen::Codegen;
@@ -82,6 +83,7 @@ pub mod figma_export {
         /// Maybe Figma files will have their own custom TextStyles with on-demand tokenization ?
         pub fn try_from_lookup<'a>(
             name: String,
+            key: String,
             lookup_output: TokenQueryOutput<'a>,
         ) -> Result<Self> {
             // collected with precedents
@@ -126,11 +128,7 @@ pub mod figma_export {
 
             Ok(TextStyle {
                 name,
-                key: lookup_output
-                    .tokens_required
-                    .into_iter()
-                    .collect::<Vec<_>>()
-                    .join("-"),
+                key,
                 // using a btree map to ensure the keys are ordered
                 family_name_and_style: (
                     family_name_found
@@ -150,6 +148,13 @@ pub mod figma_export {
         }
     }
 
+    #[derive(Clone)]
+    struct TokenSelection {
+        name: String,
+        key: TokenSet,
+        tokens: TokenSet,
+    }
+
     pub fn update_typography_for_figma(
         all_tokens: &crate::typography::output::TypographyExport,
         extension_input: &figma_config::TypographyExtensionInput,
@@ -158,36 +163,106 @@ pub mod figma_export {
         let mut figma_text_styles = Vec::<TextStyle>::new();
 
         for text_style in &extension_input.Figma.FigmaTextStyles {
-            let mut collected: Vec<(Vec<String>, Vec<String>)> = Vec::new();
-            collected.push((
-                vec![text_style.BaseName.clone()],
-                split_tokens(&text_style.BaseTokens),
-            ));
+            let mut collected = {
+                let mut init = Vec::<TokenSelection>::new();
+                let mut starter_tokens =
+                    split_tokens(&text_style.BaseTokens).with_context(|| {
+                        format!(
+                            "while reading your Figma text style ({:?})",
+                            text_style.BaseName
+                        )
+                    })?;
+                starter_tokens.insert(0, Token::Kind("text".into()));
+                init.push(TokenSelection {
+                    name: text_style.BaseName.clone(),
+                    tokens: TokenSet::from(starter_tokens),
+                    key: TokenSet::from([key_token(&text_style.BaseKey)]),
+                });
+                init
+            };
 
             for group in &text_style.Groups {
                 let original_text_styles = collected.clone();
+                let group_prefix = group
+                    .NamePrefix
+                    .as_ref()
+                    .map(String::as_str)
+                    .unwrap_or(" / ");
+                let group_suffix = group.NameSuffix.as_ref().map(String::as_str).unwrap_or("");
+
                 collected.clear();
                 for original in &original_text_styles {
+                    if group.IncludeEmptyOption.unwrap_or(false) {
+                        let mut empty_option = original.clone();
+                        let needs_empty_name = if let Some(ref prefix) = group.NamePrefix {
+                            // only if the prefix attempts to establish another folder
+                            // otehrwise this name will conflict with a folder.
+                            prefix.trim_end().ends_with("/")
+                        } else {
+                            true
+                        };
+
+                        if needs_empty_name {
+                            empty_option.name += group
+                                .NamePrefix
+                                .as_ref()
+                                .map(|a| a.as_str())
+                                .unwrap_or(" / ");
+                            empty_option.name += "<base>";
+                            if let Some(ref suffix) = group.NameSuffix {
+                                empty_option.name += suffix;
+                            }
+                        }
+
+                        collected.push(empty_option);
+                    }
                     for option in &group.Options {
-                        let mut new_names = original.0.clone();
-                        new_names.push(option.Name.clone());
-
-                        let mut new_tokens = original.1.clone();
-                        new_tokens.extend(split_tokens(&option.Tokens));
-
-                        collected.push((new_names, new_tokens));
+                        let mut new_name = format!(
+                            "{}{group_prefix}{}{group_suffix}",
+                            original.name, option.Name
+                        );
+                        let option_tokens = split_tokens(&option.Tokens).with_context(|| {
+                            format!(
+                                "while reading a group option ({:?}) for your Figma text style ({:?})",
+                                option.Name,
+                                text_style.BaseName
+                            )
+                        })?;
+                        let mut new_key = original.key.clone();
+                        if let Some(key) = &option.Key {
+                            new_key
+                                .insert(Token::Value(format!("key-{key}").into(), "true".into()));
+                        } else {
+                            new_key.append(option_tokens.clone());
+                        }
+                        let mut new_tokens = original.tokens.clone();
+                        new_tokens.append(option_tokens);
+                        collected.push(TokenSelection {
+                            name: new_name,
+                            key: new_key,
+                            tokens: new_tokens,
+                        });
                     }
                 }
             }
 
-            for collection in &collected {
-                let name = collection.0.join(" / ");
-                let lookup_output = lookup.query(&collection.1);
+            for TokenSelection { name, key, tokens } in &collected {
+                let lookup_output = lookup.query_with_set(&tokens);
+
+                let key_str = key
+                    .iter()
+                    .map(|v| v.to_string())
+                    .collect::<Vec<_>>()
+                    .join(" ");
 
                 figma_text_styles.push(
-                    TextStyle::try_from_lookup(name, lookup_output).with_context(|| {
-                        format!("Failed to create text style ({:?})", collection.0.join("/"))
-                    })?,
+                    TextStyle::try_from_lookup(name.clone(), key_str, lookup_output).with_context(
+                        || {
+                            format!(
+                                "failed to create text style {name:?} ({key:?}) with query ({tokens:?})\n\n{all_tokens:#?}"
+                            )
+                        },
+                    )?,
                 );
             }
         }
@@ -199,16 +274,8 @@ pub mod figma_export {
         })
     }
 
-    fn split_tokens(x: &str) -> Vec<String> {
-        let trimmed = x.trim();
-        if trimmed.is_empty() {
-            return Vec::new();
-        }
-        trimmed
-            .split(|c: char| c.is_whitespace() || c == ',')
-            .filter(|s| !s.is_empty())
-            .map(String::from)
-            .collect()
+    fn key_token(key: &str) -> Token {
+        Token::Value(format!("key-{key}").into(), Cow::Borrowed("true"))
     }
 }
 
@@ -241,6 +308,7 @@ pub mod figma_config {
     pub struct FigmaTextStyle {
         pub BaseName: String,
         pub BaseTokens: String,
+        pub BaseKey: String,
         pub Description: Option<String>,
         pub Groups: Vec<FigmaTextStyleMatrixGroup>,
     }
@@ -249,6 +317,13 @@ pub mod figma_config {
     #[codegen(tags = "figma-typography-input")]
     #[allow(non_snake_case)]
     pub struct FigmaTextStyleMatrixGroup {
+        /// Defaults to `" / "` for groups to create folders.
+        /// Use something like `" "` to create join with the previous group like "Regular Italic" from "Regular" & "Italic" groups.
+        pub NamePrefix: Option<String>,
+        /// Defaults to `""`, but can be useful for stylizing your name groups
+        pub NameSuffix: Option<String>,
+        /// When the name is empty, then don't apply the name prefix and name suffix.
+        pub IncludeEmptyOption: Option<bool>,
         pub Description: Option<String>,
         pub Options: Vec<FigmaTextStyleMatrixOption>,
     }
@@ -259,6 +334,9 @@ pub mod figma_config {
     pub struct FigmaTextStyleMatrixOption {
         pub Name: String,
         pub Tokens: String,
+        /// Specify a key when the tokens are used as a "group" with semantic meaning.
+        /// This will ensure that even if the Tokens change, that the options will update correctly.
+        pub Key: Option<String>,
         pub Description: Option<String>,
     }
 }

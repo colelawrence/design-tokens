@@ -7,6 +7,8 @@ pub(crate) mod prelude {
     pub use serde::{Deserialize, Serialize};
     pub use std::borrow::Cow;
 
+    pub type Cowstr = Cow<'static, str>;
+
     pub fn align_to(value: f64, to_opt: Option<f64>) -> f64 {
         match to_opt {
             Some(to) => (value / to).round() * to,
@@ -28,6 +30,7 @@ pub(crate) mod input {
 
 mod cli;
 mod color;
+pub mod tokens;
 mod typography;
 
 /// TODO

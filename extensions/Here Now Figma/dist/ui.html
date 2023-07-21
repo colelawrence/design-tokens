@@ -1882,10 +1882,21 @@ button:disabled {
       }
     };
   }
-  function parseJSON(value) {
-    const trimmed = value.trim();
+  function parseFigmaPluginJSON(value) {
+    const open = "####BEGIN:FIGMA PLUGIN COMMAND####";
+    const close = "####END:FIGMA PLUGIN COMMAND####";
+    let trimmed = value.trim();
     if (!trimmed)
       return { ok: false, message: "Value is empty" };
+    const openIndex = trimmed.indexOf(open);
+    const closeIndex = trimmed.indexOf(close);
+    if (openIndex === -1 || closeIndex === -1 || openIndex >= closeIndex) {
+      return {
+        ok: false,
+        message: `Input does not have a Figma plugin command (it doesn't have the expected "####" boundaries)`
+      };
+    }
+    trimmed = trimmed.slice(openIndex + open.length, closeIndex).trim();
     try {
       const value2 = JSON.parse(trimmed);
       try {
@@ -1907,7 +1918,7 @@ button:disabled {
   }
   function createUpdateJSONMode(services) {
     const $json$ = new BehaviorSubject("");
-    const checked$ = $json$.pipe(map(parseJSON));
+    const checked$ = $json$.pipe(map(parseFigmaPluginJSON));
     return {
       name: "update-json",
       jsonTextarea: {

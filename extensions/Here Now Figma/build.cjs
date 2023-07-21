@@ -21,7 +21,7 @@ const builds = [
       bundle: true,
       outfile: "dist/plugin.js",
       tsconfig: "plugin-src/tsconfig.json",
-      entryPoints: ["plugin-src/entry.ts"],
+      entryPoints: ["plugin-src/plugin.ts"],
       target: "ES2019", // If QuickJS doesn't support, then continue lowering this.
     }),
   },

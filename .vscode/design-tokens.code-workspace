@@ -35,6 +35,7 @@
     },
     "search.exclude": {
       "*.gen.ts": true,
+      "**/references/*": true,
       "**/dist/*": true,
       "**/_archive/*": true,
       "**/*.gen.ts": true,

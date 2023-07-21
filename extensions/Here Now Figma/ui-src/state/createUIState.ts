@@ -79,13 +79,27 @@ export function createUIState(rootSub: Subscription): UIState {
   };
 }
 
-function parseJSON(
+function parseFigmaPluginJSON(
   value: string
 ):
   | { ok: false; message: string }
   | { ok: true; message: string; command: gen.FigmaPluginCommand } {
-  const trimmed = value.trim();
+  const open = "####BEGIN:FIGMA PLUGIN COMMAND####";
+  const close = "####END:FIGMA PLUGIN COMMAND####";
+  let trimmed = value.trim();
   if (!trimmed) return { ok: false, message: "Value is empty" };
+  const openIndex = trimmed.indexOf(open);
+  const closeIndex = trimmed.indexOf(close);
+
+  if (openIndex === -1 || closeIndex === -1 || openIndex >= closeIndex) {
+    return {
+      ok: false,
+      message: `Input does not have a Figma plugin command (it doesn't have the expected \"####\" boundaries)`,
+    };
+  }
+
+  trimmed = trimmed.slice(openIndex + open.length, closeIndex).trim();
+
   try {
     const value = JSON.parse(trimmed);
     try {
@@ -109,7 +123,7 @@ function parseJSON(
 
 function createUpdateJSONMode(services: Services): UpdateJSONMode {
   const $json$ = new BehaviorSubject("");
-  const checked$ = $json$.pipe(map(parseJSON));
+  const checked$ = $json$.pipe(map(parseFigmaPluginJSON));
 
   return {
     name: "update-json",
