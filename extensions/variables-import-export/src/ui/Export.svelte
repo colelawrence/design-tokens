@@ -1,7 +1,11 @@
 <script lang="ts">
   import './app.css';
+  import {postCodeMessage} from 'src/lib/utils';
+  import type {IframeMessage} from 'src/lib/types';
 
-  window.onmessage = ({data: {pluginMessage}}) => {
+  window.onmessage = ({
+    data: {pluginMessage},
+  }: MessageEvent<{pluginMessage: IframeMessage}>) => {
     if (pluginMessage.type === 'EXPORT_RESULT') {
       document.querySelector('textarea').innerHTML = pluginMessage.files
         .map(
@@ -13,7 +17,7 @@
   };
 
   function exportVariables() {
-    parent.postMessage({pluginMessage: {type: 'EXPORT'}}, '*');
+    postCodeMessage({type: 'EXPORT'});
   }
 </script>
 

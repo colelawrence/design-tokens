@@ -1,7 +1,8 @@
 <script lang="ts">
   import './app.css';
-  import type {IframeMessage} from '../lib/types';
+  import type {IframeMessage} from 'src/lib/types';
   import {onMount} from 'svelte';
+  import {postCodeMessage} from 'src/lib/utils';
 
   const NEW_VALUE = 'new';
   let collections = {};
@@ -100,7 +101,7 @@
     modeSelect.addEventListener('change', handleModeChange);
   });
 
-  function handleSubmit(e) {
+  function handleSubmit(e: SubmitEvent) {
     const selectedCollection = {
       name: collectionInput.value.trim(),
       id: collectionSelect.value === NEW_VALUE ? null : collectionSelect.value,
@@ -112,17 +113,12 @@
     const body = document.querySelector('textarea').value.trim();
     e.preventDefault();
     if (isValidJSON(body) && selectedCollection.name) {
-      parent.postMessage(
-        {
-          pluginMessage: {
-            selectedCollection,
-            selectedMode,
-            body,
-            type: 'IMPORT',
-          },
-        },
-        '*',
-      );
+      postCodeMessage({
+        selectedCollection,
+        selectedMode,
+        body,
+        type: 'IMPORT',
+      });
     } else {
       alert('Invalid filename or JSON');
     }
