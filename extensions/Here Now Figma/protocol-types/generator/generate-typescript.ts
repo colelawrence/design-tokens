@@ -70,7 +70,7 @@ function convert(input: gen.Input): gen.Output {
           `if (typeof input !== "object" || input == null) throw new TypeError("Unexpected non-object for input");`,
         ]);
         const $ns = new Code([
-          `export type ApplyFns<R${genericsCont}> = {`,
+          `export type ApplyFns<R = void${genericsCont}> = {`,
           $nsMatchToObj,
           `}`,
           `/** Match helper for {@link ${enumIdent}} */`,
